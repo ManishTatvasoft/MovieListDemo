@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 enum WebError: Error {
     
@@ -90,7 +91,7 @@ enum WebError: Error {
     }
 }
 
-final class APIManager: NSObject{
+final class APIManager: Session{
     
     static let API: APIManager = APIManager()
     
@@ -115,33 +116,51 @@ final class APIManager: NSObject{
             failureCompletion(WebError.serviceUnavailable,  String.Title.invalidUrl)
             return
         }
-        var request = URLRequest(url: url)
-        let param = route.parameters
-        guard let param = param else {
-            failureCompletion(WebError.badRequest,  String.Title.invalidApiKey)
-            return
+        var parameter = route.parameters
+        if route.parameters == nil || route.parameters?.count == 0 {
+            parameter = [:]
+            
+        }
+        var encoding: ParameterEncoding = JSONEncoding.default
+        
+        if route.method == .get {
+            encoding = URLEncoding.default
         }
         
-        request.httpBody = param.percentEncoded()
-
-        let session = URLSession(configuration: .default)
-        
-        session.dataTask(with: request) { data, response, error in
-            if error != nil {
-                failureCompletion(WebError.serviceUnavailable,  String.Title.internalServerError)
-            }
-            if let data = data {
-                do {
-                    let res = try JSONDecoder().decode(type.self, from: data)
-                    successCompletion(res)
-                } catch let err{
-                    print(err.localizedDescription)
-                    failureCompletion(WebError.serviceUnavailable,  String.Title.internalServerError)
-                }
+        request(path, method: route.method, parameters: parameter).responseData { (response) in
+            
+            
+            
+            if let statusCode = response.response?.statusCode,
+               statusCode != 200 {
+                failureCompletion(WebError.unauthorized,  String.Title.invalidApiKey)
             }else{
-                failureCompletion(WebError.serviceUnavailable,  String.Title.internalServerError)
+                if let data = response.data, let resp = try? JSONDecoder().decode(type.self, from: data){
+                    successCompletion(resp)
+                }else{
+                    failureCompletion(WebError.unauthorized,  String.Title.invalidApiKey)
+                }
             }
-        }.resume()
+        }
+
+//        let session = URLSession(configuration: .default)
+//
+//        session.dataTask(with: request) { data, response, error in
+//            if error != nil {
+//                failureCompletion(WebError.serviceUnavailable,  String.Title.internalServerError)
+//            }
+//            if let data = data {
+//                do {
+//                    let res = try JSONDecoder().decode(type.self, from: data)
+//                    successCompletion(res)
+//                } catch let err{
+//                    print(err.localizedDescription)
+//                    failureCompletion(WebError.serviceUnavailable,  String.Title.internalServerError)
+//                }
+//            }else{
+//                failureCompletion(WebError.serviceUnavailable,  String.Title.internalServerError)
+//            }
+//        }.resume()
         
     }
     

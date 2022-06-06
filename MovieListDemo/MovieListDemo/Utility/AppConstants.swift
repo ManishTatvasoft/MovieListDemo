@@ -8,7 +8,7 @@
 import Foundation
 
 
-let ApplicationName         = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "Storekeeper"
+let ApplicationName         = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "Upcoming Movie App"
 let ApplicationVersion      = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String ?? ""
 let ApplicationBuildNumber  = Bundle.main.infoDictionary!["CFBundleVersion"] as? String ?? ""
 

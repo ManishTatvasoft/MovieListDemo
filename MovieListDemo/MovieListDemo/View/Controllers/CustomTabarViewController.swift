@@ -11,30 +11,39 @@ class CustomTabarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let upcomingVC = UpcomingViewController()
+        delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        let upcomingVC = UIStoryboard.main.get(UpcomingViewController.self)!
+        let upcomingNav = UINavigationController(rootViewController: upcomingVC)
         let upcomingIcon = UITabBarItem(title: "Upcoming", image: UIImage(systemName: "film"), selectedImage: UIImage(systemName: "film.fill"))
         upcomingVC.tabBarItem = upcomingIcon
         
-        let searchVC = SearchViewController()
+        let searchVC = UIStoryboard.main.get(SearchViewController.self)!
+        let searchNav = UINavigationController(rootViewController: searchVC)
         let searchIcon = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), selectedImage: UIImage(systemName: "magnifyingglass.circle.fill"))
         searchVC.tabBarItem = searchIcon
         
-        let profileVC = ProfileViewController()
+        let profileVC = UIStoryboard.main.get(ProfileViewController.self)!
+        let profileNav = UINavigationController(rootViewController: profileVC)
         let profileIcon = UITabBarItem(title: "Account", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
         profileVC.tabBarItem = profileIcon
         
-        let controllers = [upcomingVC, searchVC, profileVC]
+        let controllers = [upcomingNav, searchNav, profileNav]
         self.viewControllers = controllers
+        self.title = self.viewControllers?[selectedIndex].title
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+
+extension CustomTabarViewController: UITabBarControllerDelegate{
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        return true
     }
-    */
-
+    
 }

@@ -6,13 +6,13 @@
 //
 
 import Foundation
+import Alamofire
 
-public typealias Parameters = [String: Any]
 protocol Routable{
     associatedtype T
     
     var path : String { get }
-    var method : String { get }
+    var method : HTTPMethod { get }
     var parameters : Parameters? { get }
 }
 
@@ -61,10 +61,10 @@ extension Router: Routable{
         }
     }
     
-    var method: String {
+    var method: HTTPMethod {
         switch self {
         case .upcoming,.details,.review,.video,.credits,.similar,.search,.popular,.topRated,.genre,.discover:
-            return "GET"
+            return .get
         }
     }
     
