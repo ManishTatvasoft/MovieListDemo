@@ -85,10 +85,15 @@ extension UpcomingViewController: UICollectionViewDelegate, UICollectionViewData
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
-                    if !viewModel.isAllMovieFetched{
-                        viewModel.currentPage += 1
-                        viewModel.callUpcomingMovieApi()
-                    }
-                }
+            if !viewModel.isAllMovieFetched{
+                viewModel.currentPage += 1
+                viewModel.callUpcomingMovieApi()
+            }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let data = arrData[indexPath.item]
+        navigator.moveToCharecterListScreen(with: data)
     }
 }

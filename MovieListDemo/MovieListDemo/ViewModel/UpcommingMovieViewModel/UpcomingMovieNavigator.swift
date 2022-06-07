@@ -20,7 +20,9 @@ final class UpcomingMovieNavigator {
 extension UpcomingMovieNavigator{
     
     func moveToCharecterListScreen(with Data: Results){
-       print("")
+        let vc = UIStoryboard.details.get(DetailsViewController.self)!
+        vc.data = Data
+        self.controller.navigationController?.pushViewController(vc, animated: true)
     }
     
 }

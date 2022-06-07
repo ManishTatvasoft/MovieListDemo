@@ -121,11 +121,6 @@ final class APIManager: Session{
             parameter = [:]
             
         }
-        var encoding: ParameterEncoding = JSONEncoding.default
-        
-        if route.method == .get {
-            encoding = URLEncoding.default
-        }
         
         request(path, method: route.method, parameters: parameter).responseData { (response) in
             
@@ -142,25 +137,6 @@ final class APIManager: Session{
                 }
             }
         }
-
-//        let session = URLSession(configuration: .default)
-//
-//        session.dataTask(with: request) { data, response, error in
-//            if error != nil {
-//                failureCompletion(WebError.serviceUnavailable,  String.Title.internalServerError)
-//            }
-//            if let data = data {
-//                do {
-//                    let res = try JSONDecoder().decode(type.self, from: data)
-//                    successCompletion(res)
-//                } catch let err{
-//                    print(err.localizedDescription)
-//                    failureCompletion(WebError.serviceUnavailable,  String.Title.internalServerError)
-//                }
-//            }else{
-//                failureCompletion(WebError.serviceUnavailable,  String.Title.internalServerError)
-//            }
-//        }.resume()
         
     }
     
