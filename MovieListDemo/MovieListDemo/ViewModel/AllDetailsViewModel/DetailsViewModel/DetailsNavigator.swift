@@ -21,8 +21,10 @@ final class DetailsNavigator {
 
 extension DetailsNavigator{
     
-    func moveToReview(){
-        
+    func moveToReview(_ name: String?){
+        let vc = UIStoryboard.details.get(ReviewViewController.self)!
+        vc.name = name
+        self.controller.navigationController?.pushViewController(vc, animated: true)
     }
 }
     

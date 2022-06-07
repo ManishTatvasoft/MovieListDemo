@@ -18,4 +18,10 @@ extension String {
         static let ok                                   = "OK"
         static let invalidApiKey                        = "Invalid Api Key"
     }
+    
+    func dropFirst() -> Self{
+        var str = self
+        str.remove(at: startIndex)
+        return str
+    }
 }

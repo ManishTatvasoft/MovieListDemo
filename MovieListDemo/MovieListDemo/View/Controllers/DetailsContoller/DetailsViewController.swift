@@ -31,6 +31,7 @@ class DetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         prepareView()
+        
     }
     
     func prepareView(){
@@ -45,6 +46,7 @@ class DetailsViewController: UIViewController {
         posterImage.setImageUsingUrlSession(posterPath, placeholder: UIImage(systemName: "photo"))
         titleLabel.text = data.title
         viewModel.callGenreListApi()
+        AppConstants.movieID = "\(data.id ?? 0)"
         DispatchQueue.main.async {
             self.croppedImage()
         }
@@ -82,6 +84,7 @@ class DetailsViewController: UIViewController {
     }
     
     @IBAction func reviewButtonAction(_ sender: UIButton) {
+        navigator.moveToReview(data?.title)
     }
     
     @IBAction func trailersButtonAction(_ sender: UIButton) {

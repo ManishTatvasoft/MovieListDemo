@@ -482,6 +482,41 @@ and whom he can ultimatelv trust.</string>
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="76.339285714285708"/>
         </scene>
+        <!--Reviews-->
+        <scene sceneID="FrF-3O-Eoh">
+            <objects>
+                <viewController storyboardIdentifier="ReviewViewController" title="Reviews" id="UUJ-DO-hJe" customClass="ReviewViewController" customModule="MovieListDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MU2-4P-bCZ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="GjC-7X-lf7">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="UUJ-DO-hJe" id="djL-6K-5sb"/>
+                                    <outlet property="delegate" destination="UUJ-DO-hJe" id="Io3-aF-Iig"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="qtU-15-8Ra"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="qtU-15-8Ra" firstAttribute="bottom" secondItem="GjC-7X-lf7" secondAttribute="bottom" id="1ni-Ej-OZB"/>
+                            <constraint firstItem="GjC-7X-lf7" firstAttribute="leading" secondItem="qtU-15-8Ra" secondAttribute="leading" id="4FB-Tn-3jh"/>
+                            <constraint firstItem="qtU-15-8Ra" firstAttribute="trailing" secondItem="GjC-7X-lf7" secondAttribute="trailing" id="f9E-Ua-iEO"/>
+                            <constraint firstItem="GjC-7X-lf7" firstAttribute="top" secondItem="qtU-15-8Ra" secondAttribute="top" id="pG3-jT-FSx"/>
+                        </constraints>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="tableReview" destination="GjC-7X-lf7" id="VzR-f7-6aN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HqL-44-rfF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1932" y="86"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Iz5-L2-738">
             <objects>

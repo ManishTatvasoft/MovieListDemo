@@ -22,12 +22,15 @@ final class DetailsViewModel {
 extension DetailsViewModel{
     func callGenreListApi(){
         controller.startLoading()
-        let param = ["api_key":"0141e6d543b187f0b7e6bb3a1902209a"]
+        let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
         DetailsController.shared.getGenreList(parameters: param) { response in
             self.controller.stopLoading()
             self.controller.successApiResponse(response)
         } failureCompletion: { failure, errorMessage in
             self.controller.stopLoading()
+            DispatchQueue.main.async {
+                self.controller.showValidationMessage(withMessage: errorMessage)
+            }
         }
 
         
