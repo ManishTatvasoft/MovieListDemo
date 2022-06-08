@@ -27,6 +27,7 @@ class ReviewViewController: UIViewController {
 
     func successApiResponse(_ reviewResults: [ReviewResults]?){
         guard let reviewResults = reviewResults else {
+            self.showValidationMessage(withMessage: "Data could not get.")
             return
         }
         self.arrayData = reviewResults

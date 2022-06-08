@@ -87,6 +87,7 @@ class DetailsViewController: UIViewController {
     }
     
     @IBAction func trailersButtonAction(_ sender: UIButton) {
+        navigator.moveToVideo(data?.title)
     }
     
     @IBAction func creditsButtonAction(_ sender: UIButton) {

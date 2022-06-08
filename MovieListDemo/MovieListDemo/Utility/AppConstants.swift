@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 
 
 let ApplicationName         = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "Upcoming Movie App"
@@ -15,11 +16,11 @@ let ApplicationBuildNumber  = Bundle.main.infoDictionary!["CFBundleVersion"] as?
 
 struct AppConstants{
     
-    static let apiKey       = "api_key"
-    static let apiKeyValue  = "0141e6d543b187f0b7e6bb3a1902209a"
-    static let pageKey      = "page"
-    static var movieID      = ""
-    
+    static let apiKey            = "api_key"
+    static let apiKeyValue       = "0141e6d543b187f0b7e6bb3a1902209a"
+    static let pageKey           = "page"
+    static var movieID           = ""
+    static let couldNotPlayVideo = "Could not play video\nerror occured."
     
     static func getGenreString(_ data: Results, _ genreData: Genre) -> String{
         var arrayGenre = [String]()
@@ -53,5 +54,34 @@ struct AppConstants{
             return topController
         }
         return nil
+    }
+    
+     
+    
+    static func thumbnailForVideoAtURL(url: URL) -> UIImage? {
+
+        let asset = AVAsset(url: url)
+        let assetImageGenerator = AVAssetImageGenerator(asset: asset)
+
+        var time = asset.duration
+        time.value = min(time.value, 2)
+
+        do {
+            let imageRef = try assetImageGenerator.copyCGImage(at: time, actualTime: nil)
+            return UIImage(cgImage: imageRef)
+        } catch {
+            print("error")
+            return nil
+        }
+    }
+    
+    static func videoUrl(_ endPoint: String) -> String{
+        let fullUrl = "https://img.youtube.com/vi/\(endPoint)/hqdefault.jpg"
+        return fullUrl
+    }
+    
+    static func youtubeVideoUrl(_ endPoint: String) -> String{
+        let fullUrl = "https://www.youtube.com/watch?v=\(endPoint)"
+        return fullUrl
     }
 }

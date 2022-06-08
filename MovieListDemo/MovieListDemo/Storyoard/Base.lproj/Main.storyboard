@@ -115,15 +115,34 @@
                     <view key="view" contentMode="scaleToFill" id="HUy-1a-Q2f">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="VXM-l4-y7X">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="mxb-lo-K90" id="fYm-UE-j1G"/>
+                                    <outlet property="delegate" destination="mxb-lo-K90" id="Vym-hp-c3d"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="aeA-JJ-8zU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="aeA-JJ-8zU" firstAttribute="bottom" secondItem="VXM-l4-y7X" secondAttribute="bottom" id="GnE-zZ-vGV"/>
+                            <constraint firstItem="VXM-l4-y7X" firstAttribute="top" secondItem="aeA-JJ-8zU" secondAttribute="top" id="Ksg-M2-yX9"/>
+                            <constraint firstItem="aeA-JJ-8zU" firstAttribute="trailing" secondItem="VXM-l4-y7X" secondAttribute="trailing" id="Ont-ZU-JY1"/>
+                            <constraint firstItem="VXM-l4-y7X" firstAttribute="leading" secondItem="aeA-JJ-8zU" secondAttribute="leading" id="d6S-FN-uVG"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Search Movie" largeTitleDisplayMode="always" id="bVX-3Q-HHe"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="tableSearch" destination="VXM-l4-y7X" id="3xB-Tm-DRz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GUG-81-aBm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1935" y="360"/>
+            <point key="canvasLocation" x="1864" y="113"/>
         </scene>
         <!--Account-->
         <scene sceneID="FSI-E2-DMf">
@@ -160,7 +179,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TVT-av-Jlc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1934.7826086956522" y="1100.8928571428571"/>
+            <point key="canvasLocation" x="2691" y="113"/>
         </scene>
     </scenes>
     <resources>
