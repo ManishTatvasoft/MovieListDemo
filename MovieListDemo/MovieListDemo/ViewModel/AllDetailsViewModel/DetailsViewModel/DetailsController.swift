@@ -17,4 +17,9 @@ final class DetailsController {
     failureCompletion: @escaping ( _ failure: WebError, _ errorMessage: String) -> Void){
         APIManager.API.sendRequest(.genre(parameters), type: Genre.self, successCompletion: successCompletion, failureCompletion: failureCompletion)
     }
+    
+    func getGenreListForSimilar(parameters: Parameters, successCompletion: @escaping (_ response: Genre) -> Void,
+    failureCompletion: @escaping ( _ failure: WebError, _ errorMessage: String) -> Void){
+        APIManager.API.sendRequest(.genre(parameters), type: Genre.self, successCompletion: successCompletion, failureCompletion: failureCompletion)
+    }
 }

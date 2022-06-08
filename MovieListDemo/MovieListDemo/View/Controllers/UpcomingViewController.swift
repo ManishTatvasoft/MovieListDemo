@@ -43,6 +43,7 @@ class UpcomingViewController: UIViewController {
     func successApiResponse(_ data: [Results]?){
         
         guard let data = data else {
+            self.showValidationMessage(withMessage: "Data could not get.")
             return
         }
         self.arrData.append(contentsOf: data)

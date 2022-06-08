@@ -1,29 +1,27 @@
 //
-//  DetailsViewModel.swift
+//  CreditsViewModel.swift
 //  MovieListDemo
 //
-//  Created by PCQ229 on 07/06/22.
+//  Created by PCQ229 on 08/06/22.
 //
 
 import Foundation
-
-
-final class DetailsViewModel {
+final class CreditsViewModel {
     
     
-    private let controller: DetailsViewController
+    private let controller: CreditsViewController
     
     // MARK: - Methods
-    init(_ viewController: DetailsViewController) {
+    init(_ viewController: CreditsViewController) {
         controller = viewController
     }
 }
 
-extension DetailsViewModel{
-    func callGenreListApi(){
+extension CreditsViewModel{
+    func callCreditsApi(){
         controller.startLoading()
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
-        DetailsController.shared.getGenreList(parameters: param) { response in
+        CreditsController.shared.getCreditsList(parameters: param) { response in
             self.controller.stopLoading()
             self.controller.successApiResponse(response)
         } failureCompletion: { failure, errorMessage in
@@ -32,5 +30,7 @@ extension DetailsViewModel{
                 self.controller.showValidationMessage(withMessage: errorMessage)
             }
         }
+
+        
     }
 }

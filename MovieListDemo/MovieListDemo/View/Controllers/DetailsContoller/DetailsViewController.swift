@@ -75,8 +75,7 @@ class DetailsViewController: UIViewController {
             self.showValidationMessage(withMessage: "Data could not get.")
             return
         }
-
-        genreLabel.text = genreData.genres?.first?.name ?? "Action"
+        genreLabel.text = AppConstants.getGenreString(data, genreData)
         releaseDateLabel.text = data.release_date
         descriptionLabel.text = data.overview
         progressView.progress = (data.vote_average ?? 0.0) / 10
@@ -91,11 +90,16 @@ class DetailsViewController: UIViewController {
     }
     
     @IBAction func creditsButtonAction(_ sender: UIButton) {
+        navigator.moveToCredits(data?.title)
     }
     
     @IBAction func similarButtonAction(_ sender: UIButton) {
+        navigator.moveToSimilar(data?.title)
     }
     
     @IBAction func moreButtonAction(_ sender: UIBarButtonItem) {
+        self.showValidationMessage(withMessage: "Share this movie to your frinds.", preferredStyle: .actionSheet) {
+            AppConstants.share(self.posterImage.image)
+        }
     }
 }

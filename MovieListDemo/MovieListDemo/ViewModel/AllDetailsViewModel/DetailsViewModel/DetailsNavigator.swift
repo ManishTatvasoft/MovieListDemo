@@ -26,5 +26,17 @@ extension DetailsNavigator{
         vc.name = name
         self.controller.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func moveToCredits(_ name: String?){
+        let vc = UIStoryboard.details.get(CreditsViewController.self)!
+        vc.name = name
+        self.controller.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func moveToSimilar(_ name: String?){
+        let vc = UIStoryboard.details.get(SimilarViewController.self)!
+        vc.name = name
+        self.controller.navigationController?.pushViewController(vc, animated: true)
+    }
 }
     
