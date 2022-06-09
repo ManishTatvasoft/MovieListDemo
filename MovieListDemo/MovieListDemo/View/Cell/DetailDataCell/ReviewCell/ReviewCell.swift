@@ -39,7 +39,6 @@ class ReviewCell: UITableViewCell {
         }else{
             profileImage.setImageUsingUrlSession(Environment.basePosterImageURL() + (data.author_details?.avatar_path ?? ""), placeholder: UIImage(systemName: "person.circle"))
         }
-        
         nameLabel.text = data.author
         reviewLabel.text = data.content
     }

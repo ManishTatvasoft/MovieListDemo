@@ -21,7 +21,6 @@ extension UITableView {
     }
 }
 
-
 extension UITableViewCell: Reusable {}
 extension UITableView {
     /// Registers a `UITableViewCell` using it's own `reuseIdentifier`. The `UITableViewCell` must be created using

@@ -19,14 +19,14 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     
     var data: Results?
+    var isDBData = false
+    var genre = ""
     
     private lazy var viewModel = DetailsViewModel(self)
     lazy var navigator = DetailsNavigator(self)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,11 +74,14 @@ class DetailsViewController: UIViewController {
             self.showValidationMessage(withMessage: "Data could not get.")
             return
         }
-        genreLabel.text = AppConstants.getGenreString(data, genreData)
         releaseDateLabel.text = data.release_date
         descriptionLabel.text = data.overview
         progressView.progress = (data.vote_average ?? 0.0) / 10
-        
+        if isDBData{
+            genreLabel.text = genre
+        }else{
+            genreLabel.text = AppConstants.getGenreString(data, genreData)
+        }
     }
     
     @IBAction func reviewButtonAction(_ sender: UIButton) {

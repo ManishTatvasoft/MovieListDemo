@@ -41,6 +41,5 @@ extension SimilarViewModel{
                 self.controller.showValidationMessage(withMessage: errorMessage)
             }
         }
-
     }
 }

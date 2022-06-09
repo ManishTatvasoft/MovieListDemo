@@ -16,5 +16,4 @@ class HeaderView: UICollectionReusableView {
         super.awakeFromNib()
         // Initialization code
     }
-    
 }

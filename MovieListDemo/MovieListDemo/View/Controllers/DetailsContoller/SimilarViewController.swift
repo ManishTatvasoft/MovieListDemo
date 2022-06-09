@@ -73,15 +73,7 @@ extension SimilarViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let result = arrayData[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
+        AppConstants.addDataToDb(result)
         navigator.moveToMovieDetailScreen(with: result)
     }
-//
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
-//            if !viewModel.isAllMovieFetched{
-//                viewModel.currentPage += 1
-//                viewModel.callSimilarMovieApi()
-//            }
-//        }
-//    }
 }

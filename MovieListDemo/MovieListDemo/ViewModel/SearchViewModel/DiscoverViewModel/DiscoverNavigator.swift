@@ -25,5 +25,4 @@ extension DiscoverNavigator{
         vc.data = Data
         self.controller.navigationController?.pushViewController(vc, animated: true)
     }
-    
 }

@@ -32,8 +32,6 @@ enum Router{
 }
 
 extension Router: Routable{
-    
-    
     var path: String {
         switch self {
         case .upcoming:
@@ -94,5 +92,4 @@ extension Router: Routable{
             return param
         }
     }
-    
 }

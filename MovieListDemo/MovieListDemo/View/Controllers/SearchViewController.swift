@@ -28,17 +28,31 @@ class SearchViewController: UIViewController {
         ["Title": "Top rated movies", "SubTitle": "The top rated movies on the internet", "type" : DiscoverType.topRated]
     ]
     
+    var arrayMovies = [Movie]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepareView()
         configureSearchBar()
         // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        arrayMovies = DatabaseManager.shared.getData()
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        
+        prepareView()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.navigationItem.hidesSearchBarWhenScrolling = true
+        self.navigationController?.navigationBar.sizeToFit()
     }
     
     func prepareView(){
         tableSearch.register(GenreCell.self)
         tableSearch.register(DiscoverCell.self)
         tableSearch.register(PopularAndTopRatedCell.self)
+        tableSearch.register(RecentlyVisitedCell.self)
         viewModel.callGenreListApi()
     }
     
@@ -110,6 +124,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
         if viewModel.isSearchingMode{
             return 1
+        }else if arrayMovies.count > 0{
+            return 3
         }else{
             return 2
         }
@@ -119,12 +135,21 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
         if viewModel.isSearchingMode{
             return arraySearch.count
         }else{
-            if section == 0{
-                return arrayTopRatedAndPopular.count
+            if arrayMovies.count > 0{
+                if section == 0{
+                    return 1
+                }else if section == 1{
+                    return arrayTopRatedAndPopular.count
+                }else{
+                    return arrayData.count
+                }
             }else{
-                return arrayData.count
+                if section == 0{
+                    return arrayTopRatedAndPopular.count
+                }else{
+                    return arrayData.count
+                }
             }
-            
         }
     }
     
@@ -132,10 +157,20 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
         if viewModel.isSearchingMode{
             return AppConstants.searchResultHeader
         }else{
-            if section == 0{
-                return AppConstants.popularTopRatedMoviesHeader
+            if arrayMovies.count > 0{
+                if section == 0{
+                    return AppConstants.recentlyVisitedHeader
+                }else if section == 1{
+                    return AppConstants.popularTopRatedMoviesHeader
+                }else{
+                    return AppConstants.genreHeader
+                }
             }else{
-                return AppConstants.genreHeader
+                if section == 0{
+                    return AppConstants.popularTopRatedMoviesHeader
+                }else{
+                    return AppConstants.genreHeader
+                }
             }
         }
         
@@ -148,16 +183,35 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
             cell.setupData(data)
             return cell
         }else{
-            if indexPath.section == 0{
-                let data = arrayTopRatedAndPopular[indexPath.row]
-                let cell : PopularAndTopRatedCell = tableView.dequeueReusableCell(for: indexPath)
-                cell.setupData(data)
-                return cell
+            if arrayMovies.count > 0{
+                if indexPath.section == 0{
+                    let cell : RecentlyVisitedCell = tableView.dequeueReusableCell(for: indexPath)
+                    cell.delegate = self
+                    cell.setupData(arrayMovies.reversed())
+                    return cell
+                }else if indexPath.section == 1{
+                    let data = arrayTopRatedAndPopular[indexPath.row]
+                    let cell : PopularAndTopRatedCell = tableView.dequeueReusableCell(for: indexPath)
+                    cell.setupData(data)
+                    return cell
+                }else{
+                    let data = arrayData[indexPath.row]
+                    let cell : GenreCell = tableView.dequeueReusableCell(for: indexPath)
+                    cell.setupData(data)
+                    return cell
+                }
             }else{
-                let data = arrayData[indexPath.row]
-                let cell : GenreCell = tableView.dequeueReusableCell(for: indexPath)
-                cell.setupData(data)
-                return cell
+                if indexPath.section == 0{
+                    let data = arrayTopRatedAndPopular[indexPath.row]
+                    let cell : PopularAndTopRatedCell = tableView.dequeueReusableCell(for: indexPath)
+                    cell.setupData(data)
+                    return cell
+                }else{
+                    let data = arrayData[indexPath.row]
+                    let cell : GenreCell = tableView.dequeueReusableCell(for: indexPath)
+                    cell.setupData(data)
+                    return cell
+                }
             }
             
         }
@@ -168,41 +222,64 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
         tableView.deselectRow(at: indexPath, animated: true)
         if viewModel.isSearchingMode{
             let result = arraySearch[indexPath.row]
+            var movie = Movie()
+            movie.movieName = result.title ?? ""
+            movie.movieID = "\(result.id ?? 0)"
+            movie.posterPath = result.poster_path ?? ""
+            movie.time = "\(Date())"
+            DatabaseManager.shared.checkAndInserData(movie)
             navigator.moveToMovieDetailScreen(with: result)
         }else{
-            
-            if indexPath.section == 0{
-                let data = arrayTopRatedAndPopular[indexPath.row]
-                navigator.moveToDiscover(withDiscover: ((data["type"] as? DiscoverType) ?? DiscoverType.popular))
+            if arrayMovies.count > 0{
+                if indexPath.section == 0{
+                        print("")
+                }else if indexPath.section == 1{
+                    let data = arrayTopRatedAndPopular[indexPath.row]
+                    navigator.moveToDiscover(withDiscover: ((data["type"] as? DiscoverType) ?? DiscoverType.popular))
+                }else{
+                    let data = arrayData[indexPath.row]
+                    navigator.moveToDiscover(with: data, withDiscover: .genre)
+                }
             }else{
-                let data = arrayData[indexPath.row]
-                navigator.moveToDiscover(with: data, withDiscover: .genre)
+                if indexPath.section == 0{
+                    let data = arrayTopRatedAndPopular[indexPath.row]
+                    navigator.moveToDiscover(withDiscover: ((data["type"] as? DiscoverType) ?? DiscoverType.popular))
+                }else{
+                    let data = arrayData[indexPath.row]
+                    navigator.moveToDiscover(with: data, withDiscover: .genre)
+                }
             }
-            
-            
         }
-        
     }
     
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        if viewModel.isSearchingMode{
-//            let lastSectionIndex = tableView.numberOfSections - 1
-//            let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
-//            if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
-//                let spinner = UIActivityIndicatorView(style: .medium)
-//                spinner.startAnimating()
-//                spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
-//                self.tableSearch.tableFooterView = spinner
-//
-//                if !viewModel.isAllMovieFetched{
-//                    viewModel.currentPage += 1
-//                    viewModel.callSearchMovieApi()
-//                }
-//                self.tableSearch.tableFooterView?.isHidden = viewModel.isAllMovieFetched
-//            }
-//        }
-//
-//    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if viewModel.isSearchingMode{
+            return UITableView.automaticDimension
+        }else{
+            if arrayMovies.count > 0{
+                if indexPath.section == 0{
+                    let width = (self.view.bounds.width - 20) / 3
+                    let height = width * 1.5
+                    return height
+                }else{
+                    return UITableView.automaticDimension
+                }
+            }else{
+                return UITableView.automaticDimension
+            }
+        }
+    }
     
 }
  
+extension SearchViewController: RecentlyVisitedCellDelegate{
+    func getMovieResult(with movieID: String, _ genre: String) {
+        AppConstants.movieID = movieID
+        viewModel.getResultFromMovieID(movieID: movieID) { data in
+            DispatchQueue.main.async {
+                self.navigator.moveToMovieDetailScreen(with: data, isDBData: true, genre: genre)
+            }
+            
+        }
+    }
+}

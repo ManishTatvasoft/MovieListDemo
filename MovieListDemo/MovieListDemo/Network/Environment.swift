@@ -17,9 +17,7 @@ enum Server {
 class Environment {
     
     static let server:Server    =   .developement
-    
     static let buildVersion: String = "1.0.1"
-
     static let latestBuildVersion: Double = 1.0
     
     class func basePosterImageURL() -> String{

@@ -105,7 +105,6 @@ extension CreditsViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
     }
 
-    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "HeaderView", for: indexPath) as! HeaderView
         view.expandCollepsButton.tag = indexPath.section
@@ -133,10 +132,7 @@ extension CreditsViewController: UICollectionViewDelegate, UICollectionViewDataS
         return CGSize(width: width, height: height)
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: self.view.bounds.width, height: 40)
     }
-    
-    
 }

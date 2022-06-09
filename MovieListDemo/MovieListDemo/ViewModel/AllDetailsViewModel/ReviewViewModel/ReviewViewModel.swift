@@ -35,7 +35,5 @@ extension ReviewsViewModel{
                 self.controller.showValidationMessage(withMessage: errorMessage)
             }
         }
-
-        
     }
 }

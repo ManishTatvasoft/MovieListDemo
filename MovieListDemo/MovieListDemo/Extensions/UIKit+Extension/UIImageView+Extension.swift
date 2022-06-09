@@ -25,11 +25,7 @@ extension UIImageView: URLSessionDelegate{
     
     func setImageUsingUrlSession(_ url: String?, placeholder image: UIImage?){
         self.image = image
-        
-        
         guard let urlString = url else { return }
-        
-        
         if let cachedImage = ImageCache.shared.image(forKey: urlString) {
             self.image = cachedImage
             return

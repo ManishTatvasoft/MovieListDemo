@@ -58,4 +58,18 @@ extension SearchViewModel{
         }
     }
     
+    func getResultFromMovieID(movieID: String,_ completion: @escaping ((Results) -> ())){
+        let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
+        controller.startLoading()
+        SearchController.shared.getMovieDetails(parameters: param) { response in
+            self.controller.stopLoading()
+            completion(response)
+        } failureCompletion: { failure, errorMessage in
+            self.controller.stopLoading()
+            DispatchQueue.main.async {
+                self.controller.showValidationMessage(withMessage: errorMessage)
+            }
+        }
+    }
+    
 }

@@ -54,7 +54,6 @@ enum WebError: Error {
     }
     
     var errorMessage: String? {
-        
         switch self {
         case .badRequest: //400
             return "Bad request"
@@ -95,24 +94,20 @@ final class APIManager: Session{
     
     static let API: APIManager = APIManager()
     
-    
-    
     func sendRequest<T: Codable>(_ route: Router, type: T.Type,  successCompletion: @escaping (_ response: T) -> Void, failureCompletion: @escaping ( _ failure: WebError, _ message: String) -> Void) {
         guard let isReachable = Reachability()?.isReachable else{
             failureCompletion(WebError.noInternet,  String.Title.noInternet)
             return
         }
-        
         if !isReachable{
             failureCompletion(WebError.noInternet,  String.Title.noInternet)
         }
-        
         let path = route.path.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
         guard let path = path else{
             failureCompletion(WebError.badRequest,  String.Title.invalidUrl)
             return
         }
-        guard let url = URL(string: path) else{
+        guard let _ = URL(string: path) else{
             failureCompletion(WebError.serviceUnavailable,  String.Title.invalidUrl)
             return
         }
@@ -121,11 +116,7 @@ final class APIManager: Session{
             parameter = [:]
             
         }
-        
         request(path, method: route.method, parameters: parameter).responseData { (response) in
-            
-            
-            
             if let statusCode = response.response?.statusCode,
                statusCode != 200 {
                 failureCompletion(WebError.unauthorized,  String.Title.invalidApiKey)
@@ -137,7 +128,5 @@ final class APIManager: Session{
                 }
             }
         }
-        
     }
-    
 }

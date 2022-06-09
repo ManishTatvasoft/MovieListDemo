@@ -24,5 +24,4 @@ class CrewCell: UICollectionViewCell {
             crewPersonImage.image = UIImage(systemName: "person.fill")
         }
     }
-
 }

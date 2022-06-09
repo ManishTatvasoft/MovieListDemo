@@ -38,7 +38,5 @@ class SimilarCell: UITableViewCell {
         } failureCompletion: { failure, errorMessage in
             self.genreLabel.text = ""
         }
-
     }
-    
 }

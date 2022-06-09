@@ -21,12 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-//        self.window = UIWindow(frame: UIScreen.main.bounds)
-//        SharedAppDelegate.initialViewController = UIStoryboard.main.get(CustomTabarViewController.self)!
-//        SharedAppDelegate.customNavigationController = UINavigationController(rootViewController: SharedAppDelegate.initialViewController)
-//        SharedAppDelegate.window?.rootViewController = SharedAppDelegate.customNavigationController
-//        SharedAppDelegate.window?.makeKeyAndVisible()
+        DatabaseManager.shared.createDatabase()
         return true
     }
 

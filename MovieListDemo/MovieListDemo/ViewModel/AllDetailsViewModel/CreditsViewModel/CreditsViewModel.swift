@@ -29,8 +29,6 @@ extension CreditsViewModel{
             DispatchQueue.main.async {
                 self.controller.showValidationMessage(withMessage: errorMessage)
             }
-        }
-
-        
+        } 
     }
 }

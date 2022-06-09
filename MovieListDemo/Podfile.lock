@@ -1,20 +1,26 @@
 PODS:
   - Alamofire (5.4.1)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
   - Alamofire (= 5.4.1)
+  - FMDB
   - SVProgressHUD
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - FMDB
     - SVProgressHUD
 
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 34a2f57ee2b13d636c018d2deb734150623d52e0
+PODFILE CHECKSUM: 43004de3addcc63a6427a81b8d5f324beed63b7f
 
 COCOAPODS: 1.11.3

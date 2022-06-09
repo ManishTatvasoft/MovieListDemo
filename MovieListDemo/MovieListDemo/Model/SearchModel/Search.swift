@@ -29,4 +29,3 @@ struct Search: Codable{
         total_results = try values.decodeIfPresent(Int.self, forKey: .total_results)
     }
 }
-

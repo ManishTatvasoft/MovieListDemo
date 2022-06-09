@@ -18,11 +18,8 @@ public enum ReachabilityError: Error {
 public let ReachabilityChangedNotification = NSNotification.Name("ReachabilityChangedNotification")
 
 func callback(reachability : SCNetworkReachability, flags : SCNetworkReachabilityFlags, info : UnsafeMutableRawPointer?) {
-
     guard let info = info else { return }
-    
     let reachability = Unmanaged<Reachability>.fromOpaque(info).takeUnretainedValue()
-
     DispatchQueue.main.async {
         reachability.reachabilityChanged()
     }
@@ -66,12 +63,10 @@ public class Reachability {
         if isRunningOnDevice {
             return .reachableViaWWAN
         }
-        
         return .notReachable
     }
     
     fileprivate var previousFlags : SCNetworkReachabilityFlags?
-    
     fileprivate var isRunningOnDevice : Bool = {
         #if targetEnvironment(simulator)
             return false

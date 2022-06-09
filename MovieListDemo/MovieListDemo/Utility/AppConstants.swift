@@ -24,14 +24,13 @@ struct AppConstants{
     static let couldNotPlayVideo           = "Could not play video\nerror occured."
     static let queryKey                    = "query"
     
-    
-    
+    //MARK: For table header title
     static let searchResultHeader          = "Search Result"
     static let genreHeader                 = "Movie Genres"
     static let popularTopRatedMoviesHeader = "Popular & Top rated movies"
     static let recentlyVisitedHeader       = "Recently Visited"
     
-    
+    //MARK: View controller title
     static let topRatedMovieTitle          = "Top Rated Movies"
     static let popularMovieTitle           = "Popular Movies"
     
@@ -48,13 +47,30 @@ struct AppConstants{
         let genre = arrayGenre.joined(separator: ", ")
         return genre
     }
-    
+
     static func share(_ image: UIImage?){
         let imageToShare = [image]
-        let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
+        let activityViewController = UIActivityViewController(activityItems: imageToShare as [Any], applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = AppConstants.topViewController()?.view
         activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop, UIActivity.ActivityType.postToFacebook ]
         AppConstants.topViewController()?.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    static func addDataToDb(_ result: Results){
+        var movie = Movie()
+        movie.movieName = result.title ?? ""
+        movie.movieID = "\(result.id ?? 0)"
+        movie.posterPath = result.poster_path ?? ""
+        movie.time = "\(Date())"
+        let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
+        DetailsController.shared.getGenreList(parameters: param) { response in
+            movie.genre = AppConstants.getGenreString(result, response)
+            DatabaseManager.shared.checkAndInserData(movie)
+        } failureCompletion: { failure, errorMessage in
+            movie.genre = ""
+            DatabaseManager.shared.checkAndInserData(movie)
+        }
+        
     }
     
     static func topViewController() -> UIViewController?{
@@ -68,8 +84,6 @@ struct AppConstants{
         }
         return nil
     }
-    
-     
     
     static func thumbnailForVideoAtURL(url: URL) -> UIImage? {
 

@@ -26,5 +26,4 @@ class CastCell: UICollectionViewCell {
             castImage.image = UIImage(systemName: "person.fill")
         }
     }
-
 }
