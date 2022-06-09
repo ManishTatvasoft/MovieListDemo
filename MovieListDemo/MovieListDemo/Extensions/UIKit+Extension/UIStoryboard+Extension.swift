@@ -18,6 +18,12 @@ extension UIStoryboard {
         let storyboard = UIStoryboard.storyboard(name: "Details")
         return storyboard
     }()
+    
+    
+    static var searchDetails: UIStoryboard = {
+        let storyboard = UIStoryboard.storyboard(name: "SearchDetail")
+        return storyboard
+    }()
 
     class func storyboard(name: String) -> UIStoryboard {
         return UIStoryboard(name: name, bundle: Bundle.main)

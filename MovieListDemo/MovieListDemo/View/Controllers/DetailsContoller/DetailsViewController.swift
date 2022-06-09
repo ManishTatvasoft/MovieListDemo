@@ -31,7 +31,6 @@ class DetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         prepareView()
-        
     }
     
     func prepareView(){

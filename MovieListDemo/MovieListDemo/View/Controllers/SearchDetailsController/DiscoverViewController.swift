@@ -1,56 +1,78 @@
 //
-//  SimilarViewController.swift
+//  DiscoverViewController.swift
 //  MovieListDemo
 //
-//  Created by PCQ229 on 08/06/22.
+//  Created by PCQ229 on 09/06/22.
 //
 
 import UIKit
 
-class SimilarViewController: UIViewController {
+class DiscoverViewController: UIViewController {
 
-    @IBOutlet weak var tableSimilar: UITableView!
-    private lazy var viewModel = SimilarViewModel(self)
-    lazy var navigator = SimilarNavigator(self)
+    @IBOutlet weak var tableDiscover: UITableView!
+    private lazy var viewModel         = DiscoverViewModel(self)
+    lazy var navigator                 = DiscoverNavigator(self)
     var arrayData = [Results]()
-    
-    var name: String?
+    var genre: Genres?
+    var discoverType: DiscoverType?
+    var data: Results?
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = name
-        prepareView()
+        preparView()
         // Do any additional setup after loading the view.
     }
     
-
-    func prepareView(){
-        tableSimilar.register(SimilarCell.self)
-        viewModel.callSimilarMovieApi()
+    
+    
+    func preparView(){
+        tableDiscover.register(DiscoverCell.self)
+        callApiAccordingToType()
+        
     }
+    
     
     func successApiResponse(_ data: [Results]?){
         guard let data = data else {
-            self.showValidationMessage(withMessage: "Data could not get.")
+            self.showValidationMessage(withMessage: "Genres could not get.")
             return
         }
+        arrayData.append(contentsOf: data)
         
-        self.arrayData.append(contentsOf: data)
         DispatchQueue.main.async {
-            self.tableSimilar.reloadData()
+            self.tableDiscover.reloadData()
+        }
+    }
+    
+    func callApiAccordingToType() {
+        switch discoverType {
+        case .genre:
+            viewModel.genreId = genre?.id ?? 28
+            self.title = genre?.name
+            viewModel.callGenreMovieApi()
+        case .topRated:
+            self.title = AppConstants.topRatedMovieTitle
+            viewModel.callTopRatedMovieApi()
+        case .popular:
+            self.title = AppConstants.popularMovieTitle
+            viewModel.callPopularMovieApi()
+        case .none:
+            self.showValidationMessage(withMessage: "Opps...\nNo data found", preferredStyle: .alert) {
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
 
 }
 
-extension SimilarViewController: UITableViewDelegate, UITableViewDataSource{
+extension DiscoverViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arrayData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let data = arrayData[indexPath.row]
-        let cell: SimilarCell = tableView.dequeueReusableCell(for: indexPath)
-        cell.setupData(data)
+        let cell: DiscoverCell = tableView.dequeueReusableCell(for: indexPath)
+        cell.setupData(data,genre?.name)
         return cell
     }
     
@@ -61,12 +83,12 @@ extension SimilarViewController: UITableViewDelegate, UITableViewDataSource{
             let spinner = UIActivityIndicatorView(style: .medium)
             spinner.startAnimating()
             spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
-            self.tableSimilar.tableFooterView = spinner
+            self.tableDiscover.tableFooterView = spinner
             if !viewModel.isAllMovieFetched{
                 viewModel.currentPage += 1
-                viewModel.callSimilarMovieApi()
+                self.callApiAccordingToType()
             }
-            self.tableSimilar.tableFooterView?.isHidden = viewModel.isAllMovieFetched
+            self.tableDiscover.tableFooterView?.isHidden = viewModel.isAllMovieFetched
         }
     }
     
@@ -75,12 +97,11 @@ extension SimilarViewController: UITableViewDelegate, UITableViewDataSource{
         tableView.deselectRow(at: indexPath, animated: true)
         navigator.moveToMovieDetailScreen(with: result)
     }
-//
 //    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 //        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
 //            if !viewModel.isAllMovieFetched{
 //                viewModel.currentPage += 1
-//                viewModel.callSimilarMovieApi()
+//                viewModel.callGenreMovieApi()
 //            }
 //        }
 //    }

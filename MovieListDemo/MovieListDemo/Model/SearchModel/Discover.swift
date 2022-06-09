@@ -1,14 +1,13 @@
 //
-//  Search.swift
+//  Discover.swift
 //  MovieListDemo
 //
-//  Created by PCQ229 on 08/06/22.
+//  Created by PCQ229 on 09/06/22.
 //
 
 import Foundation
 
-
-struct Search: Codable{
+struct Discover: Codable{
     let page : Int?
     let results : [Results]?
     let total_pages : Int?
@@ -29,4 +28,3 @@ struct Search: Codable{
         total_results = try values.decodeIfPresent(Int.self, forKey: .total_results)
     }
 }
-

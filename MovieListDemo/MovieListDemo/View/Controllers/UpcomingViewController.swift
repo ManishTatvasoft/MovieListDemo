@@ -21,7 +21,6 @@ class UpcomingViewController: UIViewController {
         gridListBarButton.setBackgroundImage(UIImage(systemName: viewModel.isListView ? "list.bullet" : "rectangle.grid.3x2"), for: .normal, barMetrics: .default)
         prepareView()
         self.navigationItem.leftBarButtonItem = gridListBarButton
-
         // Do any additional setup after loading the view.
     }
     
@@ -89,14 +88,29 @@ extension UpcomingViewController: UICollectionViewDelegate, UICollectionViewData
         navigator.moveToCharecterListScreen(with: data)
     }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let lastSectionIndex = collectionView.numberOfSections - 1
+        let lastRowIndex = collectionView.numberOfItems(inSection: lastSectionIndex) - 1
+        if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
+            let bottomRefreshController = UIRefreshControl()
+            self.collectionMovies.refreshControl = bottomRefreshController
+            
             if !viewModel.isAllMovieFetched{
                 viewModel.currentPage += 1
                 viewModel.callUpcomingMovieApi()
             }
+            self.collectionMovies.refreshControl?.isHidden = viewModel.isAllMovieFetched
         }
     }
+    
+//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+//            if !viewModel.isAllMovieFetched{
+//                viewModel.currentPage += 1
+//                viewModel.callUpcomingMovieApi()
+//            }
+//        }
+//    }
     
     
 }

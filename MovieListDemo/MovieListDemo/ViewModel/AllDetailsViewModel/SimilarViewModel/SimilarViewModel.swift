@@ -10,6 +10,7 @@ final class SimilarViewModel {
     
     var currentPage = 1
     var isAllMovieFetched = false
+    var isSecondTimeFetching = false
     
     private let controller: SimilarViewController
     
@@ -21,10 +22,15 @@ final class SimilarViewModel {
 
 extension SimilarViewModel{
     func callSimilarMovieApi(){
-        controller.startLoading()
+        
+        if !isSecondTimeFetching{
+            controller.startLoading()
+        }
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue, AppConstants.pageKey: "\(currentPage)"]
         SimilarController.shared.getSimilarMovieList(parameters: param) { response in
+            
             self.controller.stopLoading()
+            self.isSecondTimeFetching = true
             if response.total_pages == self.currentPage{
                 self.isAllMovieFetched = true
             }
