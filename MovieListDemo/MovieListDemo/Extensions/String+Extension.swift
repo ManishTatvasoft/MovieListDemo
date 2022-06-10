@@ -16,11 +16,14 @@ extension String {
         static let invalidUrl = "Invalid Url"
         static let jsonparseFail = "Json Parse error"
         static let ok = "OK"
+        static let cancel = "Cancel"
+        static let share = "Share"
         static let invalidApiKey = "Invalid Api Key"
         static let noDataFound = "Opps...\nNo data found"
         static let genereNotFound = "Genres could not get."
         static let dataNotFound = "Data could not get."
         static let shareMessage = "Share this movie to your frinds."
+        static let movieDefaultTitle = "Movie"
         static let noReviewFound = "No review found"
     }
     
