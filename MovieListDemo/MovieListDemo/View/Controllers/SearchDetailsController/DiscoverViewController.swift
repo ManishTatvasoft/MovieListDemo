@@ -9,9 +9,9 @@ import UIKit
 
 class DiscoverViewController: UIViewController {
 
-    @IBOutlet weak var tableDiscover: UITableView!
-    private lazy var viewModel         = DiscoverViewModel(self)
-    lazy var navigator                 = DiscoverNavigator(self)
+    @IBOutlet private weak var tableDiscover: UITableView!
+    private lazy var viewModel = DiscoverViewModel(self)
+    lazy var navigator = DiscoverNavigator(self)
     var arrayData = [Results]()
     var genre: Genres?
     var discoverType: DiscoverType?
@@ -27,19 +27,18 @@ class DiscoverViewController: UIViewController {
     func preparView(){
         tableDiscover.register(DiscoverCell.self)
         callApiAccordingToType()
-        
     }
     
     
     func successApiResponse(_ data: [Results]?){
         guard let data = data else {
-            self.showValidationMessage(withMessage: "Genres could not get.")
+            self.showValidationMessage(withMessage: String.Title.genereNotFound)
             return
         }
         arrayData.append(contentsOf: data)
         
-        DispatchQueue.main.async {
-            self.tableDiscover.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableDiscover.reloadData()
         }
     }
     
@@ -56,7 +55,7 @@ class DiscoverViewController: UIViewController {
             self.title = AppConstants.popularMovieTitle
             viewModel.callPopularMovieApi()
         case .none:
-            self.showValidationMessage(withMessage: "Opps...\nNo data found", preferredStyle: .alert) {
+            self.showValidationMessage(withMessage: String.Title.noDataFound, preferredStyle: .alert) {
                 self.navigationController?.popViewController(animated: true)
             }
         }
@@ -79,9 +78,14 @@ extension DiscoverViewController: UITableViewDelegate, UITableViewDataSource{
         let lastSectionIndex = tableView.numberOfSections - 1
         let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
         if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
-            let spinner = UIActivityIndicatorView(style: .medium)
+            var spinner = UIActivityIndicatorView()
+            if #available(iOS 13.0, *) {
+                spinner = UIActivityIndicatorView(style: .medium)
+            } else {
+                spinner = UIActivityIndicatorView(style: .gray)
+            }
             spinner.startAnimating()
-            spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
+            spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
             self.tableDiscover.tableFooterView = spinner
             if !viewModel.isAllMovieFetched{
                 viewModel.currentPage += 1

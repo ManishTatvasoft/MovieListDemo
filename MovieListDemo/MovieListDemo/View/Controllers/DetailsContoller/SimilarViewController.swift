@@ -9,9 +9,9 @@ import UIKit
 
 class SimilarViewController: UIViewController {
 
-    @IBOutlet weak var tableSimilar: UITableView!
+    @IBOutlet private weak var tableSimilar: UITableView!
     private lazy var viewModel = SimilarViewModel(self)
-    lazy var navigator = SimilarNavigator(self)
+    private lazy var navigator = SimilarNavigator(self)
     var arrayData = [Results]()
     
     var name: String?
@@ -30,13 +30,13 @@ class SimilarViewController: UIViewController {
     
     func successApiResponse(_ data: [Results]?){
         guard let data = data else {
-            self.showValidationMessage(withMessage: "Data could not get.")
+            self.showValidationMessage(withMessage: String.Title.dataNotFound)
             return
         }
         
         self.arrayData.append(contentsOf: data)
-        DispatchQueue.main.async {
-            self.tableSimilar.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableSimilar.reloadData()
         }
     }
 
@@ -58,9 +58,14 @@ extension SimilarViewController: UITableViewDelegate, UITableViewDataSource{
         let lastSectionIndex = tableView.numberOfSections - 1
         let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
         if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
-            let spinner = UIActivityIndicatorView(style: .medium)
+            var spinner = UIActivityIndicatorView()
+            if #available(iOS 13.0, *) {
+                spinner = UIActivityIndicatorView(style: .medium)
+            } else {
+                spinner = UIActivityIndicatorView(style: .gray)
+            }
             spinner.startAnimating()
-            spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
+            spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
             self.tableSimilar.tableFooterView = spinner
             if !viewModel.isAllMovieFetched{
                 viewModel.currentPage += 1

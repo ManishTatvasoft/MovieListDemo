@@ -9,7 +9,7 @@ import UIKit
 
 class ReviewViewController: UIViewController {
 
-    @IBOutlet weak var tableReview: UITableView!
+    @IBOutlet private weak var tableReview: UITableView!
     private lazy var viewModel = ReviewsViewModel(self)
     var arrayData = [ReviewResults]()
     var name: String?
@@ -27,17 +27,17 @@ class ReviewViewController: UIViewController {
 
     func successApiResponse(_ reviewResults: [ReviewResults]?){
         guard let reviewResults = reviewResults else {
-            self.showValidationMessage(withMessage: "Data could not get.")
+            self.showValidationMessage(withMessage: String.Title.dataNotFound)
             return
         }
         self.arrayData = reviewResults
         if arrayData.count == 0{
-            self.showValidationMessage(withMessage: "No review found", preferredStyle: .alert) {
+            self.showValidationMessage(withMessage: String.Title.noReviewFound, preferredStyle: .alert) {
                 self.navigationController?.popViewController(animated: true)
             }
         }
-        DispatchQueue.main.async {
-            self.tableReview.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableReview.reloadData()
         }
     }
 }
@@ -54,15 +54,25 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource{
         return cell
     }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
-            if arrayData.count > 0{
-                if !viewModel.isAllReviewFetched{
-                    viewModel.currentPage += 1
-                    viewModel.callReviewsListApi()
-                }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let lastSectionIndex = tableView.numberOfSections - 1
+        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+        if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
+            var spinner = UIActivityIndicatorView()
+            if #available(iOS 13.0, *) {
+                spinner = UIActivityIndicatorView(style: .medium)
+            } else {
+                spinner = UIActivityIndicatorView(style: .gray)
             }
-            
+            spinner.startAnimating()
+            spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
+            self.tableReview.tableFooterView = spinner
+            if !viewModel.isAllReviewFetched{
+                viewModel.currentPage += 1
+                viewModel.callReviewsListApi()
+            }
+            self.tableReview.tableFooterView?.isHidden = viewModel.isAllReviewFetched
         }
     }
 }

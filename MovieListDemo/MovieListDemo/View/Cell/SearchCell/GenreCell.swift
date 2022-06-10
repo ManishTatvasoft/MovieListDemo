@@ -9,7 +9,7 @@ import UIKit
 
 class GenreCell: UITableViewCell {
 
-    @IBOutlet weak var genreLabel: UILabel!
+    @IBOutlet private weak var genreLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

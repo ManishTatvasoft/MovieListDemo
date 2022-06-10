@@ -10,15 +10,15 @@ import UIKit
 class UpcomingViewController: UIViewController {
 
 
-    @IBOutlet weak var collectionMovies: UICollectionView!
-    private lazy var viewModel         = UpcommingMovieViewModel(self)
-    lazy var navigator                 = UpcomingMovieNavigator(self)
-    var arrData                        = [Results]()
-    var gridListBarButton:               UIBarButtonItem!
+    @IBOutlet private weak var collectionMovies: UICollectionView!
+    private lazy var viewModel = UpcommingMovieViewModel(self)
+    private lazy var navigator = UpcomingMovieNavigator(self)
+    var arrData = [Results]()
+    var gridListBarButton : UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
         gridListBarButton = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(gridListToggleAction(_:)))
-        gridListBarButton.setBackgroundImage(UIImage(systemName: viewModel.isListView ? "list.bullet" : "rectangle.grid.3x2"), for: .normal, barMetrics: .default)
+        gridListBarButton.setBackgroundImage(UIImage.universalImage(viewModel.isListView ? "list.bullet" : "rectangle.grid.3x2"), for: .normal, barMetrics: .default)
         prepareView()
         self.navigationItem.leftBarButtonItem = gridListBarButton
         // Do any additional setup after loading the view.
@@ -27,9 +27,9 @@ class UpcomingViewController: UIViewController {
 
     @objc func gridListToggleAction(_ sender: UIBarButtonItem) {
         viewModel.isListView.toggle()
-        sender.setBackgroundImage(UIImage(systemName: viewModel.isListView ? "list.bullet" : "rectangle.grid.3x2"), for: .normal, barMetrics: .default)
-        DispatchQueue.main.async {
-            self.collectionMovies.reloadData()
+        sender.setBackgroundImage(UIImage.universalImage(viewModel.isListView ? "list.bullet" : "rectangle.grid.3x2"), for: .normal, barMetrics: .default)
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionMovies.reloadData()
         }
     }
 
@@ -42,13 +42,13 @@ class UpcomingViewController: UIViewController {
     func successApiResponse(_ data: [Results]?){
         
         guard let data = data else {
-            self.showValidationMessage(withMessage: "Data could not get.")
+            self.showValidationMessage(withMessage: String.Title.dataNotFound)
             return
         }
         self.arrData.append(contentsOf: data)
         
-        DispatchQueue.main.async {
-            self.collectionMovies.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionMovies.reloadData()
         }
     }
 }

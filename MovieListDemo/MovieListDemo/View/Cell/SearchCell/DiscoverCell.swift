@@ -8,11 +8,11 @@
 import UIKit
 
 class DiscoverCell: UITableViewCell {
-    @IBOutlet weak var movieImage: UIImageView!
-    @IBOutlet weak var titlelabel: UILabel!
-    @IBOutlet weak var ratingsView: CircleProgressView!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var genreLabel: UILabel!
+    @IBOutlet private weak var movieImage: UIImageView!
+    @IBOutlet private weak var titlelabel: UILabel!
+    @IBOutlet private weak var ratingsView: CircleProgressView!
+    @IBOutlet private weak var dateLabel: UILabel!
+    @IBOutlet private weak var genreLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,7 +27,11 @@ class DiscoverCell: UITableViewCell {
     
     func setupData(_ data: Results, _ genre: String? = "Action"){
         let posterPath = Environment.basePosterImageURL() + (data.poster_path ?? "")
-        movieImage.setImageUsingUrlSession(posterPath, placeholder: UIImage(systemName: "photo"))
+        if #available(iOS 13.0, *) {
+            movieImage.setImageUsingUrlSession(posterPath, placeholder: UIImage(systemName: "photo"))
+        } else {
+            movieImage.setImageUsingUrlSession(posterPath, placeholder: UIImage(named: "photo"))
+        }
         titlelabel.text = data.title
         ratingsView.progress = (data.vote_average ?? 0.0) / 10
         dateLabel.text = data.release_date

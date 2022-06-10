@@ -10,29 +10,29 @@ import UIKit
 import AVFoundation
 
 
-let ApplicationName         = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "Upcoming Movie App"
-let ApplicationVersion      = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String ?? ""
-let ApplicationBuildNumber  = Bundle.main.infoDictionary!["CFBundleVersion"] as? String ?? ""
+let ApplicationName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "Upcoming Movie App"
+let ApplicationVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String ?? ""
+let ApplicationBuildNumber = Bundle.main.infoDictionary!["CFBundleVersion"] as? String ?? ""
 
 struct AppConstants{
     
-    static let apiKey                      = "api_key"
-    static let apiKeyValue                 = "0141e6d543b187f0b7e6bb3a1902209a"
-    static let pageKey                     = "page"
-    static let withGenreKey                = "with_genres"
-    static var movieID                     = ""
-    static let couldNotPlayVideo           = "Could not play video\nerror occured."
-    static let queryKey                    = "query"
+    static let apiKey = "api_key"
+    static let apiKeyValue = "0141e6d543b187f0b7e6bb3a1902209a"
+    static let pageKey = "page"
+    static let withGenreKey = "with_genres"
+    static var movieID = ""
+    static let couldNotPlayVideo = "Could not play video\nerror occured."
+    static let queryKey = "query"
     
     //MARK: For table header title
-    static let searchResultHeader          = "Search Result"
-    static let genreHeader                 = "Movie Genres"
+    static let searchResultHeader = "Search Result"
+    static let genreHeader = "Movie Genres"
     static let popularTopRatedMoviesHeader = "Popular & Top rated movies"
-    static let recentlyVisitedHeader       = "Recently Visited"
+    static let recentlyVisitedHeader = "Recently Visited"
     
     //MARK: View controller title
-    static let topRatedMovieTitle          = "Top Rated Movies"
-    static let popularMovieTitle           = "Popular Movies"
+    static let topRatedMovieTitle = "Top Rated Movies"
+    static let popularMovieTitle = "Popular Movies"
     
     static func getGenreString(_ data: Results, _ genreData: Genre) -> String{
         var arrayGenre = [String]()

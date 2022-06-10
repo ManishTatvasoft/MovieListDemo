@@ -9,9 +9,9 @@ import UIKit
 
 class ReviewCell: UITableViewCell {
 
-    @IBOutlet weak var profileImage: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var reviewLabel: UILabel!
+    @IBOutlet private weak var profileImage: UIImageView!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var reviewLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -29,15 +29,15 @@ class ReviewCell: UITableViewCell {
                 if path.contains("/https://www.gravatar.com/"){
                     var str = authorDetails.avatar_path
                     str = str?.dropFirst()
-                    profileImage.setImageUsingUrlSession(str, placeholder: UIImage(systemName: "person.circle"))
+                    profileImage.setImageUsingUrlSession(str, placeholder: UIImage.universalImage("person.circle"))
                 }else{
-                    profileImage.setImageUsingUrlSession(Environment.basePosterImageURL() + (authorDetails.avatar_path ?? ""), placeholder: UIImage(systemName: "person.circle"))
+                    profileImage.setImageUsingUrlSession(Environment.basePosterImageURL() + (authorDetails.avatar_path ?? ""), placeholder: UIImage.universalImage("person.circle"))
                 }
             }else{
-                profileImage.setImageUsingUrlSession(Environment.basePosterImageURL() + (authorDetails.avatar_path ?? ""), placeholder: UIImage(systemName: "person.circle"))
+                profileImage.setImageUsingUrlSession(Environment.basePosterImageURL() + (authorDetails.avatar_path ?? ""), placeholder: UIImage.universalImage("person.circle"))
             }
         }else{
-            profileImage.setImageUsingUrlSession(Environment.basePosterImageURL() + (data.author_details?.avatar_path ?? ""), placeholder: UIImage(systemName: "person.circle"))
+            profileImage.setImageUsingUrlSession(Environment.basePosterImageURL() + (data.author_details?.avatar_path ?? ""), placeholder: UIImage.universalImage("person.circle"))
         }
         nameLabel.text = data.author
         reviewLabel.text = data.content

@@ -9,15 +9,13 @@ import UIKit
 import WebKit
 
 class PlayerViewController: UIViewController {
-
-    @IBOutlet weak var videoPlayerView: WKWebView!
     
     var url: URL?
     var name: String?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = name
-        videoPlayerView.configuration.allowsInlineMediaPlayback = true
+        
         // Do any additional setup after loading the view.
     }
     
@@ -28,8 +26,20 @@ class PlayerViewController: UIViewController {
             self.showValidationMessage(withMessage: AppConstants.couldNotPlayVideo)
             return
         }
-        let youtubeRequest = URLRequest(url: url)
-        videoPlayerView.load(youtubeRequest)
+        
+        if #available(iOS 11.0, *){
+            let videoPlayerView = WKWebView()
+            videoPlayerView.configuration.allowsInlineMediaPlayback = true
+            let youtubeRequest = URLRequest(url: url)
+            videoPlayerView.load(youtubeRequest)
+        }else{
+            let videoPlayerView = UIWebView()
+            videoPlayerView.allowsInlineMediaPlayback = true
+            let youtubeRequest = URLRequest(url: url)
+            videoPlayerView.loadRequest(youtubeRequest)
+        }
+        
+        
 
     }
 

@@ -13,9 +13,9 @@ protocol RecentlyVisitedCellDelegate{
 
 class RecentlyVisitedCell: UITableViewCell {
 
-    @IBOutlet weak var collectionVisited: UICollectionView!
+    @IBOutlet private weak var collectionVisited: UICollectionView!
     
-    var arrayMovies = [Movie]()
+    private var arrayMovies = [Movie]()
     var delegate : RecentlyVisitedCellDelegate?
     
     override func awakeFromNib() {

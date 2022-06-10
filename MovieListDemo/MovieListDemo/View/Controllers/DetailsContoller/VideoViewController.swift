@@ -10,9 +10,9 @@ import UIKit
 class VideoViewController: UIViewController {
     
     
-    @IBOutlet weak var tableVideo: UITableView!
+    @IBOutlet private weak var tableVideo: UITableView!
     private lazy var viewModel = VideoViewModel(self)
-    lazy var navigator = VideoNavigator(self)
+    private lazy var navigator = VideoNavigator(self)
     var arrayData = [VideoResults]()
     
     var name: String?
@@ -31,13 +31,13 @@ class VideoViewController: UIViewController {
     
     func successApiResponse(_ data: [VideoResults]?){
         guard let data = data else {
-            self.showValidationMessage(withMessage: "Data could not get.")
+            self.showValidationMessage(withMessage: String.Title.dataNotFound)
             return
         }
         self.arrayData = data
         
-        DispatchQueue.main.async {
-            self.tableVideo.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableVideo.reloadData()
         }
     }
 
@@ -62,6 +62,8 @@ extension VideoViewController: UITableViewDelegate, UITableViewDataSource{
     
 }
 
+
+@available(iOS 13.0, *)
 extension VideoViewController{
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let index = indexPath.row

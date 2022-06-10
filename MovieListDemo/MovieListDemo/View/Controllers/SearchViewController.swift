@@ -15,11 +15,11 @@ enum DiscoverType{
 
 class SearchViewController: UIViewController {
 
-    @IBOutlet weak var tableSearch: UITableView!
+    @IBOutlet private weak var tableSearch: UITableView!
     
     
     private lazy var viewModel = SearchViewModel(self)
-    lazy var navigator = SearchNavigator(self)
+    private lazy var navigator = SearchNavigator(self)
     
     var arrayData = [Genres]()
     var arraySearch = [Results]()
@@ -37,14 +37,18 @@ class SearchViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         arrayMovies = DatabaseManager.shared.getData()
-        self.navigationItem.hidesSearchBarWhenScrolling = false
+        if #available(iOS 11.0, *) {
+            self.navigationItem.hidesSearchBarWhenScrolling = false
+        }
         
         prepareView()
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.navigationItem.hidesSearchBarWhenScrolling = true
+        if #available(iOS 11.0, *) {
+            self.navigationItem.hidesSearchBarWhenScrolling = true
+        }
         self.navigationController?.navigationBar.sizeToFit()
     }
     
@@ -58,25 +62,25 @@ class SearchViewController: UIViewController {
     
     func successApiResponse(_ genreData: [Genres]?){
         guard let genreData = genreData else {
-            self.showValidationMessage(withMessage: "Genres could not get.")
+            self.showValidationMessage(withMessage: String.Title.genereNotFound)
             return
         }
         arrayData = genreData
         
-        DispatchQueue.main.async {
-            self.tableSearch.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableSearch.reloadData()
         }
     }
     
     func successSearchApiResponse(_ result: [Results]?){
         guard let result = result else {
-            self.showValidationMessage(withMessage: "Genres could not get.")
+            self.showValidationMessage(withMessage: String.Title.genereNotFound)
             return
         }
         arraySearch = result
         
-        DispatchQueue.main.async {
-            self.tableSearch.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableSearch.reloadData()
         }
     }
     
@@ -84,7 +88,11 @@ class SearchViewController: UIViewController {
         let search = UISearchController(searchResultsController: nil)
         search.delegate = self
         search.searchBar.delegate = self
-        self.navigationItem.searchController = search
+        if #available(iOS 11.0, *) {
+            self.navigationItem.searchController = search
+        } else {
+            self.navigationItem.titleView = search.view
+        }
     }
 }
 
@@ -92,8 +100,8 @@ extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate{
     func willPresentSearchController(_ searchController: UISearchController) {
         viewModel.isSearchingMode = true
         
-        DispatchQueue.main.async {
-            self.tableSearch.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableSearch.reloadData()
         }
         print("Present")
     }
@@ -102,8 +110,8 @@ extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate{
         viewModel.queryString = searchController.searchBar.text ?? ""
         viewModel.currentPage = 1
         arraySearch = []
-        DispatchQueue.main.async {
-            self.tableSearch.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableSearch.reloadData()
         }
         print("Dismiss")
     }

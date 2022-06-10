@@ -9,7 +9,7 @@ import UIKit
 
 class CreditsViewController: UIViewController {
 
-    @IBOutlet weak var collectionCredits: UICollectionView!
+    @IBOutlet private weak var collectionCredits: UICollectionView!
     
     
     var castData: CastManager?
@@ -36,8 +36,8 @@ class CreditsViewController: UIViewController {
         castData = CastManager(cast: data.cast ?? [])
         crewData = CrewManager(crew: data.crew ?? [])
         
-        DispatchQueue.main.async {
-            self.collectionCredits.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionCredits.reloadData()
         }
         
     }
@@ -111,16 +111,16 @@ extension CreditsViewController: UICollectionViewDelegate, UICollectionViewDataS
         if indexPath.section == 0{
             view.headerTitleLabel.text = "Cast"
             if let castData = castData{
-                view.upDownImage.image = UIImage(systemName: castData.isOpened ? "chevron.up" : "chevron.down")
+                view.upDownImage.image = (castData.isOpened ? UIImage.universalImage("chevron.up") : UIImage.universalImage("chevron.down"))
             }else{
-                view.upDownImage.image = UIImage(systemName: "chevron.down")
+                view.upDownImage.image = UIImage.universalImage("chevron.down")
             }
         }else{
             view.headerTitleLabel.text = "Crew"
             if let crewData = crewData{
-                view.upDownImage.image = UIImage(systemName: crewData.isOpened ? "chevron.up" : "chevron.down")
+                view.upDownImage.image = (crewData.isOpened ? UIImage.universalImage("chevron.up") : UIImage.universalImage("chevron.down"))
             }else{
-                view.upDownImage.image = UIImage(systemName: "chevron.down")
+                view.upDownImage.image =  UIImage.universalImage("chevron.down")
             }
         }
         return view

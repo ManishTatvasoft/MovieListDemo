@@ -10,20 +10,20 @@ import UIKit
 class DetailsViewController: UIViewController {
     
     
-    @IBOutlet weak var coverImage: UIImageView!
-    @IBOutlet weak var posterImage: UIImageView!
-    @IBOutlet weak var progressView: CircleProgressView!
-    @IBOutlet weak var genreLabel: UILabel!
-    @IBOutlet weak var releaseDateLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet private weak var coverImage: UIImageView!
+    @IBOutlet private weak var posterImage: UIImageView!
+    @IBOutlet private weak var progressView: CircleProgressView!
+    @IBOutlet private weak var genreLabel: UILabel!
+    @IBOutlet private weak var releaseDateLabel: UILabel!
+    @IBOutlet private weak var descriptionLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel!
     
     var data: Results?
     var isDBData = false
     var genre = ""
     
     private lazy var viewModel = DetailsViewModel(self)
-    lazy var navigator = DetailsNavigator(self)
+    private lazy var navigator = DetailsNavigator(self)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,14 +35,15 @@ class DetailsViewController: UIViewController {
     
     func prepareView(){
         guard let data = data else {
-            self.showValidationMessage(withMessage: "Data could not get.")
+            self.showValidationMessage(withMessage: String.Title.dataNotFound)
             return
         }
 
         let posterPath = Environment.basePosterImageURL() + (data.poster_path ?? "")
         let coverPath = Environment.baseCoverImageURL() + (data.backdrop_path ?? "")
-        coverImage.setImageUsingUrlSession(coverPath, placeholder: UIImage(systemName: "photo"))
-        posterImage.setImageUsingUrlSession(posterPath, placeholder: UIImage(systemName: "photo"))
+        coverImage.setImageUsingUrlSession(coverPath, placeholder: UIImage.universalImage("photo"))
+        posterImage.setImageUsingUrlSession(posterPath, placeholder: UIImage.universalImage("photo"))
+        
         titleLabel.text = data.title
         viewModel.callGenreListApi()
         AppConstants.movieID = "\(data.id ?? 0)"
@@ -66,12 +67,12 @@ class DetailsViewController: UIViewController {
     
     func successApiResponse(_ genreData: Genre?){
         guard let data = data else {
-            self.showValidationMessage(withMessage: "Data could not get.")
+            self.showValidationMessage(withMessage: String.Title.dataNotFound)
             return
         }
         
         guard let genreData = genreData else {
-            self.showValidationMessage(withMessage: "Data could not get.")
+            self.showValidationMessage(withMessage: String.Title.dataNotFound)
             return
         }
         releaseDateLabel.text = data.release_date
@@ -101,7 +102,7 @@ class DetailsViewController: UIViewController {
     }
     
     @IBAction func moreButtonAction(_ sender: UIBarButtonItem) {
-        self.showValidationMessage(withMessage: "Share this movie to your frinds.", preferredStyle: .actionSheet) {
+        self.showValidationMessage(withMessage: String.Title.shareMessage, preferredStyle: .actionSheet) {
             AppConstants.share(self.posterImage.image)
         }
     }

@@ -8,9 +8,9 @@
 import UIKit
 
 class CastCell: UICollectionViewCell {
-    @IBOutlet weak var castImage: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var charecterLabel: UILabel!
+    @IBOutlet private weak var castImage: UIImageView!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var charecterLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,9 +21,9 @@ class CastCell: UICollectionViewCell {
         nameLabel.text = data?.name
         charecterLabel.text = data?.character
         if let data = data {
-            castImage.setImageUsingUrlSession(Environment.basePosterImageURL() + (data.profile_path ?? ""), placeholder: UIImage(systemName: "person.fill"))
+            castImage.setImageUsingUrlSession(Environment.basePosterImageURL() + (data.profile_path ?? ""), placeholder: UIImage.universalImage("person.fill"))
         }else{
-            castImage.image = UIImage(systemName: "person.fill")
+            castImage.image = UIImage.universalImage("person.fill")
         }
     }
 }

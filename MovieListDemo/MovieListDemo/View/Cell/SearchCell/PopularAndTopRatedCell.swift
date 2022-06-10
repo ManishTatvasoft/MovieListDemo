@@ -9,8 +9,8 @@ import UIKit
 
 class PopularAndTopRatedCell: UITableViewCell {
 
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var subTitleLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var subTitleLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

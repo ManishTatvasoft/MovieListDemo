@@ -9,8 +9,8 @@ import UIKit
 
 class VideoCell: UITableViewCell {
     
-    @IBOutlet weak var videoThumbImage: UIImageView!
-    @IBOutlet weak var videoTitleLabel: UILabel!
+    @IBOutlet private weak var videoThumbImage: UIImageView!
+    @IBOutlet private weak var videoTitleLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,6 +25,6 @@ class VideoCell: UITableViewCell {
     
     func setupData(_ data: VideoResults){
         videoTitleLabel.text = data.name
-        videoThumbImage.setImageUsingUrlSession(AppConstants.videoUrl((data.key ?? "")), placeholder: UIImage(systemName: "photo"))
+        videoThumbImage.setImageUsingUrlSession(AppConstants.videoUrl((data.key ?? "")), placeholder: UIImage.universalImage("photo"))
     }
 }

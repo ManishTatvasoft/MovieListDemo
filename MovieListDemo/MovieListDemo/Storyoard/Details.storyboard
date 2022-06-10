@@ -103,8 +103,8 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HPL-XG-7g8">
                                                                 <rect key="frame" x="0.0" y="0.0" width="100" height="88"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.bubble.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="SLj-pw-Ozq">
-                                                                        <rect key="frame" x="30" y="10.5" width="40" height="39.5"/>
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bubble" translatesAutoresizingMaskIntoConstraints="NO" id="SLj-pw-Ozq">
+                                                                        <rect key="frame" x="30" y="10" width="40" height="40"/>
                                                                         <color key="tintColor" systemColor="systemGreenColor"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" secondItem="SLj-pw-Ozq" secondAttribute="height" multiplier="1:1" id="oK9-72-VOP"/>
@@ -153,8 +153,8 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KXC-Xy-Xzz">
                                                                 <rect key="frame" x="105" y="0.0" width="99.5" height="88"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="XXd-Ep-o9V">
-                                                                        <rect key="frame" x="29.5" y="10.5" width="40" height="39"/>
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="playCircle" translatesAutoresizingMaskIntoConstraints="NO" id="XXd-Ep-o9V">
+                                                                        <rect key="frame" x="29.5" y="10" width="40" height="40"/>
                                                                         <color key="tintColor" systemColor="systemRedColor"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" secondItem="XXd-Ep-o9V" secondAttribute="height" multiplier="1:1" id="sZs-Yw-PEW"/>
@@ -203,8 +203,8 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kGq-Wb-aqH">
                                                                 <rect key="frame" x="209.5" y="0.0" width="100" height="88"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="theatermasks.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="bfW-Cq-XI6">
-                                                                        <rect key="frame" x="30" y="9" width="40" height="42"/>
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mask" translatesAutoresizingMaskIntoConstraints="NO" id="bfW-Cq-XI6">
+                                                                        <rect key="frame" x="30" y="10" width="40" height="40"/>
                                                                         <color key="tintColor" systemColor="systemTealColor"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" secondItem="bfW-Cq-XI6" secondAttribute="height" multiplier="1:1" id="T3r-Xy-raQ"/>
@@ -445,14 +445,12 @@ and whom he can ultimatelv trust.</string>
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="Ewn-VM-uK1" firstAttribute="bottom" secondItem="G1x-bD-R60" secondAttribute="bottom" id="Ifo-0y-lTs"/>
-                                    <constraint firstItem="Ewn-VM-uK1" firstAttribute="leading" secondItem="G1x-bD-R60" secondAttribute="leading" id="eDL-cB-Lob"/>
-                                    <constraint firstItem="Ewn-VM-uK1" firstAttribute="width" secondItem="7rF-bs-m9z" secondAttribute="width" id="h7h-Oy-FBg"/>
-                                    <constraint firstItem="Ewn-VM-uK1" firstAttribute="trailing" secondItem="G1x-bD-R60" secondAttribute="trailing" id="ln2-Cs-iTc"/>
-                                    <constraint firstItem="Ewn-VM-uK1" firstAttribute="top" secondItem="G1x-bD-R60" secondAttribute="top" id="ooE-MQ-sI9"/>
+                                    <constraint firstItem="Ewn-VM-uK1" firstAttribute="bottom" secondItem="XBR-LG-gLa" secondAttribute="bottom" id="Ifo-0y-lTs"/>
+                                    <constraint firstItem="Ewn-VM-uK1" firstAttribute="leading" secondItem="XBR-LG-gLa" secondAttribute="leading" id="eDL-cB-Lob"/>
+                                    <constraint firstItem="Ewn-VM-uK1" firstAttribute="width" secondItem="XBR-LG-gLa" secondAttribute="width" id="h7h-Oy-FBg"/>
+                                    <constraint firstItem="Ewn-VM-uK1" firstAttribute="trailing" secondItem="XBR-LG-gLa" secondAttribute="trailing" id="ln2-Cs-iTc"/>
+                                    <constraint firstItem="Ewn-VM-uK1" firstAttribute="top" secondItem="XBR-LG-gLa" secondAttribute="top" id="ooE-MQ-sI9"/>
                                 </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="G1x-bD-R60"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="7rF-bs-m9z"/>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
@@ -650,29 +648,10 @@ and whom he can ultimatelv trust.</string>
                     <view key="view" contentMode="scaleToFill" id="Kl9-oa-LuW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3rV-IU-90f">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <wkWebViewConfiguration key="configuration">
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="lwS-dn-ZBO"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="lwS-dn-ZBO" firstAttribute="trailing" secondItem="3rV-IU-90f" secondAttribute="trailing" id="NCk-Kn-7m3"/>
-                            <constraint firstItem="3rV-IU-90f" firstAttribute="top" secondItem="lwS-dn-ZBO" secondAttribute="top" id="iMy-mU-sQf"/>
-                            <constraint firstItem="3rV-IU-90f" firstAttribute="leading" secondItem="lwS-dn-ZBO" secondAttribute="leading" id="kf1-pV-Ae6"/>
-                            <constraint firstItem="lwS-dn-ZBO" firstAttribute="bottom" secondItem="3rV-IU-90f" secondAttribute="bottom" id="w5L-ud-0fx"/>
-                        </constraints>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <connections>
-                        <outlet property="videoPlayerView" destination="3rV-IU-90f" id="gcu-xU-ffg"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0xi-71-cQa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -698,11 +677,11 @@ and whom he can ultimatelv trust.</string>
         </scene>
     </scenes>
     <resources>
+        <image name="Bubble" width="43" height="43"/>
+        <image name="Mask" width="66" height="45"/>
         <image name="clapperboard" width="50" height="50"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
-        <image name="play.circle.fill" catalog="system" width="128" height="121"/>
-        <image name="star.bubble.fill" catalog="system" width="128" height="110"/>
-        <image name="theatermasks.fill" catalog="system" width="128" height="85"/>
+        <image name="playCircle" width="40" height="40"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
