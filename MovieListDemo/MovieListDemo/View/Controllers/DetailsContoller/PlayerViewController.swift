@@ -26,16 +26,19 @@ class PlayerViewController: UIViewController {
             self.showValidationMessage(withMessage: AppConstants.couldNotPlayVideo)
             return
         }
+        let youtubeRequest = URLRequest(url: url)
         
         if #available(iOS 11.0, *){
             let videoPlayerView = WKWebView()
+            videoPlayerView.frame = self.view.bounds
+            self.view.addSubview(videoPlayerView)
             videoPlayerView.configuration.allowsInlineMediaPlayback = true
-            let youtubeRequest = URLRequest(url: url)
             videoPlayerView.load(youtubeRequest)
         }else{
             let videoPlayerView = UIWebView()
+            videoPlayerView.frame = self.view.bounds
+            self.view.addSubview(videoPlayerView)
             videoPlayerView.allowsInlineMediaPlayback = true
-            let youtubeRequest = URLRequest(url: url)
             videoPlayerView.loadRequest(youtubeRequest)
         }
         
