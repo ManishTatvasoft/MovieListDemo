@@ -19,25 +19,16 @@ class CustomTabarViewController: UITabBarController {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         let upcomingVC = UIStoryboard.main.get(UpcomingViewController.self)!
         let upcomingNav = UINavigationController(rootViewController: upcomingVC)
-        if #available(iOS 11.0, *) {
-            upcomingNav.navigationBar.prefersLargeTitles  = true
-        }
         let upcomingIcon = UITabBarItem(title: "Upcoming", image: UIImage.universalImage("film"), selectedImage: UIImage.universalImage("film.fill"))
         upcomingVC.tabBarItem = upcomingIcon
         
         let searchVC = UIStoryboard.main.get(SearchViewController.self)!
         let searchNav = UINavigationController(rootViewController: searchVC)
-        if #available(iOS 11.0, *) {
-            searchNav.navigationBar.prefersLargeTitles  = true
-        }
         let searchIcon = UITabBarItem(title: "Search", image: UIImage.universalImage("magnifyingglass"), selectedImage: UIImage.universalImage("magnifyingglass.circle.fill"))
         searchVC.tabBarItem = searchIcon
         
         let profileVC = UIStoryboard.main.get(ProfileViewController.self)!
         let profileNav = UINavigationController(rootViewController: profileVC)
-        if #available(iOS 11.0, *) {
-            profileNav.navigationBar.prefersLargeTitles  = true
-        }
         let profileIcon = UITabBarItem(title: "Account", image: UIImage.universalImage("person"), selectedImage: UIImage.universalImage("person.fill"))
         profileVC.tabBarItem = profileIcon
         

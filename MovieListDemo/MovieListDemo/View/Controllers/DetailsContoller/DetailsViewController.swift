@@ -43,7 +43,6 @@ class DetailsViewController: UIViewController {
         let coverPath = Environment.baseCoverImageURL() + (data.backdrop_path ?? "")
         coverImage.setImageUsingUrlSession(coverPath, placeholder: UIImage.universalImage("photo"))
         posterImage.setImageUsingUrlSession(posterPath, placeholder: UIImage.universalImage("photo"))
-        
         titleLabel.text = data.title
         viewModel.callGenreListApi()
         AppConstants.movieID = "\(data.id ?? 0)"
