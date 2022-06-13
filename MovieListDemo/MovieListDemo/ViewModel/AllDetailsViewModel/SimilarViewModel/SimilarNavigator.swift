@@ -21,7 +21,9 @@ final class SimilarNavigator {
 extension SimilarNavigator{
     
     func moveToMovieDetailScreen(with Data: Results){
-        let vc = UIStoryboard.details.get(DetailsViewController.self)!
+        guard let vc = UIStoryboard.details.get(DetailsViewController.self) else{
+            return
+        }
         vc.data = Data
         self.controller.navigationController?.pushViewController(vc, animated: true)
     }

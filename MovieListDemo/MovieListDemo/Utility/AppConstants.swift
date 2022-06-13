@@ -27,7 +27,7 @@ struct AppConstants{
     //MARK: For table header title
     static let searchResultHeader = "Search Result"
     static let genreHeader = "Movie Genres"
-    static let popularTopRatedMoviesHeader = "Popular & Top rated movies"
+    static let popularTopRatedMoviesHeader = ""
     static let recentlyVisitedHeader = "Recently Visited"
     
     //MARK: View controller title

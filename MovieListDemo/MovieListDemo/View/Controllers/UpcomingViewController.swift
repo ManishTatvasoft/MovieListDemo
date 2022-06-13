@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UpcomingViewController: UIViewController {
+class UpcomingViewController: BaseViewController {
 
 
     @IBOutlet private weak var collectionMovies: UICollectionView!
@@ -28,6 +28,7 @@ class UpcomingViewController: UIViewController {
     @objc func gridListToggleAction(_ sender: UIBarButtonItem) {
         viewModel.isListView.toggle()
         sender.setBackgroundImage(UIImage.universalImage(viewModel.isListView ? "list.bullet" : "rectangle.grid.3x2"), for: .normal, barMetrics: .default)
+        self.collectionMovies?.scrollToItem(at: IndexPath(row: 0, section: 0),at: .top,animated: false)
         DispatchQueue.main.async { [weak self] in
             self?.collectionMovies.reloadData()
         }
@@ -73,7 +74,7 @@ extension UpcomingViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if !viewModel.isListView{
-            let width = collectionView.bounds.width / 3
+            let width = (collectionView.bounds.width / 3) - (((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset.right ?? 0.0) / 1.5)
             let height = width * 1.5
             return CGSize(width: width, height: height)
         }else{

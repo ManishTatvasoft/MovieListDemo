@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: BaseViewController {
 
     @IBOutlet private weak var tableView: UITableView!
     override func viewDidLoad() {

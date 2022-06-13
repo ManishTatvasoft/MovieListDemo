@@ -24,10 +24,16 @@ extension VideoViewModel{
     func callVideoListApi(){
         controller.startLoading()
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
-        VideoController.shared.getVideoList(parameters: param) { response in
+        VideoController.shared.getVideoList(parameters: param) { [weak self] response in
+            guard let self = self else{
+                return
+            }
             self.controller.stopLoading()
             self.controller.successApiResponse(response.results)
-        } failureCompletion: { failure, errorMessage in
+        } failureCompletion: { [weak self] failure, errorMessage in
+            guard let self = self else{
+                return
+            }
             self.controller.stopLoading()
             DispatchQueue.main.async {
                 self.controller.showValidationMessage(withMessage: errorMessage)

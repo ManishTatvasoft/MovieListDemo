@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SimilarViewController: UIViewController {
+class SimilarViewController: BaseViewController {
 
     @IBOutlet private weak var tableSimilar: UITableView!
     private lazy var viewModel = SimilarViewModel(self)

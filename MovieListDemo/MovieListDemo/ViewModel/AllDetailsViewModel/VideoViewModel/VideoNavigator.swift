@@ -25,7 +25,9 @@ extension VideoNavigator{
             controller.showValidationMessage(withMessage: AppConstants.couldNotPlayVideo)
             return
         }
-        let vc = UIStoryboard.details.get(PlayerViewController.self)!
+        guard let vc = UIStoryboard.details.get(PlayerViewController.self) else{
+            return
+        }
         vc.name = data.name
         vc.url = url
         self.controller.navigationController?.pushViewController(vc, animated: true)

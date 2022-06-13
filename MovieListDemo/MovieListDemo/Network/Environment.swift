@@ -8,17 +8,7 @@
 import Foundation
 import UIKit
 
-enum Server {
-    case developement
-    case staging
-    case production
-}
-
 class Environment {
-    
-    static let server:Server = .developement
-    static let buildVersion = "1.0.1"
-    static let latestBuildVersion = 1.0
     
     class func basePosterImageURL() -> String{
         return "https://image.tmdb.org/t/p/w200"

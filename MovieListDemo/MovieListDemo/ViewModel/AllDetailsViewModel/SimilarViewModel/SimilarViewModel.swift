@@ -27,7 +27,10 @@ extension SimilarViewModel{
             controller.startLoading()
         }
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue, AppConstants.pageKey: "\(currentPage)"]
-        SimilarController.shared.getSimilarMovieList(parameters: param) { response in
+        SimilarController.shared.getSimilarMovieList(parameters: param) { [weak self] response in
+            guard let self = self else{
+                return
+            }
             
             self.controller.stopLoading()
             self.isSecondTimeFetching = true
@@ -35,7 +38,10 @@ extension SimilarViewModel{
                 self.isAllMovieFetched = true
             }
             self.controller.successApiResponse(response.results)
-        } failureCompletion: { failure, errorMessage in
+        } failureCompletion: { [weak self] failure, errorMessage in
+            guard let self = self else{
+                return
+            }
             self.controller.stopLoading()
             DispatchQueue.main.async {
                 self.controller.showValidationMessage(withMessage: errorMessage)

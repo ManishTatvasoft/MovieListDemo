@@ -21,10 +21,16 @@ extension CreditsViewModel{
     func callCreditsApi(){
         controller.startLoading()
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
-        CreditsController.shared.getCreditsList(parameters: param) { response in
+        CreditsController.shared.getCreditsList(parameters: param) { [weak self] response in
+            guard let self = self else{
+                return
+            }
             self.controller.stopLoading()
             self.controller.successApiResponse(response)
-        } failureCompletion: { failure, errorMessage in
+        } failureCompletion: { [weak self] failure, errorMessage in
+            guard let self = self else{
+                return
+            }
             self.controller.stopLoading()
             DispatchQueue.main.async {
                 self.controller.showValidationMessage(withMessage: errorMessage)

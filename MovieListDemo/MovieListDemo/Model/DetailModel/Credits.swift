@@ -119,12 +119,17 @@ struct Crew : Codable {
 }
 
 struct CastManager{
-    var cast: [Cast]
+    var castData: [Cast]
     var isOpened = false
 }
 
 struct CrewManager{
-    var crew: [Crew]
+    var crewData: [Crew]
     var isOpened = false
+}
+
+struct CastCrewManager{
+    var cast: CastManager
+    var crew: CrewManager
 }
 

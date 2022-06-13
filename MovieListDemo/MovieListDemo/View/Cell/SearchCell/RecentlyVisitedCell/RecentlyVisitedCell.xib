@@ -19,13 +19,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="WNt-Jz-az8">
-                        <rect key="frame" x="10" y="10" width="295" height="157"/>
+                        <rect key="frame" x="0.0" y="0.0" width="315" height="177"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="9dZ-yh-AKk">
                             <size key="itemSize" width="128" height="128"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
                         </collectionViewFlowLayout>
                         <connections>
                             <outlet property="dataSource" destination="KGk-i7-Jjw" id="edq-ji-zfE"/>
@@ -34,10 +34,10 @@
                     </collectionView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="WNt-Jz-az8" secondAttribute="bottom" constant="10" id="GT2-qK-I09"/>
-                    <constraint firstItem="WNt-Jz-az8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="J2f-Af-upd"/>
-                    <constraint firstItem="WNt-Jz-az8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="UxW-c7-cSV"/>
-                    <constraint firstAttribute="trailing" secondItem="WNt-Jz-az8" secondAttribute="trailing" constant="10" id="WCu-Rg-Hny"/>
+                    <constraint firstAttribute="bottom" secondItem="WNt-Jz-az8" secondAttribute="bottom" id="GT2-qK-I09"/>
+                    <constraint firstItem="WNt-Jz-az8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="J2f-Af-upd"/>
+                    <constraint firstItem="WNt-Jz-az8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="UxW-c7-cSV"/>
+                    <constraint firstAttribute="trailing" secondItem="WNt-Jz-az8" secondAttribute="trailing" id="WCu-Rg-Hny"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

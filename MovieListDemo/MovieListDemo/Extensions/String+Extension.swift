@@ -26,10 +26,4 @@ extension String {
         static let movieDefaultTitle = "Movie"
         static let noReviewFound = "No review found"
     }
-    
-    func dropFirst() -> Self{
-        var str = self
-        str.remove(at: startIndex)
-        return str
-    }
 }

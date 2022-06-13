@@ -30,14 +30,20 @@ extension UpcommingMovieViewModel{
         }
         
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue, AppConstants.pageKey: "\(currentPage)"]
-        UpcomingMovieController.shared.getUpcomingMovieList(parameters: param) { response in
+        UpcomingMovieController.shared.getUpcomingMovieList(parameters: param) { [weak self] response in
+            guard let self = self else{
+                return
+            }
             self.controller.stopLoading()
             self.isSecondTimeFetching = true
             if response.total_pages == self.currentPage{
                 self.isAllMovieFetched = true
             }
             self.controller.successApiResponse(response.results)
-        } failureCompletion: { failure, errorMessage in
+        } failureCompletion: { [weak self] failure, errorMessage in
+            guard let self = self else{
+                return
+            }
             self.controller.stopLoading()
             DispatchQueue.main.async {
                 self.controller.showValidationMessage(withMessage: errorMessage)

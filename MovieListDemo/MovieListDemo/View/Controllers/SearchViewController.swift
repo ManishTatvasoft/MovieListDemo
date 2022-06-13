@@ -13,7 +13,13 @@ enum DiscoverType{
     case popular
 }
 
-class SearchViewController: UIViewController {
+enum SectionCount: Int{
+    case search = 1
+    case withOutRecentlyVisited
+    case withRecentlyVisited
+}
+
+class SearchViewController: BaseViewController {
 
     @IBOutlet private weak var tableSearch: UITableView!
     
@@ -29,6 +35,7 @@ class SearchViewController: UIViewController {
     ]
     
     var arrayMovies = [Movie]()
+    var sectionCount = SectionCount.withOutRecentlyVisited
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +46,14 @@ class SearchViewController: UIViewController {
         arrayMovies = DatabaseManager.shared.getData()
         if #available(iOS 11.0, *) {
             self.navigationItem.hidesSearchBarWhenScrolling = false
+        }
+        
+        if viewModel.isSearchingMode{
+            sectionCount = .search
+        }else if arrayMovies.count > 0{
+            sectionCount = .withRecentlyVisited
+        }else{
+            sectionCount = .withOutRecentlyVisited
         }
         
         prepareView()
@@ -99,21 +114,24 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate{
     func willPresentSearchController(_ searchController: UISearchController) {
         viewModel.isSearchingMode = true
-        
+        sectionCount = .search
         DispatchQueue.main.async { [weak self] in
             self?.tableSearch.reloadData()
         }
-        print("Present")
     }
     func willDismissSearchController(_ searchController: UISearchController) {
         viewModel.isSearchingMode = false
         viewModel.queryString = searchController.searchBar.text ?? ""
         viewModel.currentPage = 1
         arraySearch = []
+        if arrayMovies.count > 0{
+            sectionCount = .withRecentlyVisited
+        }else{
+            sectionCount = .withOutRecentlyVisited
+        }
         DispatchQueue.main.async { [weak self] in
             self?.tableSearch.reloadData()
         }
-        print("Dismiss")
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -130,13 +148,14 @@ extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate{
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if viewModel.isSearchingMode{
-            return 1
-        }else if arrayMovies.count > 0{
-            return 3
-        }else{
-            return 2
-        }
+//        if viewModel.isSearchingMode{
+//            return sectionCount.rawValue
+//        }else if arrayMovies.count > 0{
+//            return 3
+//        }else{
+//            return 2
+//        }
+        return sectionCount.rawValue
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -161,28 +180,28 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
         }
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if viewModel.isSearchingMode{
-            return AppConstants.searchResultHeader
-        }else{
-            if arrayMovies.count > 0{
-                if section == 0{
-                    return AppConstants.recentlyVisitedHeader
-                }else if section == 1{
-                    return AppConstants.popularTopRatedMoviesHeader
-                }else{
-                    return AppConstants.genreHeader
-                }
-            }else{
-                if section == 0{
-                    return AppConstants.popularTopRatedMoviesHeader
-                }else{
-                    return AppConstants.genreHeader
-                }
-            }
-        }
-        
-    }
+    
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if viewModel.isSearchingMode{
+//            return AppConstants.searchResultHeader.uppercased()
+//        }else{
+//            if arrayMovies.count > 0{
+//                if section == 0{
+//                    return AppConstants.recentlyVisitedHeader.uppercased()
+//                }else if section == 1{
+//                    return AppConstants.popularTopRatedMoviesHeader.uppercased()
+//                }else{
+//                    return AppConstants.genreHeader.uppercased()
+//                }
+//            }else{
+//                if section == 0{
+//                    return AppConstants.popularTopRatedMoviesHeader.uppercased()
+//                }else{
+//                    return AppConstants.genreHeader.uppercased()
+//                }
+//            }
+//        }
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if viewModel.isSearchingMode{
@@ -266,7 +285,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
         }else{
             if arrayMovies.count > 0{
                 if indexPath.section == 0{
-                    let width = (self.view.bounds.width - 20) / 3
+                    let width = (self.view.bounds.width - 20) / 4
                     let height = width * 1.5
                     return height
                 }else{
@@ -274,6 +293,75 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
                 }
             }else{
                 return UITableView.automaticDimension
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 60
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        
+        let viewTopLine = UIView()
+        viewTopLine.translatesAutoresizingMaskIntoConstraints = false
+        headerView.addSubview(viewTopLine)
+        viewTopLine.backgroundColor = #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8431372549, alpha: 1)
+        NSLayoutConstraint.activate([
+            viewTopLine.topAnchor.constraint(equalTo: headerView.topAnchor),
+            viewTopLine.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
+            viewTopLine.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
+            viewTopLine.heightAnchor.constraint(equalToConstant: 1),
+        ])
+        
+        let viewBottomLine = UIView()
+        viewBottomLine.translatesAutoresizingMaskIntoConstraints = false
+        headerView.addSubview(viewBottomLine)
+        viewBottomLine.backgroundColor = #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8431372549, alpha: 1)
+        NSLayoutConstraint.activate([
+            viewBottomLine.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -1),
+            viewBottomLine.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
+            viewBottomLine.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
+            viewBottomLine.heightAnchor.constraint(equalToConstant: 1),
+        ])
+        
+        let headerText = UILabel()
+        headerText.translatesAutoresizingMaskIntoConstraints = false
+        headerView.addSubview(headerText)
+        NSLayoutConstraint.activate([
+            headerText.topAnchor.constraint(greaterThanOrEqualTo: viewTopLine.bottomAnchor, constant: 5),
+            headerText.bottomAnchor.constraint(equalTo: viewBottomLine.topAnchor, constant: -5),
+            headerText.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10),
+            headerText.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -10),
+        ])
+        
+        
+        headerText.text = tableViewTitle(forHeaderIn: section)
+        headerText.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        headerText.textColor = .darkGray
+        headerView.backgroundColor = #colorLiteral(red: 0.9499530196, green: 0.9499530196, blue: 0.9499530196, alpha: 1)
+        return headerView
+    }
+    
+    func tableViewTitle(forHeaderIn section: Int) -> String{
+        if viewModel.isSearchingMode{
+            return AppConstants.searchResultHeader.uppercased()
+        }else{
+            if arrayMovies.count > 0{
+                if section == 0{
+                    return AppConstants.recentlyVisitedHeader.uppercased()
+                }else if section == 1{
+                    return AppConstants.popularTopRatedMoviesHeader.uppercased()
+                }else{
+                    return AppConstants.genreHeader.uppercased()
+                }
+            }else{
+                if section == 0{
+                    return AppConstants.popularTopRatedMoviesHeader.uppercased()
+                }else{
+                    return AppConstants.genreHeader.uppercased()
+                }
             }
         }
     }

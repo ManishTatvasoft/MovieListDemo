@@ -29,13 +29,20 @@ extension SearchViewModel{
     func callSearchMovieApi(){
         if queryString != "" {
             let param = [AppConstants.apiKey: AppConstants.apiKeyValue, AppConstants.queryKey: queryString, AppConstants.pageKey : "\(currentPage)"]
-            SearchController.shared.getSearchMovieList(parameters: param) { response in
+            SearchController.shared.getSearchMovieList(parameters: param) { [weak self] response in
+                guard let self = self else{
+                    return
+                }
                 self.isSecondTimeFetching = true
                 if response.total_pages == self.currentPage{
                     self.isAllMovieFetched = true
                 }
                 self.controller.successSearchApiResponse(response.results)
-            } failureCompletion: { failure, errorMessage in
+            } failureCompletion: { [weak self] failure, errorMessage in
+                guard let self = self else{
+                    return
+                }
+                self.controller.stopLoading()
                 DispatchQueue.main.async {
                     self.controller.showValidationMessage(withMessage: errorMessage)
                 }
@@ -47,10 +54,16 @@ extension SearchViewModel{
     func callGenreListApi(){
         controller.startLoading()
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
-        DetailsController.shared.getGenreList(parameters: param) { response in
+        DetailsController.shared.getGenreList(parameters: param) { [weak self] response in
+            guard let self = self else{
+                return
+            }
             self.controller.stopLoading()
             self.controller.successApiResponse(response.genres)
-        } failureCompletion: { failure, errorMessage in
+        } failureCompletion: { [weak self] failure, errorMessage in
+            guard let self = self else{
+                return
+            }
             self.controller.stopLoading()
             DispatchQueue.main.async {
                 self.controller.showValidationMessage(withMessage: errorMessage)
@@ -61,10 +74,16 @@ extension SearchViewModel{
     func getResultFromMovieID(movieID: String,_ completion: @escaping ((Results) -> ())){
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
         controller.startLoading()
-        SearchController.shared.getMovieDetails(parameters: param) { response in
+        SearchController.shared.getMovieDetails(parameters: param) { [weak self] response in
+            guard let self = self else{
+                return
+            }
             self.controller.stopLoading()
             completion(response)
-        } failureCompletion: { failure, errorMessage in
+        } failureCompletion: { [weak self] failure, errorMessage in
+            guard let self = self else{
+                return
+            }
             self.controller.stopLoading()
             DispatchQueue.main.async {
                 self.controller.showValidationMessage(withMessage: errorMessage)

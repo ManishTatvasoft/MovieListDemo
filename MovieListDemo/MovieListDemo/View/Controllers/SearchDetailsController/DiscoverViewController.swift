@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiscoverViewController: UIViewController {
+class DiscoverViewController: BaseViewController {
 
     @IBOutlet private weak var tableDiscover: UITableView!
     private lazy var viewModel = DiscoverViewModel(self)

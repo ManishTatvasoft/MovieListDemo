@@ -48,12 +48,19 @@ extension RecentlyVisitedCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let data = arrayMovies[indexPath.row]
-        delegate?.getMovieResult(with: data.movieID, data.genre)
+        let result = arrayMovies[indexPath.row]
+        var movie = Movie()
+        movie.movieName = result.movieName
+        movie.movieID = result.movieID
+        movie.posterPath = result.posterPath
+        movie.genre = result.genre
+        movie.time = "\(Date())"
+        DatabaseManager.shared.checkAndInserData(movie)
+        delegate?.getMovieResult(with: result.movieID, result.genre)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.bounds.width / 3
+        let width = (collectionView.bounds.width / 4) - (((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset.right ?? 0.0) / 2)
         let height = width * 1.5
         return CGSize(width: width, height: height)
     }

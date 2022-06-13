@@ -28,6 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             SharedAppDelegate.window = UIWindow(frame: UIScreen.main.bounds)
             SharedAppDelegate.initialViewController = UIStoryboard.main.get(CustomTabarViewController.self)!
             SharedAppDelegate.customNavigationController = UINavigationController(rootViewController: SharedAppDelegate.initialViewController)
+            if #available(iOS 11.0, *) {
+                SharedAppDelegate.customNavigationController.navigationItem.backBarButtonItem?.title = " "
+            } else {
+                // Fallback on earlier versions
+            }
             SharedAppDelegate.window?.rootViewController = SharedAppDelegate.customNavigationController
             SharedAppDelegate.window?.makeKeyAndVisible()
         }

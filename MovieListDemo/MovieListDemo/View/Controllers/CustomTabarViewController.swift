@@ -31,7 +31,6 @@ class CustomTabarViewController: UITabBarController {
         let profileNav = UINavigationController(rootViewController: profileVC)
         let profileIcon = UITabBarItem(title: "Account", image: UIImage.universalImage("person"), selectedImage: UIImage.universalImage("person.fill"))
         profileVC.tabBarItem = profileIcon
-        
         let controllers = [upcomingNav, searchNav, profileNav]
         self.viewControllers = controllers
         self.title = self.viewControllers?[selectedIndex].title

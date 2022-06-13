@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ReviewViewController: UIViewController {
+class ReviewViewController: BaseViewController {
 
     @IBOutlet private weak var tableReview: UITableView!
     private lazy var viewModel = ReviewsViewModel(self)

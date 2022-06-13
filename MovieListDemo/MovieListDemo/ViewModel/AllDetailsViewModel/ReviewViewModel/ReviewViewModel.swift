@@ -23,13 +23,19 @@ extension ReviewsViewModel{
     func callReviewsListApi(){
         controller.startLoading()
         let param = [AppConstants.apiKey:AppConstants.apiKeyValue,AppConstants.pageKey: "\(currentPage)"]
-        ReviewsController.shared.getReviewsList(parameters: param) { response in
+        ReviewsController.shared.getReviewsList(parameters: param) { [weak self] response in
+            guard let self = self else{
+                return
+            }
             self.controller.stopLoading()
             if response.total_pages == self.currentPage{
                 self.isAllReviewFetched = true
             }
             self.controller.successApiResponse(response.results)
-        } failureCompletion: { failure, errorMessage in
+        } failureCompletion: { [weak self] failure, errorMessage in
+            guard let self = self else{
+                return
+            }
             self.controller.stopLoading()
             DispatchQueue.main.async {
                 self.controller.showValidationMessage(withMessage: errorMessage)

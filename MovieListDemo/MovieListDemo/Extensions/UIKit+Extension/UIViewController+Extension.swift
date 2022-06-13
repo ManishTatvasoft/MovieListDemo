@@ -13,7 +13,7 @@ extension UIViewController{
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.show()
     }
-    
+   
     func stopLoading() {
         SVProgressHUD.dismiss()
     }

@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-class PlayerViewController: UIViewController {
+class PlayerViewController: BaseViewController {
     
     var url: URL?
     var name: String?

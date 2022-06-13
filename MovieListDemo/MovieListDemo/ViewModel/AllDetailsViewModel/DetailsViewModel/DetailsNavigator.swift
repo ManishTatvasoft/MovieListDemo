@@ -21,25 +21,33 @@ final class DetailsNavigator {
 extension DetailsNavigator{
     
     func moveToReview(_ name: String?){
-        let vc = UIStoryboard.details.get(ReviewViewController.self)!
+        guard let vc = UIStoryboard.details.get(ReviewViewController.self) else {
+            return
+        }
         vc.name = name
         self.controller.navigationController?.pushViewController(vc, animated: true)
     }
     
     func moveToCredits(_ name: String?){
-        let vc = UIStoryboard.details.get(CreditsViewController.self)!
+        guard let vc = UIStoryboard.details.get(CreditsViewController.self) else{
+            return
+        }
         vc.name = name
         self.controller.navigationController?.pushViewController(vc, animated: true)
     }
     
     func moveToSimilar(_ name: String?){
-        let vc = UIStoryboard.details.get(SimilarViewController.self)!
+        guard let vc = UIStoryboard.details.get(SimilarViewController.self) else{
+            return
+        }
         vc.name = name
         self.controller.navigationController?.pushViewController(vc, animated: true)
     }
     
     func moveToVideo(_ name: String?){
-        let vc = UIStoryboard.details.get(VideoViewController.self)!
+        guard let vc = UIStoryboard.details.get(VideoViewController.self) else{
+            return
+        }
         vc.name = name
         self.controller.navigationController?.pushViewController(vc, animated: true)
     }

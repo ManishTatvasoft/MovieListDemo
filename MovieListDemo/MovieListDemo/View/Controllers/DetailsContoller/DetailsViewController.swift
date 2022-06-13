@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController {
+class DetailsViewController: BaseViewController {
     
     
     @IBOutlet private weak var coverImage: UIImageView!
@@ -38,7 +38,6 @@ class DetailsViewController: UIViewController {
             self.showValidationMessage(withMessage: String.Title.dataNotFound)
             return
         }
-
         let posterPath = Environment.basePosterImageURL() + (data.poster_path ?? "")
         let coverPath = Environment.baseCoverImageURL() + (data.backdrop_path ?? "")
         coverImage.setImageUsingUrlSession(coverPath, placeholder: UIImage.universalImage("photo"))
@@ -46,9 +45,9 @@ class DetailsViewController: UIViewController {
         titleLabel.text = data.title
         viewModel.callGenreListApi()
         AppConstants.movieID = "\(data.id ?? 0)"
-        DispatchQueue.main.async {
-            self.croppedImage()
-        }
+    }
+    override func viewDidLayoutSubviews() {
+        self.croppedImage()
     }
     
     func croppedImage(){

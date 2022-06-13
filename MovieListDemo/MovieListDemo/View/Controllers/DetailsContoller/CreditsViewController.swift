@@ -7,13 +7,15 @@
 
 import UIKit
 
-class CreditsViewController: UIViewController {
+class CreditsViewController: BaseViewController {
 
     @IBOutlet private weak var collectionCredits: UICollectionView!
     
     
-    var castData: CastManager?
-    var crewData: CrewManager?
+//    var castData: CastManager?
+//    var crewData: CrewManager?
+    
+    var castCrewData: CastCrewManager?
     
     var name: String?
     private lazy var viewModel = CreditsViewModel(self)
@@ -26,15 +28,13 @@ class CreditsViewController: UIViewController {
     }
     
     func prepareView(){
-        collectionCredits.register(CastCell.self)
-        collectionCredits.register(CrewCell.self)
+        collectionCredits.register(CastAndCrewCell.self)
         collectionCredits.register(HeaderView.self, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader)
         viewModel.callCreditsApi()
     }
     
     func successApiResponse(_ data: Credits){
-        castData = CastManager(cast: data.cast ?? [])
-        crewData = CrewManager(crew: data.crew ?? [])
+        castCrewData = CastCrewManager(cast: CastManager(castData: data.cast ?? []), crew: CrewManager(crewData: data.crew ?? []))
         
         DispatchQueue.main.async { [weak self] in
             self?.collectionCredits.reloadData()
@@ -44,9 +44,9 @@ class CreditsViewController: UIViewController {
     
     @IBAction func buttonExpandCollepsAction(_ sender: UIButton) {
         if sender.tag == 0{
-            castData?.isOpened.toggle()
+            castCrewData?.cast.isOpened.toggle()
         }else{
-            crewData?.isOpened.toggle()
+            castCrewData?.crew.isOpened.toggle()
         }
         UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut) {
             self.collectionCredits.reloadSections(IndexSet(integer: sender.tag))
@@ -63,14 +63,17 @@ class CreditsViewController: UIViewController {
 extension CreditsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        guard let castCrewData = castCrewData else {
+            return 0
+        }
+        return Mirror(reflecting: castCrewData).children.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0{
-            if let castData = castData{
-                if castData.isOpened{
-                    return castData.cast.count
+            if let cast = castCrewData?.cast{
+                if cast.isOpened{
+                    return cast.castData.count
                 }else{
                     return 0
                 }
@@ -79,9 +82,9 @@ extension CreditsViewController: UICollectionViewDelegate, UICollectionViewDataS
             }
             
         }else{
-            if let crewData = crewData{
-                if crewData.isOpened{
-                    return crewData.crew.count
+            if let crew = castCrewData?.crew{
+                if crew.isOpened{
+                    return crew.crewData.count
                 }else{
                     return 0
                 }
@@ -92,17 +95,9 @@ extension CreditsViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0{
-            let data = castData?.cast[indexPath.item]
-            let cell: CastCell = collectionView.dequeueReusableCell(for: indexPath)
-            cell.setupData(data)
-            return cell
-        }else{
-            let data = crewData?.crew[indexPath.item]
-            let cell: CrewCell = collectionView.dequeueReusableCell(for: indexPath)
-            cell.setupData(data)
-            return cell
-        }
+        let cell: CastAndCrewCell = collectionView.dequeueReusableCell(for: indexPath)
+        cell.setupData(castCrewData, index: indexPath.item, isCast: (indexPath.section == 0))
+        return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -110,14 +105,14 @@ extension CreditsViewController: UICollectionViewDelegate, UICollectionViewDataS
         view.expandCollepsButton.tag = indexPath.section
         if indexPath.section == 0{
             view.headerTitleLabel.text = "Cast"
-            if let castData = castData{
+            if let castData = castCrewData?.cast{
                 view.upDownImage.image = (castData.isOpened ? UIImage.universalImage("chevron.up") : UIImage.universalImage("chevron.down"))
             }else{
                 view.upDownImage.image = UIImage.universalImage("chevron.down")
             }
         }else{
             view.headerTitleLabel.text = "Crew"
-            if let crewData = crewData{
+            if let crewData = castCrewData?.crew{
                 view.upDownImage.image = (crewData.isOpened ? UIImage.universalImage("chevron.up") : UIImage.universalImage("chevron.down"))
             }else{
                 view.upDownImage.image =  UIImage.universalImage("chevron.down")
@@ -127,7 +122,7 @@ extension CreditsViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.bounds.width / 3
+        let width = (collectionView.bounds.width / 3) - (((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset.right ?? 0.0) / 1.5)
         let height = width * 1.5
         return CGSize(width: width, height: height)
     }

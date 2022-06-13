@@ -7,7 +7,7 @@
 
 import UIKit
 
-class VideoViewController: UIViewController {
+class VideoViewController: BaseViewController {
     
     
     @IBOutlet private weak var tableVideo: UITableView!
