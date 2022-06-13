@@ -24,8 +24,8 @@ class PopularAndTopRatedCell: UITableViewCell {
     }
     
     func setupData(_ data: [String: Any]){
-        titleLabel.text = data["Title"] as? String
-        subTitleLabel.text = data["SubTitle"] as? String
+        titleLabel.text = data[AppConstants.titleKey] as? String
+        subTitleLabel.text = data[AppConstants.subTitleKey] as? String
     }
     
 }

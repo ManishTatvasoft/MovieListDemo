@@ -34,6 +34,13 @@ struct AppConstants{
     static let topRatedMovieTitle = "Top Rated Movies"
     static let popularMovieTitle = "Popular Movies"
     
+    
+    //MARK: key for top rated and popular movie
+    
+    static let titleKey = "title"
+    static let subTitleKey = "subTitle"
+    static let typeKey = "type"
+    
     static func getGenreString(_ data: Results, _ genreData: Genre) -> String{
         var arrayGenre = [String]()
         data.genre_ids?.forEach({ id in

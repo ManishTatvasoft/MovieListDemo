@@ -17,7 +17,7 @@ extension String {
         static let jsonparseFail = "Json Parse error"
         static let ok = "OK"
         static let cancel = "Cancel"
-        static let share = "Share"
+        static let share = "Share this movie!"
         static let invalidApiKey = "Invalid Api Key"
         static let noDataFound = "Opps...\nNo data found"
         static let genereNotFound = "Genres could not get."

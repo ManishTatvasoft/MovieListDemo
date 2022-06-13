@@ -100,7 +100,7 @@ class DetailsViewController: BaseViewController {
     }
     
     @IBAction func moreButtonAction(_ sender: UIBarButtonItem) {
-        self.showAlertAndSheet(with: data?.title ?? String.Title.movieDefaultTitle, withMessage: String.Title.shareMessage, preferredStyle: .actionSheet) {
+        self.showAlertAndSheet(with: data?.title ?? String.Title.movieDefaultTitle, withMessage: "", preferredStyle: .actionSheet) {
             AppConstants.share(self.posterImage.image)
         } failure: {
             print("")

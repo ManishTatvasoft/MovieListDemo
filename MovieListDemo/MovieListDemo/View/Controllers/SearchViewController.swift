@@ -30,8 +30,8 @@ class SearchViewController: BaseViewController {
     var arrayData = [Genres]()
     var arraySearch = [Results]()
     var arrayTopRatedAndPopular = [
-        ["Title": "Popular movies", "SubTitle": "The hottest movies on the internet", "type": DiscoverType.popular],
-        ["Title": "Top rated movies", "SubTitle": "The top rated movies on the internet", "type" : DiscoverType.topRated]
+        [AppConstants.titleKey: "Popular movies", AppConstants.subTitleKey: "The hottest movies on the internet", AppConstants.typeKey: DiscoverType.popular],
+        [AppConstants.titleKey: "Top rated movies", AppConstants.subTitleKey: "The top rated movies on the internet", AppConstants.typeKey : DiscoverType.topRated]
     ]
     
     var arrayMovies = [Movie]()
@@ -40,13 +40,15 @@ class SearchViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSearchBar()
+        if #available(iOS 11.0, *) {
+            self.navigationItem.hidesSearchBarWhenScrolling = true
+        }
+        
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         arrayMovies = DatabaseManager.shared.getData()
-        if #available(iOS 11.0, *) {
-            self.navigationItem.hidesSearchBarWhenScrolling = false
-        }
+        
         
         if viewModel.isSearchingMode{
             sectionCount = .search
@@ -61,9 +63,6 @@ class SearchViewController: BaseViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if #available(iOS 11.0, *) {
-            self.navigationItem.hidesSearchBarWhenScrolling = true
-        }
         self.navigationController?.navigationBar.sizeToFit()
     }
     
@@ -262,7 +261,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
                         print("")
                 }else if indexPath.section == 1{
                     let data = arrayTopRatedAndPopular[indexPath.row]
-                    navigator.moveToDiscover(withDiscover: ((data["type"] as? DiscoverType) ?? DiscoverType.popular))
+                    navigator.moveToDiscover(withDiscover: ((data[AppConstants.typeKey] as? DiscoverType) ?? DiscoverType.popular))
                 }else{
                     let data = arrayData[indexPath.row]
                     navigator.moveToDiscover(with: data, withDiscover: .genre)
@@ -270,7 +269,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
             }else{
                 if indexPath.section == 0{
                     let data = arrayTopRatedAndPopular[indexPath.row]
-                    navigator.moveToDiscover(withDiscover: ((data["type"] as? DiscoverType) ?? DiscoverType.popular))
+                    navigator.moveToDiscover(withDiscover: ((data[AppConstants.typeKey] as? DiscoverType) ?? DiscoverType.popular))
                 }else{
                     let data = arrayData[indexPath.row]
                     navigator.moveToDiscover(with: data, withDiscover: .genre)
