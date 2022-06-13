@@ -320,7 +320,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
         headerView.addSubview(viewBottomLine)
         viewBottomLine.backgroundColor = #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8431372549, alpha: 1)
         NSLayoutConstraint.activate([
-            viewBottomLine.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -1),
+            viewBottomLine.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0),
             viewBottomLine.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
             viewBottomLine.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
             viewBottomLine.heightAnchor.constraint(equalToConstant: 1),
