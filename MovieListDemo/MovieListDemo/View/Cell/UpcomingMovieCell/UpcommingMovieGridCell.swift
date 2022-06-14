@@ -19,9 +19,9 @@ class UpcommingMovieGridCell: UICollectionViewCell {
         
         let posterPath = Environment.basePosterImageURL() + (url ?? "")
         if #available(iOS 13.0, *) {
-            posterImage.setImageUsingUrlSession(posterPath, placeholder: UIImage(systemName: "photo"))
+            posterImage.setImageUsingUrl(posterPath, placeholder: UIImage(systemName: "photo"))
         } else {
-            posterImage.setImageUsingUrlSession(posterPath, placeholder: UIImage(named: "photo"))
+            posterImage.setImageUsingUrl(posterPath, placeholder: UIImage(named: "photo"))
         }
     }
 }

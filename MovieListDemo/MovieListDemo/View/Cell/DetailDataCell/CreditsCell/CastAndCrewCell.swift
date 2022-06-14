@@ -25,7 +25,7 @@ class CastAndCrewCell: UICollectionViewCell {
             nameLabel.text = cast?.name
             charecterLabel.text = cast?.character
             if let cast = cast {
-                castImage.setImageUsingUrlSession(Environment.basePosterImageURL() + (cast.profile_path ?? ""), placeholder: UIImage.universalImage("person.fill"))
+                castImage.setImageUsingUrl(Environment.basePosterImageURL() + (cast.profile_path ?? ""), placeholder: UIImage.universalImage("person.fill"))
             }else{
                 castImage.image = UIImage.universalImage("person.fill")
             }
@@ -34,7 +34,7 @@ class CastAndCrewCell: UICollectionViewCell {
             nameLabel.text = crew?.name
             charecterLabel.text = ""
             if let crew = crew {
-                castImage.setImageUsingUrlSession(Environment.basePosterImageURL() + (crew.profile_path ?? ""), placeholder: UIImage.universalImage("person.fill"))
+                castImage.setImageUsingUrl(Environment.basePosterImageURL() + (crew.profile_path ?? ""), placeholder: UIImage.universalImage("person.fill"))
             }else{
                 castImage.image = UIImage.universalImage("person.fill")
             }

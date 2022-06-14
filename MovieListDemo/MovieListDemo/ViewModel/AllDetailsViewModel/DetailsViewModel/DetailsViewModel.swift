@@ -8,35 +8,15 @@
 import Foundation
 
 
-final class DetailsViewModel {
-    
-    
-    private let controller: DetailsViewController
-    
-    // MARK: - Methods
-    init(_ viewController: DetailsViewController) {
-        controller = viewController
-    }
-}
+final class DetailsViewModel {}
 
 extension DetailsViewModel{
-    func callGenreListApi(){
-        controller.startLoading()
+    func callGenreListApi(_ completion: @escaping ((_ results:Genre?,_ isSuccess: Bool,_ errorMessage: String) -> ())){
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
-        DetailsController.shared.getGenreList(parameters: param) { [weak self] response in
-            guard let self = self else{
-                return
-            }
-            self.controller.stopLoading()
-            self.controller.successApiResponse(response)
-        } failureCompletion: { [weak self] failure, errorMessage in
-            guard let self = self else{
-                return
-            }
-            self.controller.stopLoading()
-            DispatchQueue.main.async {
-                self.controller.showValidationMessage(withMessage: errorMessage)
-            }
+        DetailsController.shared.getGenreList(parameters: param) { response in
+            completion(response, true, "")
+        } failureCompletion: { failure, errorMessage in
+            completion(nil, false, errorMessage)
         }
     }
 }

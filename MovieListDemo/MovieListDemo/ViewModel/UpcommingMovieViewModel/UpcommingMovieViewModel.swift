@@ -9,45 +9,29 @@ import Foundation
 
 final class UpcommingMovieViewModel {
     
-    var currentPage = 1
+    private var currentPage = 1
     var isAllMovieFetched = false
     var isListView = false
-    var isSecondTimeFetching = false
     
-    private let controller: UpcomingViewController
-    
-    // MARK: - Methods
-    init(_ viewController: UpcomingViewController) {
-        controller = viewController
-    }
 }
 
 extension UpcommingMovieViewModel{
-    func callUpcomingMovieApi(){
-        
-        if !isSecondTimeFetching{
-            controller.startLoading()
-        }
+    func callUpcomingMovieApi(_ completion: @escaping ((_ data:[Results]?,_ isSuccess: Bool,_ errorMessage: String) -> ())){
         
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue, AppConstants.pageKey: "\(currentPage)"]
         UpcomingMovieController.shared.getUpcomingMovieList(parameters: param) { [weak self] response in
             guard let self = self else{
+                completion([], false, String.Title.somthingWentWrong)
                 return
             }
-            self.controller.stopLoading()
-            self.isSecondTimeFetching = true
             if response.total_pages == self.currentPage{
                 self.isAllMovieFetched = true
+            }else{
+                self.currentPage += 1
             }
-            self.controller.successApiResponse(response.results)
-        } failureCompletion: { [weak self] failure, errorMessage in
-            guard let self = self else{
-                return
-            }
-            self.controller.stopLoading()
-            DispatchQueue.main.async {
-                self.controller.showValidationMessage(withMessage: errorMessage)
-            }
+            completion(response.results, true, "")
+        } failureCompletion: { failure, errorMessage in
+            completion([], false, errorMessage)
         }
 
     }

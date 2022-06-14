@@ -10,84 +10,40 @@ import Foundation
 
 final class SearchViewModel {
     
-    private let controller: SearchViewController
-    
     var isSearchingMode = false
     var currentPage = 1
     var isAllMovieFetched = false
-    var isListView = false
-    var isSecondTimeFetching = false
     var queryString = ""
-    
-    // MARK: - Methods
-    init(_ viewController: SearchViewController) {
-        controller = viewController
-    }
 }
 
 extension SearchViewModel{
-    func callSearchMovieApi(){
+    func callSearchMovieApi(_ completion: @escaping ((_ results:[Results]?,_ isSuccess: Bool,_ errorMessage: String) -> ())){
         if queryString != "" {
             let param = [AppConstants.apiKey: AppConstants.apiKeyValue, AppConstants.queryKey: queryString, AppConstants.pageKey : "\(currentPage)"]
-            SearchController.shared.getSearchMovieList(parameters: param) { [weak self] response in
-                guard let self = self else{
-                    return
-                }
-                self.isSecondTimeFetching = true
-                if response.total_pages == self.currentPage{
-                    self.isAllMovieFetched = true
-                }
-                self.controller.successSearchApiResponse(response.results)
-            } failureCompletion: { [weak self] failure, errorMessage in
-                guard let self = self else{
-                    return
-                }
-                self.controller.stopLoading()
-                DispatchQueue.main.async {
-                    self.controller.showValidationMessage(withMessage: errorMessage)
-                }
+            SearchController.shared.getSearchMovieList(parameters: param) { response in
+                completion(response.results, true, "")
+            } failureCompletion: { failure, errorMessage in
+                completion([], false, errorMessage)
             }
         }
         
     }
     
-    func callGenreListApi(){
-        controller.startLoading()
+    func callGenreListApi(_ completion: @escaping ((_ results:[Genres]?,_ isSuccess: Bool,_ errorMessage: String) -> ())){
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
-        DetailsController.shared.getGenreList(parameters: param) { [weak self] response in
-            guard let self = self else{
-                return
-            }
-            self.controller.stopLoading()
-            self.controller.successApiResponse(response.genres)
-        } failureCompletion: { [weak self] failure, errorMessage in
-            guard let self = self else{
-                return
-            }
-            self.controller.stopLoading()
-            DispatchQueue.main.async {
-                self.controller.showValidationMessage(withMessage: errorMessage)
-            }
+        DetailsController.shared.getGenreList(parameters: param) { response in
+            completion(response.genres, true, "")
+        } failureCompletion: { failure, errorMessage in
+            completion([], false, errorMessage)
         }
     }
     
-    func getResultFromMovieID(movieID: String,_ completion: @escaping ((Results) -> ())){
+    func getResultFromMovieID(movieID: String,_ completion: @escaping ((Results?) -> ())){
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
-        controller.startLoading()
-        SearchController.shared.getMovieDetails(parameters: param) { [weak self] response in
-            guard let self = self else{
-                return
-            }
-            self.controller.stopLoading()
+        SearchController.shared.getMovieDetails(parameters: param) { response in
             completion(response)
-        } failureCompletion: { [weak self] failure, errorMessage in
-            guard let self = self else{
-                return
-            }
-            self.controller.stopLoading()
-            DispatchQueue.main.async {
-                self.controller.showValidationMessage(withMessage: errorMessage)
-            }
+        } failureCompletion: { failure, errorMessage in
+            completion(nil)
         }
     }
     

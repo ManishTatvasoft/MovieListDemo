@@ -24,7 +24,7 @@ class SearchViewController: BaseViewController {
     @IBOutlet private weak var tableSearch: UITableView!
     
     
-    private lazy var viewModel = SearchViewModel(self)
+    private lazy var viewModel = SearchViewModel()
     private lazy var navigator = SearchNavigator(self)
     
     var arrayData = [Genres]()
@@ -40,11 +40,7 @@ class SearchViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSearchBar()
-        if #available(iOS 11.0, *) {
-            self.navigationItem.hidesSearchBarWhenScrolling = true
-        }
         
-        // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         arrayMovies = DatabaseManager.shared.getData()
@@ -62,39 +58,33 @@ class SearchViewController: BaseViewController {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.sizeToFit()
-    }
-    
     func prepareView(){
         tableSearch.register(GenreCell.self)
         tableSearch.register(DiscoverCell.self)
         tableSearch.register(PopularAndTopRatedCell.self)
         tableSearch.register(RecentlyVisitedCell.self)
-        viewModel.callGenreListApi()
-    }
-    
-    func successApiResponse(_ genreData: [Genres]?){
-        guard let genreData = genreData else {
-            self.showValidationMessage(withMessage: String.Title.genereNotFound)
-            return
-        }
-        arrayData = genreData
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.tableSearch.reloadData()
-        }
-    }
-    
-    func successSearchApiResponse(_ result: [Results]?){
-        guard let result = result else {
-            self.showValidationMessage(withMessage: String.Title.genereNotFound)
-            return
-        }
-        arraySearch = result
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.tableSearch.reloadData()
+        self.startLoading()
+        viewModel.callGenreListApi { [weak self] results, isSuccess, errorMessage in
+            
+            guard let self = self else{
+                self?.stopLoading()
+                self?.showValidationMessage(withMessage: String.Title.genereNotFound)
+                return
+            }
+            self.stopLoading()
+            if isSuccess{
+                guard let results = results else {
+                    self.showValidationMessage(withMessage: String.Title.genereNotFound)
+                    return
+                }
+                self.arrayData = results
+                
+                DispatchQueue.main.async {
+                    self.tableSearch.reloadData()
+                }
+            }else{
+                self.showValidationMessage(withMessage: errorMessage)
+            }
         }
     }
     
@@ -106,6 +96,9 @@ class SearchViewController: BaseViewController {
             self.navigationItem.searchController = search
         } else {
             self.navigationItem.titleView = search.view
+        }
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController?.navigationBar.sizeToFit()
         }
     }
 }
@@ -121,7 +114,6 @@ extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate{
     func willDismissSearchController(_ searchController: UISearchController) {
         viewModel.isSearchingMode = false
         viewModel.queryString = searchController.searchBar.text ?? ""
-        viewModel.currentPage = 1
         arraySearch = []
         if arrayMovies.count > 0{
             sectionCount = .withRecentlyVisited
@@ -135,25 +127,41 @@ extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate{
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         viewModel.queryString = searchText
-        viewModel.callSearchMovieApi()
+        callSearchApi()
     }
+    
+    
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         viewModel.queryString = searchBar.text ?? ""
-        viewModel.callSearchMovieApi()
+        callSearchApi()
+    }
+    
+    func callSearchApi(){
+        viewModel.callSearchMovieApi { [weak self] results, isSuccess, errorMessage in
+            guard let self = self else{
+                self?.view.showToast(message: String.Title.somthingWentWrong)
+                return
+            }
+            if isSuccess{
+                guard let results = results else {
+                    self.view.showToast(message: String.Title.somthingWentWrong)
+                    return
+                }
+                self.arraySearch = results
+                DispatchQueue.main.async { [weak self] in
+                    self?.tableSearch.reloadData()
+                }
+            }else{
+                self.view.showToast(message: errorMessage)
+            }
+        }
     }
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     
     func numberOfSections(in tableView: UITableView) -> Int {
-//        if viewModel.isSearchingMode{
-//            return sectionCount.rawValue
-//        }else if arrayMovies.count > 0{
-//            return 3
-//        }else{
-//            return 2
-//        }
         return sectionCount.rawValue
     }
     
@@ -178,30 +186,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
             }
         }
     }
-    
-    
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        if viewModel.isSearchingMode{
-//            return AppConstants.searchResultHeader.uppercased()
-//        }else{
-//            if arrayMovies.count > 0{
-//                if section == 0{
-//                    return AppConstants.recentlyVisitedHeader.uppercased()
-//                }else if section == 1{
-//                    return AppConstants.popularTopRatedMoviesHeader.uppercased()
-//                }else{
-//                    return AppConstants.genreHeader.uppercased()
-//                }
-//            }else{
-//                if section == 0{
-//                    return AppConstants.popularTopRatedMoviesHeader.uppercased()
-//                }else{
-//                    return AppConstants.genreHeader.uppercased()
-//                }
-//            }
-//        }
-//    }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if viewModel.isSearchingMode{
             let data = arraySearch[indexPath.row]

@@ -25,5 +25,9 @@ extension String {
         static let shareMessage = "Share this movie to your frinds."
         static let movieDefaultTitle = "Movie"
         static let noReviewFound = "No review found"
+        static let noVideoFound = "No video found"
+        static let somthingWentWrong = "Something went wrong \n please try again leter"
+        static let unknownError = "Unknown error occured \n please try after some time"
+        static let watchVideo = "Watch Video"
     }
 }

@@ -20,16 +20,30 @@
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="32Q-bZ-iWO">
                         <rect key="frame" x="20" y="10" width="84.5" height="126.5"/>
+                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="32Q-bZ-iWO" secondAttribute="height" multiplier="1:1.5" id="wEk-X4-eFh"/>
                         </constraints>
                     </imageView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zyv-8V-1fw" customClass="CircleProgressView" customModule="MovieListDemo" customModuleProvider="target">
+                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zyv-8V-1fw" customClass="MTCircularSlider" customModule="MTCircularSlider">
                         <rect key="frame" x="367" y="56.5" width="35" height="35"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jJZ-8T-vya">
+                                <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="zyv-8V-1fw" secondAttribute="height" multiplier="1:1" id="6Ha-Ff-Jrf"/>
+                            <constraint firstAttribute="bottom" secondItem="jJZ-8T-vya" secondAttribute="bottom" id="EUi-dT-I9e"/>
+                            <constraint firstItem="jJZ-8T-vya" firstAttribute="top" secondItem="zyv-8V-1fw" secondAttribute="top" id="QK6-e2-Nnp"/>
                             <constraint firstAttribute="height" constant="35" id="aRb-vK-Jl5"/>
+                            <constraint firstAttribute="trailing" secondItem="jJZ-8T-vya" secondAttribute="trailing" id="gRE-rz-gbe"/>
+                            <constraint firstItem="jJZ-8T-vya" firstAttribute="leading" secondItem="zyv-8V-1fw" secondAttribute="leading" id="r3C-CV-8hR"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="progressColor">
@@ -41,6 +55,31 @@
                             <userDefinedRuntimeAttribute type="boolean" keyPath="showTriangle" value="NO"/>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                 <real key="value" value="17.5"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="trackWidth">
+                                <real key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="minTrackTint">
+                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="maxTrackTint">
+                                <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="trackMinAngle">
+                                <real key="value" value="90"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="trackMaxAngle">
+                                <real key="value" value="450"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="hasThumb" value="NO"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="value">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="valueMinimum">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="valueMaximum">
+                                <real key="value" value="10"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
@@ -115,6 +154,7 @@
                 <outlet property="dateLabel" destination="cSX-y0-y5U" id="lLk-7E-YgA"/>
                 <outlet property="genreLabel" destination="xec-gk-FCL" id="Qu4-5Z-EJV"/>
                 <outlet property="movieImage" destination="32Q-bZ-iWO" id="YxG-b9-Oue"/>
+                <outlet property="progressValue" destination="jJZ-8T-vya" id="ATc-lt-Flx"/>
                 <outlet property="ratingsView" destination="zyv-8V-1fw" id="43Z-T0-gqD"/>
                 <outlet property="titlelabel" destination="8Ml-yu-8j5" id="3Hc-Oi-qlD"/>
             </connections>

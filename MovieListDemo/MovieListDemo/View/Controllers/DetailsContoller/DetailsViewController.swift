@@ -6,13 +6,15 @@
 //
 
 import UIKit
+import MTCircularSlider
 
 class DetailsViewController: BaseViewController {
     
     
     @IBOutlet private weak var coverImage: UIImageView!
     @IBOutlet private weak var posterImage: UIImageView!
-    @IBOutlet private weak var progressView: CircleProgressView!
+    @IBOutlet private weak var progressView: MTCircularSlider!
+    @IBOutlet private weak var progressValue: UILabel!
     @IBOutlet private weak var genreLabel: UILabel!
     @IBOutlet private weak var releaseDateLabel: UILabel!
     @IBOutlet private weak var descriptionLabel: UILabel!
@@ -22,7 +24,7 @@ class DetailsViewController: BaseViewController {
     var isDBData = false
     var genre = ""
     
-    private lazy var viewModel = DetailsViewModel(self)
+    private lazy var viewModel = DetailsViewModel()
     private lazy var navigator = DetailsNavigator(self)
     
     override func viewDidLoad() {
@@ -33,6 +35,10 @@ class DetailsViewController: BaseViewController {
         prepareView()
     }
     
+    override func viewDidLayoutSubviews() {
+        self.croppedImage()
+    }
+    
     func prepareView(){
         guard let data = data else {
             self.showValidationMessage(withMessage: String.Title.dataNotFound)
@@ -40,14 +46,43 @@ class DetailsViewController: BaseViewController {
         }
         let posterPath = Environment.basePosterImageURL() + (data.poster_path ?? "")
         let coverPath = Environment.baseCoverImageURL() + (data.backdrop_path ?? "")
-        coverImage.setImageUsingUrlSession(coverPath, placeholder: UIImage.universalImage("photo"))
-        posterImage.setImageUsingUrlSession(posterPath, placeholder: UIImage.universalImage("photo"))
+        coverImage.setImageUsingUrl(coverPath, placeholder: UIImage.universalImage("photo"))
+        posterImage.setImageUsingUrl(posterPath, placeholder: UIImage.universalImage("photo"))
         titleLabel.text = data.title
-        viewModel.callGenreListApi()
         AppConstants.movieID = "\(data.id ?? 0)"
+        guard let data = self.data else {
+            self.view.showToast(message: String.Title.dataNotFound)
+            return
+        }
+        releaseDateLabel.text = data.release_date
+        descriptionLabel.text = data.overview
+        progressView.value = CGFloat(data.vote_average ?? 0.0)
+        progressValue.text = "\((round(10 * (data.vote_average ?? 0.0)) / 10))"
+        if isDBData{
+            genreLabel.text = self.genre
+        }else{
+            apiCall(data)
+        }
     }
-    override func viewDidLayoutSubviews() {
-        self.croppedImage()
+    
+    fileprivate func apiCall(_ data: Results) {
+        startLoading()
+        viewModel.callGenreListApi { [weak self] results, isSuccess, errorMessage in
+            guard let self = self else{
+                self?.stopLoading()
+                return
+            }
+            self.stopLoading()
+            if isSuccess{
+                guard let results = results else {
+                    self.view.showToast(message: String.Title.genereNotFound)
+                    return
+                }
+                self.genreLabel.text = AppConstants.getGenreString(data, results)
+            }else{
+                self.view.showToast(message: errorMessage)
+            }
+        }
     }
     
     func croppedImage(){
@@ -61,26 +96,6 @@ class DetailsViewController: BaseViewController {
         layer.fillColor = UIColor.white.cgColor
         layer.strokeColor = nil
         coverImage.layer.addSublayer(layer)
-    }
-    
-    func successApiResponse(_ genreData: Genre?){
-        guard let data = data else {
-            self.showValidationMessage(withMessage: String.Title.dataNotFound)
-            return
-        }
-        
-        guard let genreData = genreData else {
-            self.showValidationMessage(withMessage: String.Title.dataNotFound)
-            return
-        }
-        releaseDateLabel.text = data.release_date
-        descriptionLabel.text = data.overview
-        progressView.progress = (data.vote_average ?? 0.0) / 10
-        if isDBData{
-            genreLabel.text = genre
-        }else{
-            genreLabel.text = AppConstants.getGenreString(data, genreData)
-        }
     }
     
     @IBAction func reviewButtonAction(_ sender: UIButton) {
@@ -105,7 +120,6 @@ class DetailsViewController: BaseViewController {
         } failure: {
             print("")
         }
-
         self.showValidationMessage(withMessage: String.Title.shareMessage, preferredStyle: .actionSheet) {
             AppConstants.share(self.posterImage.image)
         }

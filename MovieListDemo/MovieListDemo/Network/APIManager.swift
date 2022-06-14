@@ -119,12 +119,12 @@ final class APIManager: Session{
         request(path, method: route.method, parameters: parameter).responseData { (response) in
             if let statusCode = response.response?.statusCode,
                statusCode != 200 {
-                failureCompletion(WebError.unauthorized,  String.Title.invalidApiKey)
+                failureCompletion(WebError.unauthorized,  response.error?.localizedDescription ?? String.Title.unknownError)
             }else{
                 if let data = response.data, let resp = try? JSONDecoder().decode(type.self, from: data){
                     successCompletion(resp)
                 }else{
-                    failureCompletion(WebError.unauthorized,  String.Title.invalidApiKey)
+                    failureCompletion(WebError.unauthorized,  response.error?.localizedDescription ?? String.Title.unknownError)
                 }
             }
         }

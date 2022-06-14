@@ -9,37 +9,26 @@ import Foundation
 
 final class ReviewsViewModel {
     
-    var currentPage = 1
+    private var currentPage = 1
     var isAllReviewFetched = false
-    private let controller: ReviewViewController
-    
-    // MARK: - Methods
-    init(_ viewController: ReviewViewController) {
-        controller = viewController
-    }
 }
 
 extension ReviewsViewModel{
-    func callReviewsListApi(){
-        controller.startLoading()
+    func callReviewsListApi(_ completion: @escaping ((_ results:[ReviewResults]?,_ isSuccess: Bool,_ errorMessage: String) -> ())){
         let param = [AppConstants.apiKey:AppConstants.apiKeyValue,AppConstants.pageKey: "\(currentPage)"]
         ReviewsController.shared.getReviewsList(parameters: param) { [weak self] response in
             guard let self = self else{
+                completion([], false, String.Title.somthingWentWrong)
                 return
             }
-            self.controller.stopLoading()
             if response.total_pages == self.currentPage{
                 self.isAllReviewFetched = true
+            }else{
+                self.currentPage += 1
             }
-            self.controller.successApiResponse(response.results)
-        } failureCompletion: { [weak self] failure, errorMessage in
-            guard let self = self else{
-                return
-            }
-            self.controller.stopLoading()
-            DispatchQueue.main.async {
-                self.controller.showValidationMessage(withMessage: errorMessage)
-            }
+            completion(response.results, true, "")
+        } failureCompletion: { failure, errorMessage in
+            completion([], false, errorMessage)
         }
     }
 }

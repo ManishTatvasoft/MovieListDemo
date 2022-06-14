@@ -23,7 +23,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ewn-VM-uK1">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="642.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="652.5"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kA8-gO-p94">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
@@ -45,28 +45,58 @@
                                                 </userDefinedRuntimeAttributes>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="myH-GZ-bSh">
-                                                <rect key="frame" x="0.0" y="205" width="414" height="50"/>
+                                                <rect key="frame" x="0.0" y="205" width="414" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Memory" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="ovc-Ol-PqA">
-                                                        <rect key="frame" x="20" y="5" width="339" height="40"/>
+                                                        <rect key="frame" x="20" y="5" width="333" height="50"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="NvT-R1-INP"/>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="NvT-R1-INP"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mkK-BB-mHt" customClass="CircleProgressView" customModule="MovieListDemo" customModuleProvider="target">
-                                                        <rect key="frame" x="364" y="10" width="30" height="30"/>
+                                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mkK-BB-mHt" customClass="MTCircularSlider" customModule="MTCircularSlider">
+                                                        <rect key="frame" x="358" y="12" width="36" height="36"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="58j-8e-Art">
+                                                                <rect key="frame" x="0.0" y="0.0" width="36" height="36"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
+                                                            <constraint firstItem="58j-8e-Art" firstAttribute="leading" secondItem="mkK-BB-mHt" secondAttribute="leading" id="84f-x2-v4d"/>
+                                                            <constraint firstAttribute="bottom" secondItem="58j-8e-Art" secondAttribute="bottom" id="Mk0-DE-5aI"/>
+                                                            <constraint firstItem="58j-8e-Art" firstAttribute="top" secondItem="mkK-BB-mHt" secondAttribute="top" id="QoE-0n-X1R"/>
                                                             <constraint firstAttribute="width" secondItem="mkK-BB-mHt" secondAttribute="height" multiplier="1:1" id="jEv-di-UHo"/>
+                                                            <constraint firstAttribute="trailing" secondItem="58j-8e-Art" secondAttribute="trailing" id="q9Y-Qo-OjX"/>
                                                         </constraints>
                                                         <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="progressColor">
-                                                                <color key="value" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="hasThumb" value="NO"/>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="minTrackTint">
+                                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="showTriangle" value="NO"/>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="maxTrackTint">
+                                                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="valueMinimum">
+                                                                <real key="value" value="0.0"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="valueMaximum">
+                                                                <real key="value" value="10"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="trackWidth">
+                                                                <real key="value" value="5"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="trackMinAngle">
+                                                                <real key="value" value="90"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="trackMaxAngle">
+                                                                <real key="value" value="450"/>
+                                                            </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                 </subviews>
@@ -83,7 +113,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AjS-yn-XOg">
-                                                <rect key="frame" x="0.0" y="260" width="414" height="90"/>
+                                                <rect key="frame" x="0.0" y="270" width="414" height="90"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FGn-DP-eUZ">
                                                         <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
@@ -321,7 +351,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NOp-pT-VxX">
-                                                <rect key="frame" x="0.0" y="350" width="414" height="100"/>
+                                                <rect key="frame" x="0.0" y="360" width="414" height="100"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lNf-Ks-yi9">
                                                         <rect key="frame" x="0.0" y="99" width="414" height="1"/>
@@ -408,7 +438,7 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nor-Hi-DXh">
-                                                <rect key="frame" x="10" y="460" width="394" height="162.5"/>
+                                                <rect key="frame" x="10" y="470" width="394" height="162.5"/>
                                                 <string key="text">Alex, an assassin-for-hire, finds that he's become
 a target after he refuses to complete a job for a
 dangerous criminal organization. With the crime
@@ -478,7 +508,8 @@ and whom he can ultimatelv trust.</string>
                         <outlet property="descriptionLabel" destination="nor-Hi-DXh" id="bnV-Rf-Nad"/>
                         <outlet property="genreLabel" destination="DAF-su-ypo" id="rOO-zx-KrY"/>
                         <outlet property="posterImage" destination="WYh-2g-dnt" id="zPX-k7-6Hr"/>
-                        <outlet property="progressView" destination="mkK-BB-mHt" id="daC-aG-Thc"/>
+                        <outlet property="progressValue" destination="58j-8e-Art" id="QHd-kv-DWE"/>
+                        <outlet property="progressView" destination="mkK-BB-mHt" id="AM4-We-uNw"/>
                         <outlet property="releaseDateLabel" destination="pE6-L9-xSt" id="4VY-NZ-oeG"/>
                         <outlet property="titleLabel" destination="ovc-Ol-PqA" id="gU0-Zh-4e4"/>
                     </connections>

@@ -11,7 +11,7 @@ class VideoViewController: BaseViewController {
     
     
     @IBOutlet private weak var tableVideo: UITableView!
-    private lazy var viewModel = VideoViewModel(self)
+    private lazy var viewModel = VideoViewModel()
     private lazy var navigator = VideoNavigator(self)
     var arrayData = [VideoResults]()
     
@@ -26,21 +26,35 @@ class VideoViewController: BaseViewController {
     
     func prepareView(){
         tableVideo.register(VideoCell.self)
-        viewModel.callVideoListApi()
-    }
-    
-    func successApiResponse(_ data: [VideoResults]?){
-        guard let data = data else {
-            self.showValidationMessage(withMessage: String.Title.dataNotFound)
-            return
+        self.startLoading()
+        viewModel.callVideoListApi { [weak self] videoResult, isSuccess, errorMessage in
+            guard let self = self else{
+                self?.stopLoading()
+                self?.showValidationMessage(withMessage: String.Title.dataNotFound)
+                return
+            }
+            self.stopLoading()
+            if isSuccess{
+                guard let data = videoResult else {
+                    self.showValidationMessage(withMessage: String.Title.dataNotFound)
+                    return
+                }
+                self.arrayData = data
+                if self.arrayData.count == 0{
+                    self.showValidationMessage(withMessage: String.Title.noVideoFound, preferredStyle: .alert) {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.tableVideo.reloadData()
+                }
+            }else{
+                DispatchQueue.main.async {
+                    self.showValidationMessage(withMessage: errorMessage)
+                }
+            }
         }
-        self.arrayData = data
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.tableVideo.reloadData()
-        }
     }
-
 }
 
 extension VideoViewController: UITableViewDelegate, UITableViewDataSource{
@@ -76,7 +90,7 @@ extension VideoViewController{
             identifier: identifier,
             previewProvider: nil) { _ in
                 let watchAction = UIAction(
-                    title: "Watch Video",
+                    title: String.Title.watchVideo,
                     image: UIImage(systemName: "eye")) { _ in
                         self.navigator.playVideo(from: data)
                     }

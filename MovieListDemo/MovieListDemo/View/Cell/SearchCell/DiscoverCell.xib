@@ -24,12 +24,25 @@
                             <constraint firstAttribute="width" secondItem="4b4-Qk-msC" secondAttribute="height" multiplier="1:1.5" id="Bqd-CX-6as"/>
                         </constraints>
                     </imageView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kT5-aP-fc5" customClass="CircleProgressView" customModule="MovieListDemo" customModuleProvider="target">
+                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kT5-aP-fc5" customClass="MTCircularSlider" customModule="MTCircularSlider">
                         <rect key="frame" x="338" y="52" width="35" height="35"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kpN-hX-L22">
+                                <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="kpN-hX-L22" firstAttribute="leading" secondItem="kT5-aP-fc5" secondAttribute="leading" id="MJY-k5-IWe"/>
                             <constraint firstAttribute="width" secondItem="kT5-aP-fc5" secondAttribute="height" multiplier="1:1" id="MOP-xo-abb"/>
+                            <constraint firstAttribute="trailing" secondItem="kpN-hX-L22" secondAttribute="trailing" id="RID-5k-cRX"/>
                             <constraint firstAttribute="height" constant="35" id="dGp-fQ-Aqj"/>
+                            <constraint firstAttribute="bottom" secondItem="kpN-hX-L22" secondAttribute="bottom" id="n7g-Aw-eg0"/>
+                            <constraint firstItem="kpN-hX-L22" firstAttribute="top" secondItem="kT5-aP-fc5" secondAttribute="top" id="xPf-aS-03D"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="progressColor">
@@ -42,6 +55,31 @@
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                 <real key="value" value="17.5"/>
                             </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="trackWidth">
+                                <real key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="minTrackTint">
+                                <color key="value" systemColor="tintColor"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="maxTrackTint">
+                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="trackMinAngle">
+                                <real key="value" value="90"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="trackMaxAngle">
+                                <real key="value" value="450"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="valueMinimum">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="valueMaximum">
+                                <real key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="value">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="hasThumb" value="NO"/>
                         </userDefinedRuntimeAttributes>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KWR-cR-X1S">
@@ -115,6 +153,7 @@
                 <outlet property="dateLabel" destination="qMB-Wq-NZw" id="kQR-GJ-ebj"/>
                 <outlet property="genreLabel" destination="lHt-TE-PhZ" id="OLe-gI-VIm"/>
                 <outlet property="movieImage" destination="4b4-Qk-msC" id="S7U-fs-2nO"/>
+                <outlet property="progressValue" destination="kpN-hX-L22" id="Ro3-UW-q7y"/>
                 <outlet property="ratingsView" destination="kT5-aP-fc5" id="6Bp-Cu-llx"/>
                 <outlet property="titlelabel" destination="KWR-cR-X1S" id="SQq-aF-Z8R"/>
             </connections>
@@ -127,6 +166,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tintColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -9,35 +9,15 @@ import Foundation
 
 
 
-final class VideoViewModel {
-    
-    
-    private let controller: VideoViewController
-    
-    // MARK: - Methods
-    init(_ viewController: VideoViewController) {
-        controller = viewController
-    }
-}
+final class VideoViewModel {}
 
 extension VideoViewModel{
-    func callVideoListApi(){
-        controller.startLoading()
+    func callVideoListApi(_ completion: @escaping ((_ videoResult:[VideoResults]?,_ isSuccess: Bool,_ errorMessage: String) -> ())){
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
-        VideoController.shared.getVideoList(parameters: param) { [weak self] response in
-            guard let self = self else{
-                return
-            }
-            self.controller.stopLoading()
-            self.controller.successApiResponse(response.results)
-        } failureCompletion: { [weak self] failure, errorMessage in
-            guard let self = self else{
-                return
-            }
-            self.controller.stopLoading()
-            DispatchQueue.main.async {
-                self.controller.showValidationMessage(withMessage: errorMessage)
-            }
+        VideoController.shared.getVideoList(parameters: param) { response in
+            completion(response.results, true, "")
+        } failureCompletion: { failure, errorMessage in
+            completion([], false, errorMessage)
         }
     }
 }

@@ -25,6 +25,6 @@ class VideoCell: UITableViewCell {
     
     func setupData(_ data: VideoResults){
         videoTitleLabel.text = data.name
-        videoThumbImage.setImageUsingUrlSession(AppConstants.videoUrl((data.key ?? "")), placeholder: UIImage.universalImage("photo"))
+        videoThumbImage.setImageUsingUrl(AppConstants.videoUrl((data.key ?? "")), placeholder: UIImage.universalImage("photo"))
     }
 }

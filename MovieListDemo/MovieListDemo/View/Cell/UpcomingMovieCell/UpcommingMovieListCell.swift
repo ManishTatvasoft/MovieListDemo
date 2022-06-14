@@ -22,11 +22,11 @@ class UpcommingMovieListCell: UICollectionViewCell {
         let posterPath = Environment.basePosterImageURL() + (data.poster_path ?? "")
         let coverPath = Environment.baseCoverImageURL() + (data.backdrop_path ?? "")
         if #available(iOS 13.0, *) {
-            coverImage.setImageUsingUrlSession(coverPath, placeholder: UIImage(systemName: "photo"))
-            posterImage.setImageUsingUrlSession(posterPath, placeholder: UIImage(systemName: "photo"))
+            coverImage.setImageUsingUrl(coverPath, placeholder: UIImage(systemName: "photo"))
+            posterImage.setImageUsingUrl(posterPath, placeholder: UIImage(systemName: "photo"))
         } else {
-            coverImage.setImageUsingUrlSession(coverPath, placeholder: UIImage(named: "photo"))
-            posterImage.setImageUsingUrlSession(posterPath, placeholder: UIImage(named: "photo"))
+            coverImage.setImageUsingUrl(coverPath, placeholder: UIImage(named: "photo"))
+            posterImage.setImageUsingUrl(posterPath, placeholder: UIImage(named: "photo"))
         }
         titleLabel.text = data.title
         dateLabel.text = data.release_date

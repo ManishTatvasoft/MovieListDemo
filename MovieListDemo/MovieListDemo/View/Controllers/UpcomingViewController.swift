@@ -11,7 +11,7 @@ class UpcomingViewController: BaseViewController {
 
 
     @IBOutlet private weak var collectionMovies: UICollectionView!
-    private lazy var viewModel = UpcommingMovieViewModel(self)
+    private lazy var viewModel = UpcommingMovieViewModel()
     private lazy var navigator = UpcomingMovieNavigator(self)
     var arrData = [Results]()
     var gridListBarButton : UIBarButtonItem!
@@ -35,21 +35,36 @@ class UpcomingViewController: BaseViewController {
     }
 
     func prepareView(){
-        viewModel.callUpcomingMovieApi()
+        self.startLoading()
+        apiResponse { [weak self] in
+            self?.stopLoading()
+        }
         collectionMovies.register(UpcommingMovieGridCell.self)
         collectionMovies.register(UpcommingMovieListCell.self)
     }
     
-    func successApiResponse(_ data: [Results]?){
-        
-        guard let data = data else {
-            self.showValidationMessage(withMessage: String.Title.dataNotFound)
-            return
-        }
-        self.arrData.append(contentsOf: data)
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.collectionMovies.reloadData()
+    func apiResponse(completion: (() -> Void)?){
+        viewModel.callUpcomingMovieApi{ [weak self] data,isSuccess,errorMessage in
+            guard let self = self else{
+                completion?()
+                return
+            }
+            if isSuccess{
+                guard let data = data else {
+                    self.showValidationMessage(withMessage: String.Title.dataNotFound)
+                    return
+                }
+                self.arrData.append(contentsOf: data)
+                
+                DispatchQueue.main.async {
+                    self.collectionMovies.reloadData()
+                }
+            }else{
+                DispatchQueue.main.async {
+                    self.showValidationMessage(withMessage: errorMessage)
+                }
+            }
+            completion?()
         }
     }
 }
@@ -94,12 +109,9 @@ extension UpcomingViewController: UICollectionViewDelegate, UICollectionViewData
         let lastSectionIndex = collectionView.numberOfSections - 1
         let lastRowIndex = collectionView.numberOfItems(inSection: lastSectionIndex) - 1
         if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
-            let bottomRefreshController = UIRefreshControl()
-            self.collectionMovies.refreshControl = bottomRefreshController
             
             if !viewModel.isAllMovieFetched{
-                viewModel.currentPage += 1
-                viewModel.callUpcomingMovieApi()
+                apiResponse(completion: nil)
             }
             self.collectionMovies.refreshControl?.isHidden = viewModel.isAllMovieFetched
         }

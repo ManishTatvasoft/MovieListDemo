@@ -28,15 +28,15 @@ class ReviewCell: UITableViewCell {
             if let path = authorDetails.avatar_path{
                 if path.contains("/https://www.gravatar.com/"){
                     let str = authorDetails.avatar_path?.dropFirst()
-                    profileImage.setImageUsingUrlSession(String(str ?? ""), placeholder: UIImage.universalImage("person.circle"))
+                    profileImage.setImageUsingUrl(String(str ?? ""), placeholder: UIImage.universalImage("person.circle"))
                 }else{
-                    profileImage.setImageUsingUrlSession(Environment.basePosterImageURL() + (authorDetails.avatar_path ?? ""), placeholder: UIImage.universalImage("person.circle"))
+                    profileImage.setImageUsingUrl(Environment.basePosterImageURL() + (authorDetails.avatar_path ?? ""), placeholder: UIImage.universalImage("person.circle"))
                 }
             }else{
-                profileImage.setImageUsingUrlSession(Environment.basePosterImageURL() + (authorDetails.avatar_path ?? ""), placeholder: UIImage.universalImage("person.circle"))
+                profileImage.setImageUsingUrl(Environment.basePosterImageURL() + (authorDetails.avatar_path ?? ""), placeholder: UIImage.universalImage("person.circle"))
             }
         }else{
-            profileImage.setImageUsingUrlSession(Environment.basePosterImageURL() + (data.author_details?.avatar_path ?? ""), placeholder: UIImage.universalImage("person.circle"))
+            profileImage.setImageUsingUrl(Environment.basePosterImageURL() + (data.author_details?.avatar_path ?? ""), placeholder: UIImage.universalImage("person.circle"))
         }
         nameLabel.text = data.author
         reviewLabel.text = data.content

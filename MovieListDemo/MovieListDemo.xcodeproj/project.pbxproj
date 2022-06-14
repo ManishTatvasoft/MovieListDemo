@@ -59,7 +59,6 @@
 		FCBAD965284DE31600B6892B /* CustomTabarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBAD964284DE31600B6892B /* CustomTabarViewController.swift */; };
 		FCBAD967284DE32F00B6892B /* AppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBAD966284DE32F00B6892B /* AppManager.swift */; };
 		FCBAD969284DE5A100B6892B /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBAD968284DE5A100B6892B /* UIStoryboard+Extension.swift */; };
-		FCBAD96B284E010D00B6892B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBAD96A284E010C00B6892B /* SceneDelegate.swift */; };
 		FCBAD96D284E05BC00B6892B /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBAD96C284E05BC00B6892B /* UIView+Extension.swift */; };
 		FCBAD971284E08E100B6892B /* UpcommingMovieGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBAD96F284E08E100B6892B /* UpcommingMovieGridCell.swift */; };
 		FCBAD972284E08E100B6892B /* UpcommingMovieGridCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FCBAD970284E08E100B6892B /* UpcommingMovieGridCell.xib */; };
@@ -73,7 +72,6 @@
 		FCBAD985284E12E600B6892B /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBAD984284E12E600B6892B /* UITableView+Extension.swift */; };
 		FCBAD987284E132A00B6892B /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBAD986284E132A00B6892B /* Reusable.swift */; };
 		FCBAD989284E19D200B6892B /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBAD988284E19D200B6892B /* UIImageView+Extension.swift */; };
-		FCBAD98B284E19F800B6892B /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBAD98A284E19F800B6892B /* ImageCache.swift */; };
 		FCBAD98D284E1C5C00B6892B /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBAD98C284E1C5C00B6892B /* UIViewController+Extension.swift */; };
 		FCC1DA662857506600F8F65E /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC1DA652857506600F8F65E /* BaseViewController.swift */; };
 		FCEFEB6F2851A76A007D4C02 /* SearchDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCEFEB6E2851A76A007D4C02 /* SearchDetail.storyboard */; };
@@ -99,14 +97,6 @@
 		FCF2C190284F59D100DAD57F /* DetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF2C18F284F59D100DAD57F /* DetailsController.swift */; };
 		FCF2C192284F59E100DAD57F /* DetailsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF2C191284F59E100DAD57F /* DetailsNavigator.swift */; };
 		FCF2C194284F5A9000DAD57F /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF2C193284F5A9000DAD57F /* Genre.swift */; };
-		FCF2C1A5284F61ED00DAD57F /* ActivityStyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF2C19D284F61ED00DAD57F /* ActivityStyleKit.swift */; };
-		FCF2C1A6284F61ED00DAD57F /* ProgressStyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF2C19E284F61ED00DAD57F /* ProgressStyleKit.swift */; };
-		FCF2C1A7284F61ED00DAD57F /* OrbitActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF2C19F284F61ED00DAD57F /* OrbitActivityIndicatorView.swift */; };
-		FCF2C1A8284F61ED00DAD57F /* ActivityAnimationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF2C1A0284F61ED00DAD57F /* ActivityAnimationHelper.swift */; };
-		FCF2C1A9284F61ED00DAD57F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF2C1A1284F61ED00DAD57F /* Extensions.swift */; };
-		FCF2C1AA284F61ED00DAD57F /* AnimationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF2C1A2284F61ED00DAD57F /* AnimationHelper.swift */; };
-		FCF2C1AB284F61ED00DAD57F /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF2C1A3284F61ED00DAD57F /* CircleProgressView.swift */; };
-		FCF2C1AC284F61ED00DAD57F /* BarProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF2C1A4284F61ED00DAD57F /* BarProgressView.swift */; };
 		FCF2C1AF284F6A2F00DAD57F /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF2C1AE284F6A2F00DAD57F /* ReviewViewController.swift */; };
 		FCF2C1B3284F6A7000DAD57F /* ReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF2C1B2284F6A7000DAD57F /* ReviewViewModel.swift */; };
 		FCF2C1B5284F6A7C00DAD57F /* ReviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF2C1B4284F6A7C00DAD57F /* ReviewController.swift */; };
@@ -205,7 +195,6 @@
 		FCBAD964284DE31600B6892B /* CustomTabarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabarViewController.swift; sourceTree = "<group>"; };
 		FCBAD966284DE32F00B6892B /* AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
 		FCBAD968284DE5A100B6892B /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
-		FCBAD96A284E010C00B6892B /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		FCBAD96C284E05BC00B6892B /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		FCBAD96F284E08E100B6892B /* UpcommingMovieGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcommingMovieGridCell.swift; sourceTree = "<group>"; };
 		FCBAD970284E08E100B6892B /* UpcommingMovieGridCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpcommingMovieGridCell.xib; sourceTree = "<group>"; };
@@ -219,7 +208,6 @@
 		FCBAD984284E12E600B6892B /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		FCBAD986284E132A00B6892B /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		FCBAD988284E19D200B6892B /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
-		FCBAD98A284E19F800B6892B /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		FCBAD98C284E1C5C00B6892B /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		FCC1DA652857506600F8F65E /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		FCEFEB6E2851A76A007D4C02 /* SearchDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SearchDetail.storyboard; sourceTree = "<group>"; };
@@ -245,14 +233,6 @@
 		FCF2C18F284F59D100DAD57F /* DetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsController.swift; sourceTree = "<group>"; };
 		FCF2C191284F59E100DAD57F /* DetailsNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsNavigator.swift; sourceTree = "<group>"; };
 		FCF2C193284F5A9000DAD57F /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
-		FCF2C19D284F61ED00DAD57F /* ActivityStyleKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityStyleKit.swift; sourceTree = "<group>"; };
-		FCF2C19E284F61ED00DAD57F /* ProgressStyleKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressStyleKit.swift; sourceTree = "<group>"; };
-		FCF2C19F284F61ED00DAD57F /* OrbitActivityIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitActivityIndicatorView.swift; sourceTree = "<group>"; };
-		FCF2C1A0284F61ED00DAD57F /* ActivityAnimationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityAnimationHelper.swift; sourceTree = "<group>"; };
-		FCF2C1A1284F61ED00DAD57F /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		FCF2C1A2284F61ED00DAD57F /* AnimationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationHelper.swift; sourceTree = "<group>"; };
-		FCF2C1A3284F61ED00DAD57F /* CircleProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
-		FCF2C1A4284F61ED00DAD57F /* BarProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarProgressView.swift; sourceTree = "<group>"; };
 		FCF2C1AE284F6A2F00DAD57F /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		FCF2C1B2284F6A7000DAD57F /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
 		FCF2C1B4284F6A7C00DAD57F /* ReviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewController.swift; sourceTree = "<group>"; };
@@ -440,7 +420,6 @@
 			isa = PBXGroup;
 			children = (
 				FCEFEB922851FE99007D4C02 /* DatabaseManager */,
-				FCF2C198284F615B00DAD57F /* Library */,
 				FCBAD944284DCF4F00B6892B /* Network */,
 				FCBAD94C284DCFBA00B6892B /* Storyoard */,
 				FCBAD94B284DCFA600B6892B /* Extensions */,
@@ -449,7 +428,6 @@
 				FCBAD948284DCF7700B6892B /* View */,
 				FCBAD946284DCF6600B6892B /* ViewModel */,
 				FCBAD914284DC7B400B6892B /* AppDelegate.swift */,
-				FCBAD96A284E010C00B6892B /* SceneDelegate.swift */,
 				FCBAD91D284DC7B700B6892B /* Assets.xcassets */,
 				FCBAD91F284DC7B700B6892B /* LaunchScreen.storyboard */,
 				FCBAD922284DC7B700B6892B /* Info.plist */,
@@ -546,7 +524,6 @@
 			children = (
 				FCBAD953284DD41B00B6892B /* AppConstants.swift */,
 				FCBAD966284DE32F00B6892B /* AppManager.swift */,
-				FCBAD98A284E19F800B6892B /* ImageCache.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -674,37 +651,6 @@
 				FCF2C191284F59E100DAD57F /* DetailsNavigator.swift */,
 			);
 			path = DetailsViewModel;
-			sourceTree = "<group>";
-		};
-		FCF2C198284F615B00DAD57F /* Library */ = {
-			isa = PBXGroup;
-			children = (
-				FCF2C19B284F61ED00DAD57F /* Sources */,
-			);
-			path = Library;
-			sourceTree = "<group>";
-		};
-		FCF2C19B284F61ED00DAD57F /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				FCF2C19C284F61ED00DAD57F /* stylekit */,
-				FCF2C19F284F61ED00DAD57F /* OrbitActivityIndicatorView.swift */,
-				FCF2C1A0284F61ED00DAD57F /* ActivityAnimationHelper.swift */,
-				FCF2C1A1284F61ED00DAD57F /* Extensions.swift */,
-				FCF2C1A2284F61ED00DAD57F /* AnimationHelper.swift */,
-				FCF2C1A3284F61ED00DAD57F /* CircleProgressView.swift */,
-				FCF2C1A4284F61ED00DAD57F /* BarProgressView.swift */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
-		FCF2C19C284F61ED00DAD57F /* stylekit */ = {
-			isa = PBXGroup;
-			children = (
-				FCF2C19D284F61ED00DAD57F /* ActivityStyleKit.swift */,
-				FCF2C19E284F61ED00DAD57F /* ProgressStyleKit.swift */,
-			);
-			path = stylekit;
 			sourceTree = "<group>";
 		};
 		FCF2C1AD284F6A0600DAD57F /* DetailsContoller */ = {
@@ -1039,7 +985,6 @@
 			files = (
 				FCF2C192284F59E100DAD57F /* DetailsNavigator.swift in Sources */,
 				FC44DE2E285054F00033596D /* CreditsViewController.swift in Sources */,
-				FCF2C1AC284F61ED00DAD57F /* BarProgressView.swift in Sources */,
 				FCBAD981284E0CAB00B6892B /* UpcomingMovie.swift in Sources */,
 				FCBAD95F284DE22F00B6892B /* UpcomingViewController.swift in Sources */,
 				FCAE99B42850D0CD00247C56 /* SearchNavigator.swift in Sources */,
@@ -1052,7 +997,6 @@
 				FCEFEB792851B0BC007D4C02 /* DiscoverViewModel.swift in Sources */,
 				FCAE99B02850D0B200247C56 /* SearchViewModel.swift in Sources */,
 				FCEFEB8F2851FC79007D4C02 /* MovieDB.swift in Sources */,
-				FCF2C1A8284F61ED00DAD57F /* ActivityAnimationHelper.swift in Sources */,
 				FCAE999F2850A97100247C56 /* VideoViewModel.swift in Sources */,
 				FCF2C18A284F53CC00DAD57F /* DetailsViewController.swift in Sources */,
 				FCC1DA662857506600F8F65E /* BaseViewController.swift in Sources */,
@@ -1067,11 +1011,9 @@
 				FCBAD959284DD71800B6892B /* String+Extension.swift in Sources */,
 				FCAE99982850A44E00247C56 /* VideoViewController.swift in Sources */,
 				FC44DE41285057160033596D /* Credits.swift in Sources */,
-				FCF2C1A6284F61ED00DAD57F /* ProgressStyleKit.swift in Sources */,
 				FCBAD963284DE24900B6892B /* ProfileViewController.swift in Sources */,
 				FCBAD915284DC7B400B6892B /* AppDelegate.swift in Sources */,
 				FCAE99942850872A00247C56 /* SimilarViewModel.swift in Sources */,
-				FCBAD96B284E010D00B6892B /* SceneDelegate.swift in Sources */,
 				FCEFEB722851A935007D4C02 /* DiscoverViewController.swift in Sources */,
 				FCAE99A82850B23000247C56 /* PlayerViewController.swift in Sources */,
 				FCBAD987284E132A00B6892B /* Reusable.swift in Sources */,
@@ -1096,17 +1038,12 @@
 				FCBAD954284DD41B00B6892B /* AppConstants.swift in Sources */,
 				FCEFEB98285207DD007D4C02 /* RecentlyVisitedCell.swift in Sources */,
 				FCEFEB9C28520804007D4C02 /* MovieCell.swift in Sources */,
-				FCF2C1A9284F61ED00DAD57F /* Extensions.swift in Sources */,
-				FCF2C1AA284F61ED00DAD57F /* AnimationHelper.swift in Sources */,
-				FCF2C1A7284F61ED00DAD57F /* OrbitActivityIndicatorView.swift in Sources */,
 				FCBAD96D284E05BC00B6892B /* UIView+Extension.swift in Sources */,
-				FCF2C1AB284F61ED00DAD57F /* CircleProgressView.swift in Sources */,
 				FCAE99912850860400247C56 /* Similar.swift in Sources */,
 				FCBAD961284DE23C00B6892B /* SearchViewController.swift in Sources */,
 				FC44DE4828507CE90033596D /* SimilarViewController.swift in Sources */,
 				FC44DE4E28507D490033596D /* SimilarCell.swift in Sources */,
 				FCF2C1AF284F6A2F00DAD57F /* ReviewViewController.swift in Sources */,
-				FCF2C1A5284F61ED00DAD57F /* ActivityStyleKit.swift in Sources */,
 				FCAE99AC2850CF9100247C56 /* GenreCell.swift in Sources */,
 				FCBAD952284DD17000B6892B /* Router.swift in Sources */,
 				FCAE99A32850A9E400247C56 /* Video.swift in Sources */,
@@ -1120,7 +1057,6 @@
 				FCEFEB752851ABBD007D4C02 /* DiscoverCell.swift in Sources */,
 				FCAE99B72850D16400247C56 /* Search.swift in Sources */,
 				FCF2C1B7284F6A8800DAD57F /* Review.swift in Sources */,
-				FCBAD98B284E19F800B6892B /* ImageCache.swift in Sources */,
 				FCF2C1C2284F6E2E00DAD57F /* ReviewCell.swift in Sources */,
 				FCF2C18E284F59BD00DAD57F /* DetailsViewModel.swift in Sources */,
 				FCF2C190284F59D100DAD57F /* DetailsController.swift in Sources */,

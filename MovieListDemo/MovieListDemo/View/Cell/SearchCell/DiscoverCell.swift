@@ -6,13 +6,15 @@
 //
 
 import UIKit
+import MTCircularSlider
 
 class DiscoverCell: UITableViewCell {
     @IBOutlet private weak var movieImage: UIImageView!
     @IBOutlet private weak var titlelabel: UILabel!
-    @IBOutlet private weak var ratingsView: CircleProgressView!
+    @IBOutlet private weak var ratingsView: MTCircularSlider!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var genreLabel: UILabel!
+    @IBOutlet private weak var progressValue: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,12 +30,13 @@ class DiscoverCell: UITableViewCell {
     func setupData(_ data: Results, _ genre: String? = "Action"){
         let posterPath = Environment.basePosterImageURL() + (data.poster_path ?? "")
         if #available(iOS 13.0, *) {
-            movieImage.setImageUsingUrlSession(posterPath, placeholder: UIImage(systemName: "photo"))
+            movieImage.setImageUsingUrl(posterPath, placeholder: UIImage(systemName: "photo"))
         } else {
-            movieImage.setImageUsingUrlSession(posterPath, placeholder: UIImage(named: "photo"))
+            movieImage.setImageUsingUrl(posterPath, placeholder: UIImage(named: "photo"))
         }
         titlelabel.text = data.title
-        ratingsView.progress = (data.vote_average ?? 0.0) / 10
+        ratingsView.value = CGFloat(data.vote_average ?? 0.0)
+        progressValue.text = "\((round(10 * (data.vote_average ?? 0.0)) / 10))"
         dateLabel.text = data.release_date
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
         DetailsController.shared.getGenreList(parameters: param) { response in

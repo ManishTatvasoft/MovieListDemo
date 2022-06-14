@@ -35,7 +35,7 @@ extension SearchNavigator{
         self.controller.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func moveToMovieDetailScreen(with Data: Results, isDBData: Bool = false, genre: String = ""){
+    func moveToMovieDetailScreen(with Data: Results?, isDBData: Bool = false, genre: String = ""){
         guard let vc = UIStoryboard.details.get(DetailsViewController.self)else{
             return
         }

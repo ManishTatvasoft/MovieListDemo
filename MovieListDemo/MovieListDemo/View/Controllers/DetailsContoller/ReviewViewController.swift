@@ -10,7 +10,7 @@ import UIKit
 class ReviewViewController: BaseViewController {
 
     @IBOutlet private weak var tableReview: UITableView!
-    private lazy var viewModel = ReviewsViewModel(self)
+    private lazy var viewModel = ReviewsViewModel()
     var arrayData = [ReviewResults]()
     var name: String?
     override func viewDidLoad() {
@@ -22,22 +22,39 @@ class ReviewViewController: BaseViewController {
     
     func prepareView(){
         tableReview.register(ReviewCell.self, reuseIdentifier: "ReviewCell")
-        viewModel.callReviewsListApi()
+        self.startLoading()
+        apiResponse { [weak self] in
+            self?.stopLoading()
+        }
     }
-
-    func successApiResponse(_ reviewResults: [ReviewResults]?){
-        guard let reviewResults = reviewResults else {
-            self.showValidationMessage(withMessage: String.Title.dataNotFound)
-            return
-        }
-        self.arrayData = reviewResults
-        if arrayData.count == 0{
-            self.showValidationMessage(withMessage: String.Title.noReviewFound, preferredStyle: .alert) {
-                self.navigationController?.popViewController(animated: true)
+    
+    func apiResponse(completion: (() -> Void)?){
+        viewModel.callReviewsListApi { [weak self] results, isSuccess, errorMessage in
+            guard let self = self else{
+                completion?()
+                self?.showValidationMessage(withMessage: String.Title.somthingWentWrong)
+                return
             }
-        }
-        DispatchQueue.main.async { [weak self] in
-            self?.tableReview.reloadData()
+            
+            completion?()
+            if isSuccess{
+                guard let results = results else {
+                    self.showValidationMessage(withMessage: String.Title.dataNotFound)
+                    return
+                }
+                self.arrayData = results
+                if self.arrayData.count == 0{
+                    self.showValidationMessage(withMessage: String.Title.noReviewFound, preferredStyle: .alert) {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+                DispatchQueue.main.async { [weak self] in
+                    self?.tableReview.reloadData()
+                }
+            }else{
+                self.showValidationMessage(withMessage: errorMessage)
+            }
+            
         }
     }
 }
@@ -69,8 +86,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource{
             spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
             self.tableReview.tableFooterView = spinner
             if !viewModel.isAllReviewFetched{
-                viewModel.currentPage += 1
-                viewModel.callReviewsListApi()
+                apiResponse(completion: nil)
             }
             self.tableReview.tableFooterView?.isHidden = viewModel.isAllReviewFetched
         }

@@ -18,7 +18,7 @@ class CreditsViewController: BaseViewController {
     var castCrewData: CastCrewManager?
     
     var name: String?
-    private lazy var viewModel = CreditsViewModel(self)
+    private lazy var viewModel = CreditsViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,16 +30,30 @@ class CreditsViewController: BaseViewController {
     func prepareView(){
         collectionCredits.register(CastAndCrewCell.self)
         collectionCredits.register(HeaderView.self, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader)
-        viewModel.callCreditsApi()
-    }
-    
-    func successApiResponse(_ data: Credits){
-        castCrewData = CastCrewManager(cast: CastManager(castData: data.cast ?? []), crew: CrewManager(crewData: data.crew ?? []))
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.collectionCredits.reloadData()
+        self.startLoading()
+        viewModel.callCreditsApi { [weak self] credits, isSuccess, errorMessage in
+            guard let self = self else{
+                self?.stopLoading()
+                self?.showValidationMessage(withMessage: String.Title.dataNotFound)
+                return
+            }
+            self.stopLoading()
+            if isSuccess{
+                guard let data = credits else {
+                    self.showValidationMessage(withMessage: String.Title.dataNotFound)
+                    return
+                }
+                self.castCrewData = CastCrewManager(cast: CastManager(castData: data.cast ?? []), crew: CrewManager(crewData: data.crew ?? []))
+                
+                DispatchQueue.main.async {
+                    self.collectionCredits.reloadData()
+                }
+            }else{
+                DispatchQueue.main.async {
+                    self.showValidationMessage(withMessage: errorMessage)
+                }
+            }
         }
-        
     }
     
     @IBAction func buttonExpandCollepsAction(_ sender: UIButton) {

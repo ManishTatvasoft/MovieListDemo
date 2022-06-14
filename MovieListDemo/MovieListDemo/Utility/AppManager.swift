@@ -15,6 +15,7 @@ class AppManager{
     var reachability : Reachability?
     
     func prepareNavigation() {
+        AppManager.appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
         AppManager.appDelegate.initialViewController = UIStoryboard.main.get(CustomTabarViewController.self)!
         AppManager.appDelegate.customNavigationController = UINavigationController(rootViewController: AppManager.appDelegate.initialViewController)
         AppManager.appDelegate.window?.rootViewController = AppManager.appDelegate.customNavigationController

@@ -10,7 +10,7 @@ import UIKit
 class DiscoverViewController: BaseViewController {
 
     @IBOutlet private weak var tableDiscover: UITableView!
-    private lazy var viewModel = DiscoverViewModel(self)
+    private lazy var viewModel = DiscoverViewModel()
     lazy var navigator = DiscoverNavigator(self)
     var arrayData = [Results]()
     var genre: Genres?
@@ -26,34 +26,69 @@ class DiscoverViewController: BaseViewController {
     
     func preparView(){
         tableDiscover.register(DiscoverCell.self)
-        callApiAccordingToType()
-    }
-    
-    
-    func successApiResponse(_ data: [Results]?){
-        guard let data = data else {
-            self.showValidationMessage(withMessage: String.Title.genereNotFound)
-            return
-        }
-        arrayData.append(contentsOf: data)
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.tableDiscover.reloadData()
+        self.startLoading()
+        callApiAccordingToType {
+            self.stopLoading()
         }
     }
     
-    func callApiAccordingToType() {
+    
+    func apiResponce(_ results: [Results]?, _ isSuccess : Bool, _ errorMessage: String, _ completion: (() -> ())?){
+        if isSuccess{
+            guard let results = results else {
+                completion?()
+                self.showValidationMessage(withMessage: String.Title.genereNotFound)
+                return
+            }
+            self.arrayData.append(contentsOf: results)
+            completion?()
+            DispatchQueue.main.async {
+                self.tableDiscover.reloadData()
+            }
+        }else{
+            completion?()
+            DispatchQueue.main.async {
+                self.showValidationMessage(withMessage: errorMessage)
+            }
+        }
+    }
+    
+    func callApiAccordingToType(completion: (() -> ())?) {
         switch discoverType {
         case .genre:
             viewModel.genreId = genre?.id ?? 28
             self.title = genre?.name
-            viewModel.callGenreMovieApi()
+            viewModel.callGenreMovieApi { [weak self] results, isSuccess, errorMessage in
+                guard let self = self else{
+                    completion?()
+                    return
+                }
+                self.apiResponce(results,isSuccess, errorMessage) {
+                    completion?()
+                }
+            }
         case .topRated:
             self.title = AppConstants.topRatedMovieTitle
-            viewModel.callTopRatedMovieApi()
+            viewModel.callTopRatedMovieApi { [weak self] results, isSuccess, errorMessage in
+                guard let self = self else{
+                    completion?()
+                    return
+                }
+                self.apiResponce(results,isSuccess, errorMessage) {
+                    completion?()
+                }
+            }
         case .popular:
             self.title = AppConstants.popularMovieTitle
-            viewModel.callPopularMovieApi()
+            viewModel.callPopularMovieApi { [weak self] results, isSuccess, errorMessage in
+                guard let self = self else{
+                    completion?()
+                    return
+                }
+                self.apiResponce(results,isSuccess, errorMessage) {
+                    completion?()
+                }
+            }
         case .none:
             self.showValidationMessage(withMessage: String.Title.noDataFound, preferredStyle: .alert) {
                 self.navigationController?.popViewController(animated: true)
@@ -88,8 +123,7 @@ extension DiscoverViewController: UITableViewDelegate, UITableViewDataSource{
             spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
             self.tableDiscover.tableFooterView = spinner
             if !viewModel.isAllMovieFetched{
-                viewModel.currentPage += 1
-                self.callApiAccordingToType()
+                self.callApiAccordingToType(completion: nil)
             }
             self.tableDiscover.tableFooterView?.isHidden = viewModel.isAllMovieFetched
         }
