@@ -22,9 +22,7 @@ class DiscoverViewController: BaseViewController {
         // Do any additional setup after loading the view.
     }
     
-    
-    
-    func preparView(){
+    func preparView() {
         tableDiscover.register(DiscoverCell.self)
         self.startLoading()
         callApiAccordingToType {
@@ -32,9 +30,8 @@ class DiscoverViewController: BaseViewController {
         }
     }
     
-    
-    func apiResponce(_ results: [Results]?, _ isSuccess : Bool, _ errorMessage: String, _ completion: (() -> ())?){
-        if isSuccess{
+    func apiResponce(_ results: [Results]?, _ isSuccess : Bool, _ errorMessage: String, _ completion: (() -> ())?) {
+        if isSuccess {
             guard let results = results else {
                 completion?()
                 self.showValidationMessage(withMessage: String.Title.genereNotFound)
@@ -42,13 +39,13 @@ class DiscoverViewController: BaseViewController {
             }
             self.arrayData.append(contentsOf: results)
             completion?()
-            DispatchQueue.main.async {
-                self.tableDiscover.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.tableDiscover.reloadData()
             }
-        }else{
+        } else {
             completion?()
-            DispatchQueue.main.async {
-                self.showValidationMessage(withMessage: errorMessage)
+            DispatchQueue.main.async { [weak self] in
+                self?.showValidationMessage(withMessage: errorMessage)
             }
         }
     }
@@ -90,14 +87,14 @@ class DiscoverViewController: BaseViewController {
                 }
             }
         case .none:
-            self.showValidationMessage(withMessage: String.Title.noDataFound, preferredStyle: .alert) {
-                self.navigationController?.popViewController(animated: true)
+            self.showValidationMessage(withMessage: String.Title.noDataFound, preferredStyle: .alert) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
             }
         }
     }
 }
 
-extension DiscoverViewController: UITableViewDelegate, UITableViewDataSource{
+extension DiscoverViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arrayData.count
     }
@@ -110,6 +107,9 @@ extension DiscoverViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let data = arrayData[indexPath.row]
+        let cell: DiscoverCell = tableView.dequeueReusableCell(for: indexPath)
+        cell.setupData(data,genre?.name)
         let lastSectionIndex = tableView.numberOfSections - 1
         let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
         if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
@@ -123,9 +123,9 @@ extension DiscoverViewController: UITableViewDelegate, UITableViewDataSource{
             spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
             self.tableDiscover.tableFooterView = spinner
             if !viewModel.isAllMovieFetched{
-                self.callApiAccordingToType(completion: nil)
+                callApiAccordingToType(completion: nil)
             }
-            self.tableDiscover.tableFooterView?.isHidden = viewModel.isAllMovieFetched
+            tableDiscover.tableFooterView?.isHidden = viewModel.isAllMovieFetched
         }
     }
     

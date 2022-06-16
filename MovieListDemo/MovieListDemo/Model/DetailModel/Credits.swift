@@ -6,10 +6,11 @@
 //
 
 import Foundation
-struct Credits : Codable {
-    let id : Int?
-    let cast : [Cast]?
-    let crew : [Crew]?
+
+struct Credits: Codable {
+    let id: Int?
+    let cast: [Cast]?
+    let crew: [Crew]?
 
     enum CodingKeys: String, CodingKey {
 
@@ -27,19 +28,19 @@ struct Credits : Codable {
 
 }
 
-struct Cast : Codable {
-    let adult : Bool?
-    let gender : Int?
-    let id : Int?
-    let known_for_department : String?
-    let name : String?
-    let original_name : String?
-    let popularity : Double?
-    let profile_path : String?
-    let cast_id : Int?
-    let character : String?
-    let credit_id : String?
-    let order : Int?
+struct Cast: Codable {
+    let adult: Bool?
+    let gender: Int?
+    let id: Int?
+    let known_for_department: String?
+    let name: String?
+    let original_name: String?
+    let popularity: Double?
+    let profile_path: String?
+    let cast_id: Int?
+    let character: String?
+    let credit_id: String?
+    let order: Int?
 
     enum CodingKeys: String, CodingKey {
 
@@ -73,18 +74,18 @@ struct Cast : Codable {
     }
 }
 
-struct Crew : Codable {
-    let adult : Bool?
-    let gender : Int?
-    let id : Int?
-    let known_for_department : String?
-    let name : String?
-    let original_name : String?
-    let popularity : Double?
-    let profile_path : String?
-    let credit_id : String?
-    let department : String?
-    let job : String?
+struct Crew: Codable {
+    let adult: Bool?
+    let gender: Int?
+    let id: Int?
+    let known_for_department: String?
+    let name: String?
+    let original_name: String?
+    let popularity: Double?
+    let profile_path: String?
+    let credit_id: String?
+    let department: String?
+    let job: String?
 
     enum CodingKeys: String, CodingKey {
 
@@ -118,18 +119,20 @@ struct Crew : Codable {
 
 }
 
-struct CastManager{
-    var castData: [Cast]
-    var isOpened = false
-}
 
-struct CrewManager{
-    var crewData: [Crew]
-    var isOpened = false
-}
 
 struct CastCrewManager{
     var cast: CastManager
     var crew: CrewManager
+    
+    struct CastManager{
+        var castData: [Cast]
+        var isOpened = false
+    }
+
+    struct CrewManager{
+        var crewData: [Crew]
+        var isOpened = false
+    }
 }
 

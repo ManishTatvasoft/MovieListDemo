@@ -17,10 +17,10 @@ final class UpcomingMovieNavigator {
     }
 }
 
-extension UpcomingMovieNavigator{
+extension UpcomingMovieNavigator {
     
-    func moveToCharecterListScreen(with Data: Results){
-        guard let vc = UIStoryboard.details.get(DetailsViewController.self)else{
+    func moveToCharecterListScreen(with Data: Results) {
+        guard let vc = UIStoryboard.details.get(DetailsViewController.self) else {
             return
         }
         vc.data = Data

@@ -14,8 +14,9 @@ final class ReviewsViewModel {
 }
 
 extension ReviewsViewModel{
-    func callReviewsListApi(_ completion: @escaping ((_ results:[ReviewResults]?,_ isSuccess: Bool,_ errorMessage: String) -> ())){
+    func callReviewsListApi(_ completion: @escaping ((_ results:[ReviewResults]?,_ isSuccess: Bool,_ errorMessage: String) -> ())) {
         let param = [AppConstants.apiKey:AppConstants.apiKeyValue,AppConstants.pageKey: "\(currentPage)"]
+        
         ReviewsController.shared.getReviewsList(parameters: param) { [weak self] response in
             guard let self = self else{
                 completion([], false, String.Title.somthingWentWrong)

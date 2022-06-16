@@ -35,11 +35,6 @@ class SimilarCell: UITableViewCell {
         ratingsView.value = CGFloat(data.vote_average ?? 0.0)
         progressValue.text = "\((round(10 * (data.vote_average ?? 0.0)) / 10))"
         dateLabel.text = data.release_date
-        let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
-        DetailsController.shared.getGenreList(parameters: param) { response in
-            self.genreLabel.text = AppConstants.getGenreString(data, response)
-        } failureCompletion: { failure, errorMessage in
-            self.genreLabel.text = ""
-        }
+        self.genreLabel.text = AppConstants.getGenreString(data)
     }
 }

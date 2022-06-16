@@ -12,18 +12,19 @@ final class SimilarViewModel {
     var isAllMovieFetched = false
 }
 
-extension SimilarViewModel{
-    func callSimilarMovieApi(_ completion: @escaping ((_ results:[Results]?,_ isSuccess: Bool,_ errorMessage: String) -> ())){
+extension SimilarViewModel {
+    func callSimilarMovieApi(_ completion: @escaping ((_ results:[Results]?,_ isSuccess: Bool,_ errorMessage: String) -> ())) {
         
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue, AppConstants.pageKey: "\(currentPage)"]
+        
         SimilarController.shared.getSimilarMovieList(parameters: param) { [weak self] response in
-            guard let self = self else{
+            guard let self = self else {
                 completion([], false, String.Title.somthingWentWrong)
                 return
             }
-            if response.total_pages == self.currentPage{
+            if response.total_pages == self.currentPage {
                 self.isAllMovieFetched = true
-            }else{
+            } else {
                 self.currentPage += 1
             }
             completion(response.results, true, "")

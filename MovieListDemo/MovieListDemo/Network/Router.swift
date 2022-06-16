@@ -8,15 +8,15 @@
 import Foundation
 import Alamofire
 
-protocol Routable{
+protocol Routable {
     associatedtype T
     
-    var path : String { get }
-    var method : HTTPMethod { get }
-    var parameters : Parameters? { get }
+    var path: String { get }
+    var method: HTTPMethod { get }
+    var parameters: Parameters? { get }
 }
 
-enum Router{
+enum Router {
     typealias T = Codable.Type
     case upcoming(Parameters)
     case details(Parameters)
@@ -31,7 +31,7 @@ enum Router{
     case discover(Parameters)
 }
 
-extension Router: Routable{
+extension Router: Routable {
     var path: String {
         switch self {
         case .upcoming:

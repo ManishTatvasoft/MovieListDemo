@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LqH-L1-bPL">
-                        <rect key="frame" x="10" y="10" width="127" height="121"/>
+                        <rect key="frame" x="0.0" y="0.0" width="147" height="141"/>
                         <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="MovieImage"/>
@@ -30,10 +30,10 @@
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="LqH-L1-bPL" secondAttribute="bottom" constant="10" id="1NB-8t-TT0"/>
-                <constraint firstAttribute="trailing" secondItem="LqH-L1-bPL" secondAttribute="trailing" constant="10" id="H9M-TM-0ho"/>
-                <constraint firstItem="LqH-L1-bPL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="Sg8-pf-HjW"/>
-                <constraint firstItem="LqH-L1-bPL" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="oCg-Yk-dQe"/>
+                <constraint firstAttribute="bottom" secondItem="LqH-L1-bPL" secondAttribute="bottom" id="1NB-8t-TT0"/>
+                <constraint firstAttribute="trailing" secondItem="LqH-L1-bPL" secondAttribute="trailing" id="H9M-TM-0ho"/>
+                <constraint firstItem="LqH-L1-bPL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Sg8-pf-HjW"/>
+                <constraint firstItem="LqH-L1-bPL" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="oCg-Yk-dQe"/>
             </constraints>
             <size key="customSize" width="147" height="141"/>
             <connections>

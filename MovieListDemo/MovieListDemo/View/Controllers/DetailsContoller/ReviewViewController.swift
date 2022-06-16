@@ -10,9 +10,11 @@ import UIKit
 class ReviewViewController: BaseViewController {
 
     @IBOutlet private weak var tableReview: UITableView!
+    
     private lazy var viewModel = ReviewsViewModel()
     var arrayData = [ReviewResults]()
     var name: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = name ?? "Review"
@@ -48,8 +50,8 @@ class ReviewViewController: BaseViewController {
                         self.navigationController?.popViewController(animated: true)
                     }
                 }
-                DispatchQueue.main.async { [weak self] in
-                    self?.tableReview.reloadData()
+                DispatchQueue.main.async {
+                    self.tableReview.reloadData()
                 }
             }else{
                 self.showValidationMessage(withMessage: errorMessage)

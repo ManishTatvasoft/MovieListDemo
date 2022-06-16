@@ -18,7 +18,7 @@ class UpcommingMovieListCell: UICollectionViewCell {
         // Initialization code
     }
 
-    func setupData(with data: Results){
+    func setupData(with data: Results) {
         let posterPath = Environment.basePosterImageURL() + (data.poster_path ?? "")
         let coverPath = Environment.baseCoverImageURL() + (data.backdrop_path ?? "")
         if #available(iOS 13.0, *) {

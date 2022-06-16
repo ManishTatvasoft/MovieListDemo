@@ -15,9 +15,10 @@ final class DiscoverViewModel {
     var genreId = 0
 }
 
-extension DiscoverViewModel{
-    func callGenreMovieApi(_ completion: @escaping ((_ results:[Results]?,_ isSuccess: Bool,_ errorMessage: String) -> ())){
+extension DiscoverViewModel {
+    func callGenreMovieApi(_ completion: @escaping ((_ results:[Results]?,_ isSuccess: Bool,_ errorMessage: String) -> ())) {
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue, AppConstants.withGenreKey: "\(genreId)", AppConstants.pageKey: "\(currentPage)"]
+        
         DiscoverController.shared.getGenreMovieList(parameters: param) { [weak self] response in
             guard let self = self else{
                 completion([], false, String.Title.somthingWentWrong)
@@ -34,8 +35,9 @@ extension DiscoverViewModel{
         }
     }
     
-    func callPopularMovieApi(_ completion: @escaping ((_ results:[Results]?,_ isSuccess: Bool,_ errorMessage: String) -> ())){
+    func callPopularMovieApi(_ completion: @escaping ((_ results:[Results]?,_ isSuccess: Bool,_ errorMessage: String) -> ())) {
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue, AppConstants.pageKey: "\(currentPage)"]
+        
         DiscoverController.shared.getPopularMovieList(parameters: param) { [weak self] response in
             guard let self = self else{
                 completion([], false, String.Title.somthingWentWrong)
@@ -52,16 +54,17 @@ extension DiscoverViewModel{
         }
     }
     
-    func callTopRatedMovieApi(_ completion: @escaping ((_ results:[Results]?,_ isSuccess: Bool,_ errorMessage: String) -> ())){
+    func callTopRatedMovieApi(_ completion: @escaping ((_ results:[Results]?,_ isSuccess: Bool,_ errorMessage: String) -> ())) {
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue, AppConstants.pageKey: "\(currentPage)"]
+        
         DiscoverController.shared.getTopRatedMovieList(parameters: param) { [weak self] response in
-            guard let self = self else{
+            guard let self = self else {
                 completion([], false, String.Title.somthingWentWrong)
                 return
             }
-            if response.total_pages == self.currentPage{
+            if response.total_pages == self.currentPage {
                 self.isAllMovieFetched = true
-            }else{
+            } else {
                 self.currentPage += 1
             }
             completion(response.results, true, "")

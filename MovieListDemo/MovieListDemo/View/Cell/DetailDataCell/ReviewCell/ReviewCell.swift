@@ -23,19 +23,19 @@ class ReviewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setupData(_ data: ReviewResults){
-        if let authorDetails = data.author_details{
-            if let path = authorDetails.avatar_path{
-                if path.contains("/https://www.gravatar.com/"){
+    func setupData(_ data: ReviewResults) {
+        if let authorDetails = data.author_details {
+            if let path = authorDetails.avatar_path {
+                if path.contains("/https://www.gravatar.com/") {
                     let str = authorDetails.avatar_path?.dropFirst()
                     profileImage.setImageUsingUrl(String(str ?? ""), placeholder: UIImage.universalImage("person.circle"))
-                }else{
+                } else {
                     profileImage.setImageUsingUrl(Environment.basePosterImageURL() + (authorDetails.avatar_path ?? ""), placeholder: UIImage.universalImage("person.circle"))
                 }
-            }else{
+            } else {
                 profileImage.setImageUsingUrl(Environment.basePosterImageURL() + (authorDetails.avatar_path ?? ""), placeholder: UIImage.universalImage("person.circle"))
             }
-        }else{
+        } else {
             profileImage.setImageUsingUrl(Environment.basePosterImageURL() + (data.author_details?.avatar_path ?? ""), placeholder: UIImage.universalImage("person.circle"))
         }
         nameLabel.text = data.author

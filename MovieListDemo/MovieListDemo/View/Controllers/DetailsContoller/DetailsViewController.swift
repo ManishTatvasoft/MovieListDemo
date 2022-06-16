@@ -10,7 +10,6 @@ import MTCircularSlider
 
 class DetailsViewController: BaseViewController {
     
-    
     @IBOutlet private weak var coverImage: UIImageView!
     @IBOutlet private weak var posterImage: UIImageView!
     @IBOutlet private weak var progressView: MTCircularSlider!
@@ -39,7 +38,7 @@ class DetailsViewController: BaseViewController {
         self.croppedImage()
     }
     
-    func prepareView(){
+    func prepareView() {
         guard let data = data else {
             self.showValidationMessage(withMessage: String.Title.dataNotFound)
             return
@@ -58,34 +57,18 @@ class DetailsViewController: BaseViewController {
         descriptionLabel.text = data.overview
         progressView.value = CGFloat(data.vote_average ?? 0.0)
         progressValue.text = "\((round(10 * (data.vote_average ?? 0.0)) / 10))"
-        if isDBData{
+        if isDBData {
             genreLabel.text = self.genre
-        }else{
+        } else {
             apiCall(data)
         }
     }
     
-    fileprivate func apiCall(_ data: Results) {
-        startLoading()
-        viewModel.callGenreListApi { [weak self] results, isSuccess, errorMessage in
-            guard let self = self else{
-                self?.stopLoading()
-                return
-            }
-            self.stopLoading()
-            if isSuccess{
-                guard let results = results else {
-                    self.view.showToast(message: String.Title.genereNotFound)
-                    return
-                }
-                self.genreLabel.text = AppConstants.getGenreString(data, results)
-            }else{
-                self.view.showToast(message: errorMessage)
-            }
-        }
+    func apiCall(_ data: Results) {
+        self.genreLabel.text = AppConstants.getGenreString(data)
     }
     
-    func croppedImage(){
+    func croppedImage() {
         let layer = CAShapeLayer()
         let path = UIBezierPath()
         path.move(to: CGPoint(x: 0, y: ((coverImage.bounds.midY + coverImage.bounds.maxY) / 2.3)))
@@ -115,13 +98,10 @@ class DetailsViewController: BaseViewController {
     }
     
     @IBAction func moreButtonAction(_ sender: UIBarButtonItem) {
-        self.showAlertAndSheet(with: data?.title ?? String.Title.movieDefaultTitle, withMessage: "", preferredStyle: .actionSheet) {
-            AppConstants.share(self.posterImage.image)
+        self.showAlertAndSheet(with: nil, withMessage: data?.title ?? String.Title.movieDefaultTitle, preferredStyle: .actionSheet) { [weak self] in
+            AppConstants.share(self?.posterImage.image)
         } failure: {
             print("")
-        }
-        self.showValidationMessage(withMessage: String.Title.shareMessage, preferredStyle: .actionSheet) {
-            AppConstants.share(self.posterImage.image)
         }
     }
 }

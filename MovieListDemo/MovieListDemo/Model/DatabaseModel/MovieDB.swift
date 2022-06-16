@@ -6,11 +6,11 @@
 //
 
 import Foundation
-struct Movie{
-    var id : Int    = Int()
-    var movieName : String = String()
-    var movieID : String = String()
-    var posterPath : String = String()
-    var genre : String = String()
-    var time : String = String()
+struct Movie {
+    var id: Int    = Int()
+    var movieName: String = String()
+    var movieID: String = String()
+    var posterPath: String = String()
+    var genre: String = String()
+    var time: String = String()
 }

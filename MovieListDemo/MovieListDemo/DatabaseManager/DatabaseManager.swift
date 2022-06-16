@@ -11,15 +11,19 @@ import Foundation
 import FMDB
 
 final class DatabaseManager {
+    
     static let dataBaseFileName = "MovieDB.db"
     static var database: FMDatabase!
-    static let shared : DatabaseManager = {
+    static let shared: DatabaseManager = {
         let instance = DatabaseManager()
         return instance
     }()
-    func createDatabase(){
-        let bundlePath = Bundle.main.path(forResource: "MovieDB", ofType: ".db")
-        print(bundlePath ?? "","\n") //prints the correct path
+    
+    func createDatabase() {
+        guard let bundlePath = Bundle.main.path(forResource: "MovieDB", ofType: ".db") else{
+            return
+        }
+        print(bundlePath ,"\n") //prints the correct path
         guard let destPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first else{
             return
         }
@@ -27,67 +31,64 @@ final class DatabaseManager {
         let fullDestPath = URL(fileURLWithPath: destPath).appendingPathComponent("MovieDB.db")
         let fullDestPathString = fullDestPath.path
         
-        if fileManager.fileExists(atPath : fullDestPathString){
+        if fileManager.fileExists(atPath : fullDestPathString) {
             print("File is available")
             DatabaseManager.database = FMDatabase(path: fullDestPathString)
             openDataBase()
             print(fullDestPathString)
-        }
-        else{
-            do{
-                try fileManager.copyItem(atPath: bundlePath!, toPath: fullDestPathString)
+        } else {
+            do {
+                try fileManager.copyItem(atPath: bundlePath, toPath: fullDestPathString)
                 if fileManager.fileExists(atPath : fullDestPathString){
                     DatabaseManager.database = FMDatabase(path: fullDestPathString)
                     openDataBase()
                     print("file is copy")
-                }
-                else{
+                } else {
                     print("file is not copy")
                 }
-            }
-            catch{
+            } catch {
                 print("\n")
                 print(error)
             }
         }
     }
     
-    func openDataBase(){
-        if DatabaseManager.database != nil{
+    func openDataBase() {
+        if DatabaseManager.database != nil {
             DatabaseManager.database.open()
-        }else{
+        } else {
             DatabaseManager.shared.createDatabase()
         }
     }
     
-    func closeDataBase(){
-        if DatabaseManager.database != nil{
+    func closeDataBase() {
+        if DatabaseManager.database != nil {
             DatabaseManager.database.close()
-        }else{
+        } else {
             DatabaseManager.shared.createDatabase()
         }
     }
     
-    func insertData(_ data: Movie) -> Bool{
+    func insertData(_ data: Movie) -> Bool {
         DatabaseManager.database.open()
         let isSave = DatabaseManager.database.executeUpdate("INSERT INTO MovieTable(movieName,movieID,posterPath,time,genre) VALUES(?,?,?,?,?)", withArgumentsIn: [data.movieName,data.movieID,data.posterPath,data.time, data.genre])
         DatabaseManager.database.close()
         return isSave
     }
     
-    func getData()-> [Movie]{
+    func getData()-> [Movie] {
         DatabaseManager.database.open()
-        let resultset : FMResultSet!  = DatabaseManager.database.executeQuery("SELECT * FROM MovieTable", withArgumentsIn: [0])
-        var itemInfo : [Movie] = []
-        if (resultset != nil){
-            while (resultset?.next())!{
-                var item : Movie = Movie()
-                item.id = Int((resultset?.int(forColumn: "id") ?? 0))
-                item.movieName = String((resultset?.string(forColumn: "movieName") ?? ""))
-                item.movieID = String((resultset?.int(forColumn: "movieID") ?? 0))
-                item.posterPath = String((resultset?.string(forColumn: "posterPath") ?? ""))
-                item.time = String((resultset?.string(forColumn: "time") ?? ""))
-                item.genre = String((resultset?.string(forColumn: "genre") ?? ""))
+        let resultset: FMResultSet? = DatabaseManager.database.executeQuery("SELECT * FROM MovieTable", withArgumentsIn: [0])
+        var itemInfo: [Movie] = []
+        if let resultset = resultset {
+            while (resultset.next()) {
+                var item: Movie = Movie()
+                item.id = Int((resultset.int(forColumn: "id") ))
+                item.movieName = String((resultset.string(forColumn: "movieName") ?? ""))
+                item.movieID = String((resultset.int(forColumn: "movieID") ))
+                item.posterPath = String((resultset.string(forColumn: "posterPath") ?? ""))
+                item.time = String((resultset.string(forColumn: "time") ?? ""))
+                item.genre = String((resultset.string(forColumn: "genre") ?? ""))
                 itemInfo.append(item)
             }
         }
@@ -95,9 +96,8 @@ final class DatabaseManager {
         return itemInfo
     }
     
-    func checkAndInserData(_ data: Movie){
+    func checkAndInserData(_ data: Movie) {
         let allMoviedata = getData()
-        
         var isContainData = false
         
         allMoviedata.forEach { movie in
@@ -106,10 +106,10 @@ final class DatabaseManager {
                 return
             }
         }
-        if !isContainData{
+        if !isContainData {
             let isSave = insertData(data)
             print(isSave)
-        }else{
+        } else {
             print("movie already present")
             let isDeleted = deleteRecord(data: data)
             print("Movie Deleted \(isDeleted)")
@@ -124,5 +124,4 @@ final class DatabaseManager {
         DatabaseManager.database.close()
         return isDelete
     }
-    
 }

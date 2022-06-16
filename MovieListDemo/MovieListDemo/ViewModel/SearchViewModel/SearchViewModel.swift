@@ -16,7 +16,7 @@ final class SearchViewModel {
     var queryString = ""
 }
 
-extension SearchViewModel{
+extension SearchViewModel {
     func callSearchMovieApi(_ completion: @escaping ((_ results:[Results]?,_ isSuccess: Bool,_ errorMessage: String) -> ())){
         if queryString != "" {
             let param = [AppConstants.apiKey: AppConstants.apiKeyValue, AppConstants.queryKey: queryString, AppConstants.pageKey : "\(currentPage)"]
@@ -29,8 +29,9 @@ extension SearchViewModel{
         
     }
     
-    func callGenreListApi(_ completion: @escaping ((_ results:[Genres]?,_ isSuccess: Bool,_ errorMessage: String) -> ())){
+    func callGenreListApi(_ completion: @escaping ((_ results:[Genres]?,_ isSuccess: Bool,_ errorMessage: String) -> ())) {
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
+        
         DetailsController.shared.getGenreList(parameters: param) { response in
             completion(response.genres, true, "")
         } failureCompletion: { failure, errorMessage in
@@ -38,7 +39,7 @@ extension SearchViewModel{
         }
     }
     
-    func getResultFromMovieID(movieID: String,_ completion: @escaping ((Results?) -> ())){
+    func getResultFromMovieID(movieID: String,_ completion: @escaping ((Results?) -> ())) {
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
         SearchController.shared.getMovieDetails(parameters: param) { response in
             completion(response)

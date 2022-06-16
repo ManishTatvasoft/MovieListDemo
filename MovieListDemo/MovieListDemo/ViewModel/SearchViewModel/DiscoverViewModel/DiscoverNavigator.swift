@@ -21,7 +21,7 @@ final class DiscoverNavigator {
 extension DiscoverNavigator{
     
     func moveToMovieDetailScreen(with Data: Results){
-        guard let vc = UIStoryboard.details.get(DetailsViewController.self) else{
+        guard let vc = UIStoryboard.details.get(DetailsViewController.self) else {
             return
         }
         vc.data = Data

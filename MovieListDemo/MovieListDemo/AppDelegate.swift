@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         DatabaseManager.shared.createDatabase()
         AppManager.shared.prepareNavigation()
+        AppManager.shared.setupGenre()
         return true
     }
 

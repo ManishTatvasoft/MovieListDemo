@@ -8,7 +8,8 @@
 import UIKit
 import SVProgressHUD
 
-extension UIViewController{
+extension UIViewController {
+    
     func startLoading() {
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.show()
@@ -18,7 +19,7 @@ extension UIViewController{
         SVProgressHUD.dismiss()
     }
     
-    func showAlertAndSheet(with title: String, withMessage message: String, preferredStyle: UIAlertController.Style = .alert, success actions: (()->Void)? = nil, failure failAction: (()->Void)? = nil){
+    func showAlertAndSheet(with title: String?, withMessage message: String?, preferredStyle: UIAlertController.Style = .alert, success actions: (()->Void)? = nil, failure failAction: (()->Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
         alert.addAction(UIAlertAction(title: String.Title.share, style: .default, handler: { (_) in
             actions?()

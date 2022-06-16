@@ -10,6 +10,7 @@ import UIKit
 class ProfileViewController: BaseViewController {
 
     @IBOutlet private weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareView()
@@ -26,12 +27,13 @@ class ProfileViewController: BaseViewController {
 }
 
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource{
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.row{
+        switch indexPath.row {
         case 0:
             let cell: NameCell = tableView.dequeueReusableCell(for: indexPath)
             return cell

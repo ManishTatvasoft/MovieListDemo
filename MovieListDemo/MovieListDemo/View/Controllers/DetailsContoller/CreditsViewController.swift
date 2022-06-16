@@ -11,12 +11,7 @@ class CreditsViewController: BaseViewController {
 
     @IBOutlet private weak var collectionCredits: UICollectionView!
     
-    
-//    var castData: CastManager?
-//    var crewData: CrewManager?
-    
     var castCrewData: CastCrewManager?
-    
     var name: String?
     private lazy var viewModel = CreditsViewModel()
     
@@ -27,7 +22,7 @@ class CreditsViewController: BaseViewController {
         // Do any additional setup after loading the view.
     }
     
-    func prepareView(){
+    func prepareView() {
         collectionCredits.register(CastAndCrewCell.self)
         collectionCredits.register(HeaderView.self, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader)
         self.startLoading()
@@ -38,17 +33,17 @@ class CreditsViewController: BaseViewController {
                 return
             }
             self.stopLoading()
-            if isSuccess{
+            if isSuccess {
                 guard let data = credits else {
                     self.showValidationMessage(withMessage: String.Title.dataNotFound)
                     return
                 }
-                self.castCrewData = CastCrewManager(cast: CastManager(castData: data.cast ?? []), crew: CrewManager(crewData: data.crew ?? []))
+                self.castCrewData = CastCrewManager(cast: CastCrewManager.CastManager(castData: data.cast ?? []), crew: CastCrewManager.CrewManager(crewData: data.crew ?? []))
                 
                 DispatchQueue.main.async {
                     self.collectionCredits.reloadData()
                 }
-            }else{
+            } else {
                 DispatchQueue.main.async {
                     self.showValidationMessage(withMessage: errorMessage)
                 }
@@ -57,9 +52,15 @@ class CreditsViewController: BaseViewController {
     }
     
     @IBAction func buttonExpandCollepsAction(_ sender: UIButton) {
-        if sender.tag == 0{
+        if sender.tag == 0 {
             castCrewData?.cast.isOpened.toggle()
-        }else{
+//            if castCrewData?.cast.isOpened{
+//                (self.collectionCredits.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+//            } else {
+//                (self.collectionCredits.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+//            }
+            
+        } else {
             castCrewData?.crew.isOpened.toggle()
         }
         UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut) {
@@ -74,7 +75,7 @@ class CreditsViewController: BaseViewController {
     
 }
 
-extension CreditsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+extension CreditsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         guard let castCrewData = castCrewData else {
@@ -84,25 +85,25 @@ extension CreditsViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0{
-            if let cast = castCrewData?.cast{
+        if section == 0 {
+            if let cast = castCrewData?.cast {
                 if cast.isOpened{
                     return cast.castData.count
-                }else{
+                } else {
                     return 0
                 }
-            }else{
+            } else {
                 return 0
             }
             
-        }else{
-            if let crew = castCrewData?.crew{
+        } else {
+            if let crew = castCrewData?.crew {
                 if crew.isOpened{
                     return crew.crewData.count
-                }else{
+                } else {
                     return 0
                 }
-            }else{
+            } else {
                 return 0
             }
         }
@@ -115,33 +116,64 @@ extension CreditsViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let view = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "HeaderView", for: indexPath) as! HeaderView
-        view.expandCollepsButton.tag = indexPath.section
-        if indexPath.section == 0{
-            view.headerTitleLabel.text = "Cast"
-            if let castData = castCrewData?.cast{
-                view.upDownImage.image = (castData.isOpened ? UIImage.universalImage("chevron.up") : UIImage.universalImage("chevron.down"))
-            }else{
-                view.upDownImage.image = UIImage.universalImage("chevron.down")
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "HeaderView", for: indexPath) as? HeaderView
+        if let view = view {
+            view.expandCollepsButton.tag = indexPath.section
+            if indexPath.section == 0 {
+                view.headerTitleLabel.text = AppConstants.castHeader
+                if let castData = castCrewData?.cast {
+                    view.upDownImage.image = (castData.isOpened ? UIImage.universalImage("chevron.up") : UIImage.universalImage("chevron.down"))
+                } else {
+                    view.upDownImage.image = UIImage.universalImage("chevron.down")
+                }
+            } else {
+                view.headerTitleLabel.text = AppConstants.crewHeader
+                if let crewData = castCrewData?.crew {
+                    view.upDownImage.image = (crewData.isOpened ? UIImage.universalImage("chevron.up") : UIImage.universalImage("chevron.down"))
+                } else {
+                    view.upDownImage.image =  UIImage.universalImage("chevron.down")
+                }
             }
-        }else{
-            view.headerTitleLabel.text = "Crew"
-            if let crewData = castCrewData?.crew{
-                view.upDownImage.image = (crewData.isOpened ? UIImage.universalImage("chevron.up") : UIImage.universalImage("chevron.down"))
-            }else{
-                view.upDownImage.image =  UIImage.universalImage("chevron.down")
-            }
+            return view
+        } else {
+            return UICollectionReusableView()
         }
-        return view
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.bounds.width / 3) - (((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset.right ?? 0.0) / 1.5)
-        let height = width * 1.5
+        
+        let cellValue: CGFloat = 3
+        let collectioViewWidth = collectionView.bounds.width
+        let specing = ( cellValue * ((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumInteritemSpacing ?? 0.0))
+        let leftAndRightInset = (((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset.left ?? 0.0))
+        
+        let width = (collectioViewWidth - specing - leftAndRightInset) / cellValue
+        let height = width * 1.6
         return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: self.view.bounds.width, height: 40)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        switch section{
+        case 0:
+            if let isOpened = castCrewData?.cast.isOpened, isOpened {
+                return UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+            } else {
+                return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+            }
+        case 1:
+            if let isOpened = castCrewData?.crew.isOpened, isOpened {
+                return UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+            } else {
+                return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+            }
+        default:
+            return UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+        }
+        
     }
 }

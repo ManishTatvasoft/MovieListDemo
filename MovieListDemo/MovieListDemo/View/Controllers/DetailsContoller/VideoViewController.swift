@@ -11,10 +11,10 @@ class VideoViewController: BaseViewController {
     
     
     @IBOutlet private weak var tableVideo: UITableView!
+    
     private lazy var viewModel = VideoViewModel()
     private lazy var navigator = VideoNavigator(self)
     var arrayData = [VideoResults]()
-    
     var name: String?
 
     override func viewDidLoad() {
@@ -24,23 +24,23 @@ class VideoViewController: BaseViewController {
         // Do any additional setup after loading the view.
     }
     
-    func prepareView(){
+    func prepareView() {
         tableVideo.register(VideoCell.self)
         self.startLoading()
         viewModel.callVideoListApi { [weak self] videoResult, isSuccess, errorMessage in
-            guard let self = self else{
+            guard let self = self else {
                 self?.stopLoading()
                 self?.showValidationMessage(withMessage: String.Title.dataNotFound)
                 return
             }
             self.stopLoading()
-            if isSuccess{
+            if isSuccess {
                 guard let data = videoResult else {
                     self.showValidationMessage(withMessage: String.Title.dataNotFound)
                     return
                 }
                 self.arrayData = data
-                if self.arrayData.count == 0{
+                if self.arrayData.count == 0 {
                     self.showValidationMessage(withMessage: String.Title.noVideoFound, preferredStyle: .alert) {
                         self.navigationController?.popViewController(animated: true)
                     }
@@ -48,7 +48,7 @@ class VideoViewController: BaseViewController {
                 DispatchQueue.main.async {
                     self.tableVideo.reloadData()
                 }
-            }else{
+            } else {
                 DispatchQueue.main.async {
                     self.showValidationMessage(withMessage: errorMessage)
                 }
@@ -57,7 +57,7 @@ class VideoViewController: BaseViewController {
     }
 }
 
-extension VideoViewController: UITableViewDelegate, UITableViewDataSource{
+extension VideoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arrayData.count
     }
@@ -78,12 +78,10 @@ extension VideoViewController: UITableViewDelegate, UITableViewDataSource{
 
 
 @available(iOS 13.0, *)
-extension VideoViewController{
+extension VideoViewController {
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let index = indexPath.row
         let data = arrayData[index]
-        
-        // 2
         let identifier = "\(index)" as NSString
         
         return UIContextMenuConfiguration(
@@ -94,8 +92,6 @@ extension VideoViewController{
                     image: UIImage(systemName: "eye")) { _ in
                         self.navigator.playVideo(from: data)
                     }
-                
-                // 5
                 return UIMenu(title: "", image: nil, children: [watchAction])
             }
     }

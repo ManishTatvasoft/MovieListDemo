@@ -18,11 +18,8 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="h6N-TN-N9h">
-                        <rect key="frame" x="10" y="11" width="198.5" height="295.5"/>
+                        <rect key="frame" x="0.0" y="1" width="222" height="315.5"/>
                         <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="width" secondItem="h6N-TN-N9h" secondAttribute="height" multiplier="1:1.5" id="9ek-Ri-vYG"/>
-                        </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="MovieImage"/>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
@@ -33,10 +30,10 @@
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstItem="h6N-TN-N9h" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="7vD-Kc-jHa"/>
-                <constraint firstAttribute="trailing" secondItem="h6N-TN-N9h" secondAttribute="trailing" constant="10" id="Mce-8o-6Uy"/>
-                <constraint firstAttribute="bottom" secondItem="h6N-TN-N9h" secondAttribute="bottom" constant="10" id="dVT-4v-OhV"/>
-                <constraint firstItem="h6N-TN-N9h" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="dh0-bS-ecc"/>
+                <constraint firstItem="h6N-TN-N9h" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="7vD-Kc-jHa"/>
+                <constraint firstAttribute="trailing" secondItem="h6N-TN-N9h" secondAttribute="trailing" id="Mce-8o-6Uy"/>
+                <constraint firstAttribute="bottom" secondItem="h6N-TN-N9h" secondAttribute="bottom" id="dVT-4v-OhV"/>
+                <constraint firstItem="h6N-TN-N9h" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="dh0-bS-ecc"/>
             </constraints>
             <size key="customSize" width="222" height="318"/>
             <connections>

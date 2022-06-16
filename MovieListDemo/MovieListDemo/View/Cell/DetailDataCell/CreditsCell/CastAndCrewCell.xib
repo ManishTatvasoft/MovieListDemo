@@ -18,24 +18,24 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j8d-Gm-wyi">
-                        <rect key="frame" x="10" y="10" width="113" height="148"/>
+                        <rect key="frame" x="0.0" y="0.0" width="133" height="168"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="U1T-uI-F0g">
-                                <rect key="frame" x="0.0" y="1.5" width="113" height="145"/>
+                                <rect key="frame" x="0.0" y="1.5" width="133" height="165"/>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UpQ-AW-7my">
-                                <rect key="frame" x="0.0" y="0.0" width="113" height="148"/>
+                                <rect key="frame" x="0.0" y="0.0" width="133" height="168"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Emily Dominguez" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="zbr-OE-lhm">
-                                <rect key="frame" x="5" y="47" width="103" height="43"/>
+                                <rect key="frame" x="5" y="62.5" width="123" height="43"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Emily Dominguez" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="k6f-7G-eo1">
-                                <rect key="frame" x="5" y="100" width="103" height="43"/>
+                                <rect key="frame" x="5" y="115.5" width="123" height="43"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -65,10 +65,10 @@
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="j8d-Gm-wyi" secondAttribute="bottom" constant="10" id="Zhm-MY-LiX"/>
-                <constraint firstItem="j8d-Gm-wyi" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="nFG-Yd-eLe"/>
-                <constraint firstItem="j8d-Gm-wyi" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="nl9-zD-Yak"/>
-                <constraint firstAttribute="trailing" secondItem="j8d-Gm-wyi" secondAttribute="trailing" constant="10" id="xRW-Ie-2Br"/>
+                <constraint firstAttribute="bottom" secondItem="j8d-Gm-wyi" secondAttribute="bottom" id="Zhm-MY-LiX"/>
+                <constraint firstItem="j8d-Gm-wyi" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="nFG-Yd-eLe"/>
+                <constraint firstItem="j8d-Gm-wyi" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="nl9-zD-Yak"/>
+                <constraint firstAttribute="trailing" secondItem="j8d-Gm-wyi" secondAttribute="trailing" id="xRW-Ie-2Br"/>
             </constraints>
             <size key="customSize" width="133" height="168"/>
             <connections>

@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Genre : Codable {
-    let genres : [Genres]?
+struct Genre: Codable {
+    let genres: [Genres]?
 
     enum CodingKeys: String, CodingKey {
 
@@ -22,9 +22,9 @@ struct Genre : Codable {
 
 }
 
-struct Genres : Codable {
-    let id : Int?
-    let name : String?
+struct Genres: Codable {
+    let id: Int?
+    let name: String?
 
     enum CodingKeys: String, CodingKey {
 

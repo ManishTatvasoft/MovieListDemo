@@ -23,7 +23,7 @@ class VideoCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setupData(_ data: VideoResults){
+    func setupData(_ data: VideoResults) {
         videoTitleLabel.text = data.name
         videoThumbImage.setImageUsingUrl(AppConstants.videoUrl((data.key ?? "")), placeholder: UIImage.universalImage("photo"))
     }

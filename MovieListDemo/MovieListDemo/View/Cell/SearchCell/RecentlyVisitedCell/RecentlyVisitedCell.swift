@@ -16,7 +16,7 @@ class RecentlyVisitedCell: UITableViewCell {
     @IBOutlet private weak var collectionVisited: UICollectionView!
     
     private var arrayMovies = [Movie]()
-    var delegate : RecentlyVisitedCellDelegate?
+    var delegate: RecentlyVisitedCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,15 +27,15 @@ class RecentlyVisitedCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func setupData(_ data: [Movie]){
+    func setupData(_ data: [Movie]) {
         arrayMovies = data
-        DispatchQueue.main.async {
-            self.collectionVisited.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionVisited.reloadData()
         }
     }
 }
 
-extension RecentlyVisitedCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+extension RecentlyVisitedCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return arrayMovies.count
     }
@@ -60,8 +60,12 @@ extension RecentlyVisitedCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.bounds.width / 4) - (((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset.right ?? 0.0) / 2)
-        let height = width * 1.5
+        let cellValue: CGFloat = 4
+        let collectionWidth = collectionView.bounds.width
+        let specing = (cellValue * ((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumLineSpacing ?? 0.0))
+        let leftRightInset = (((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset.left ?? 0.0))
+        let width = (collectionWidth - specing - leftRightInset) / cellValue
+        let height = width * 1.6 - (((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumLineSpacing ?? 0.0))
         return CGSize(width: width, height: height)
     }
 }

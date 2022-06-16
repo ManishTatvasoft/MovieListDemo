@@ -17,8 +17,8 @@ final class SearchNavigator {
     }
 }
 
-extension SearchNavigator{
-    func moveToDiscover(with genre: Genres?, withDiscover type: DiscoverType){
+extension SearchNavigator {
+    func moveToDiscover(with genre: Genres?, withDiscover type: DiscoverType) {
         guard let vc = UIStoryboard.searchDetails.get(DiscoverViewController.self)else{
             return
         }
@@ -27,7 +27,7 @@ extension SearchNavigator{
         self.controller.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func moveToDiscover(withDiscover type: DiscoverType){
+    func moveToDiscover(withDiscover type: DiscoverType) {
         guard let vc = UIStoryboard.searchDetails.get(DiscoverViewController.self)else{
             return
         }
@@ -35,7 +35,7 @@ extension SearchNavigator{
         self.controller.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func moveToMovieDetailScreen(with Data: Results?, isDBData: Bool = false, genre: String = ""){
+    func moveToMovieDetailScreen(with Data: Results?, isDBData: Bool = false, genre: String = "") {
         guard let vc = UIStoryboard.details.get(DetailsViewController.self)else{
             return
         }

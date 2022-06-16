@@ -8,11 +8,11 @@
 import Foundation
 
 
-struct Search: Codable{
-    let page : Int?
-    let results : [Results]?
-    let total_pages : Int?
-    let total_results : Int?
+struct Search: Codable {
+    let page: Int?
+    let results: [Results]?
+    let total_pages: Int?
+    let total_results: Int?
 
     enum CodingKeys: String, CodingKey {
         case page = "page"

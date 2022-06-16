@@ -15,7 +15,7 @@ class MovieCell: UICollectionViewCell {
         // Initialization code
     }
     
-    func setupData(_ url: String?){
+    func setupData(_ url: String?) {
         let posterPath = Environment.basePosterImageURL() + (url ?? "")
         if #available(iOS 13.0, *) {
             posterImage.setImageUsingUrl(posterPath, placeholder: UIImage(systemName: "photo"))

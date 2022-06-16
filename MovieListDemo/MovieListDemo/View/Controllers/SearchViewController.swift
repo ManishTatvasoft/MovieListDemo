@@ -7,13 +7,13 @@
 
 import UIKit
 
-enum DiscoverType{
+enum DiscoverType {
     case genre
     case topRated
     case popular
 }
 
-enum SectionCount: Int{
+enum SectionCount: Int {
     case search = 1
     case withOutRecentlyVisited
     case withRecentlyVisited
@@ -22,7 +22,6 @@ enum SectionCount: Int{
 class SearchViewController: BaseViewController {
 
     @IBOutlet private weak var tableSearch: UITableView!
-    
     
     private lazy var viewModel = SearchViewModel()
     private lazy var navigator = SearchNavigator(self)
@@ -33,7 +32,6 @@ class SearchViewController: BaseViewController {
         [AppConstants.titleKey: "Popular movies", AppConstants.subTitleKey: "The hottest movies on the internet", AppConstants.typeKey: DiscoverType.popular],
         [AppConstants.titleKey: "Top rated movies", AppConstants.subTitleKey: "The top rated movies on the internet", AppConstants.typeKey : DiscoverType.topRated]
     ]
-    
     var arrayMovies = [Movie]()
     var sectionCount = SectionCount.withOutRecentlyVisited
     
@@ -42,10 +40,9 @@ class SearchViewController: BaseViewController {
         configureSearchBar()
         
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         arrayMovies = DatabaseManager.shared.getData()
-        
-        
         if viewModel.isSearchingMode{
             sectionCount = .search
         }else if arrayMovies.count > 0{
@@ -53,7 +50,6 @@ class SearchViewController: BaseViewController {
         }else{
             sectionCount = .withOutRecentlyVisited
         }
-        
         prepareView()
         
     }
@@ -66,13 +62,13 @@ class SearchViewController: BaseViewController {
         self.startLoading()
         viewModel.callGenreListApi { [weak self] results, isSuccess, errorMessage in
             
-            guard let self = self else{
+            guard let self = self else {
                 self?.stopLoading()
                 self?.showValidationMessage(withMessage: String.Title.genereNotFound)
                 return
             }
             self.stopLoading()
-            if isSuccess{
+            if isSuccess {
                 guard let results = results else {
                     self.showValidationMessage(withMessage: String.Title.genereNotFound)
                     return
@@ -82,7 +78,7 @@ class SearchViewController: BaseViewController {
                 DispatchQueue.main.async {
                     self.tableSearch.reloadData()
                 }
-            }else{
+            } else {
                 self.showValidationMessage(withMessage: errorMessage)
             }
         }
@@ -103,7 +99,7 @@ class SearchViewController: BaseViewController {
     }
 }
 
-extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate{
+extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate {
     func willPresentSearchController(_ searchController: UISearchController) {
         viewModel.isSearchingMode = true
         sectionCount = .search
@@ -111,6 +107,7 @@ extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate{
             self?.tableSearch.reloadData()
         }
     }
+    
     func willDismissSearchController(_ searchController: UISearchController) {
         viewModel.isSearchingMode = false
         viewModel.queryString = searchController.searchBar.text ?? ""
@@ -130,57 +127,55 @@ extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate{
         callSearchApi()
     }
     
-    
-    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         viewModel.queryString = searchBar.text ?? ""
         callSearchApi()
     }
     
-    func callSearchApi(){
+    func callSearchApi() {
         viewModel.callSearchMovieApi { [weak self] results, isSuccess, errorMessage in
-            guard let self = self else{
+            guard let self = self else {
                 self?.view.showToast(message: String.Title.somthingWentWrong)
                 return
             }
-            if isSuccess{
+            if isSuccess {
                 guard let results = results else {
                     self.view.showToast(message: String.Title.somthingWentWrong)
                     return
                 }
                 self.arraySearch = results
-                DispatchQueue.main.async { [weak self] in
-                    self?.tableSearch.reloadData()
+                DispatchQueue.main.async {
+                    self.tableSearch.reloadData()
                 }
-            }else{
+            } else {
                 self.view.showToast(message: errorMessage)
             }
         }
     }
 }
 
-extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
+extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return sectionCount.rawValue
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if viewModel.isSearchingMode{
+        if viewModel.isSearchingMode {
             return arraySearch.count
-        }else{
-            if arrayMovies.count > 0{
-                if section == 0{
+        } else {
+            if arrayMovies.count > 0 {
+                if section == 0 {
                     return 1
-                }else if section == 1{
+                } else if section == 1 {
                     return arrayTopRatedAndPopular.count
-                }else{
+                } else {
                     return arrayData.count
                 }
-            }else{
-                if section == 0{
+            } else {
+                if section == 0 {
                     return arrayTopRatedAndPopular.count
-                }else{
+                } else {
                     return arrayData.count
                 }
             }
@@ -188,38 +183,38 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if viewModel.isSearchingMode{
+        if viewModel.isSearchingMode {
             let data = arraySearch[indexPath.row]
-            let cell : DiscoverCell = tableView.dequeueReusableCell(for: indexPath)
+            let cell: DiscoverCell = tableView.dequeueReusableCell(for: indexPath)
             cell.setupData(data)
             return cell
-        }else{
-            if arrayMovies.count > 0{
-                if indexPath.section == 0{
-                    let cell : RecentlyVisitedCell = tableView.dequeueReusableCell(for: indexPath)
+        } else {
+            if arrayMovies.count > 0 {
+                if indexPath.section == 0 {
+                    let cell: RecentlyVisitedCell = tableView.dequeueReusableCell(for: indexPath)
                     cell.delegate = self
                     cell.setupData(arrayMovies.reversed())
                     return cell
-                }else if indexPath.section == 1{
+                } else if indexPath.section == 1 {
                     let data = arrayTopRatedAndPopular[indexPath.row]
-                    let cell : PopularAndTopRatedCell = tableView.dequeueReusableCell(for: indexPath)
+                    let cell: PopularAndTopRatedCell = tableView.dequeueReusableCell(for: indexPath)
                     cell.setupData(data)
                     return cell
-                }else{
+                } else {
                     let data = arrayData[indexPath.row]
-                    let cell : GenreCell = tableView.dequeueReusableCell(for: indexPath)
+                    let cell: GenreCell = tableView.dequeueReusableCell(for: indexPath)
                     cell.setupData(data)
                     return cell
                 }
-            }else{
-                if indexPath.section == 0{
+            } else {
+                if indexPath.section == 0 {
                     let data = arrayTopRatedAndPopular[indexPath.row]
-                    let cell : PopularAndTopRatedCell = tableView.dequeueReusableCell(for: indexPath)
+                    let cell: PopularAndTopRatedCell = tableView.dequeueReusableCell(for: indexPath)
                     cell.setupData(data)
                     return cell
-                }else{
+                } else {
                     let data = arrayData[indexPath.row]
-                    let cell : GenreCell = tableView.dequeueReusableCell(for: indexPath)
+                    let cell: GenreCell = tableView.dequeueReusableCell(for: indexPath)
                     cell.setupData(data)
                     return cell
                 }
@@ -231,7 +226,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if viewModel.isSearchingMode{
+        if viewModel.isSearchingMode {
             let result = arraySearch[indexPath.row]
             var movie = Movie()
             movie.movieName = result.title ?? ""
@@ -240,22 +235,22 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
             movie.time = "\(Date())"
             DatabaseManager.shared.checkAndInserData(movie)
             navigator.moveToMovieDetailScreen(with: result)
-        }else{
-            if arrayMovies.count > 0{
-                if indexPath.section == 0{
+        } else {
+            if arrayMovies.count > 0 {
+                if indexPath.section == 0 {
                         print("")
-                }else if indexPath.section == 1{
+                } else if indexPath.section == 1 {
                     let data = arrayTopRatedAndPopular[indexPath.row]
                     navigator.moveToDiscover(withDiscover: ((data[AppConstants.typeKey] as? DiscoverType) ?? DiscoverType.popular))
-                }else{
+                } else {
                     let data = arrayData[indexPath.row]
                     navigator.moveToDiscover(with: data, withDiscover: .genre)
                 }
-            }else{
-                if indexPath.section == 0{
+            } else {
+                if indexPath.section == 0 {
                     let data = arrayTopRatedAndPopular[indexPath.row]
                     navigator.moveToDiscover(withDiscover: ((data[AppConstants.typeKey] as? DiscoverType) ?? DiscoverType.popular))
-                }else{
+                } else {
                     let data = arrayData[indexPath.row]
                     navigator.moveToDiscover(with: data, withDiscover: .genre)
                 }
@@ -264,18 +259,18 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if viewModel.isSearchingMode{
+        if viewModel.isSearchingMode {
             return UITableView.automaticDimension
-        }else{
-            if arrayMovies.count > 0{
+        } else {
+            if arrayMovies.count > 0 {
                 if indexPath.section == 0{
                     let width = (self.view.bounds.width - 20) / 4
                     let height = width * 1.5
                     return height
-                }else{
+                } else {
                     return UITableView.automaticDimension
                 }
-            }else{
+            } else {
                 return UITableView.automaticDimension
             }
         }
@@ -286,8 +281,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
         
+        let headerView = UIView()
         let viewTopLine = UIView()
         viewTopLine.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(viewTopLine)
@@ -328,36 +323,35 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
         return headerView
     }
     
-    func tableViewTitle(forHeaderIn section: Int) -> String{
-        if viewModel.isSearchingMode{
+    func tableViewTitle(forHeaderIn section: Int) -> String {
+        if viewModel.isSearchingMode {
             return AppConstants.searchResultHeader.uppercased()
-        }else{
-            if arrayMovies.count > 0{
+        } else {
+            if arrayMovies.count > 0 {
                 if section == 0{
                     return AppConstants.recentlyVisitedHeader.uppercased()
-                }else if section == 1{
+                } else if section == 1 {
                     return AppConstants.popularTopRatedMoviesHeader.uppercased()
-                }else{
+                } else {
                     return AppConstants.genreHeader.uppercased()
                 }
-            }else{
-                if section == 0{
+            } else {
+                if section == 0 {
                     return AppConstants.popularTopRatedMoviesHeader.uppercased()
-                }else{
+                } else {
                     return AppConstants.genreHeader.uppercased()
                 }
             }
         }
     }
-    
 }
  
-extension SearchViewController: RecentlyVisitedCellDelegate{
+extension SearchViewController: RecentlyVisitedCellDelegate {
     func getMovieResult(with movieID: String, _ genre: String) {
         AppConstants.movieID = movieID
         viewModel.getResultFromMovieID(movieID: movieID) { data in
-            DispatchQueue.main.async {
-                self.navigator.moveToMovieDetailScreen(with: data, isDBData: true, genre: genre)
+            DispatchQueue.main.async { [weak self] in
+                self?.navigator.moveToMovieDetailScreen(with: data, isDBData: true, genre: genre)
             }
             
         }

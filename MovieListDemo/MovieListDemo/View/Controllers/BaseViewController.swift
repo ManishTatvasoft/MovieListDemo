@@ -11,7 +11,6 @@ class BaseViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         if #available(iOS 11.0, *) {
             if #available(iOS 14.0, *) {
                 self.navigationController?.navigationBar.topItem?.backButtonDisplayMode = .minimal
@@ -20,16 +19,4 @@ class BaseViewController: UIViewController {
             }
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

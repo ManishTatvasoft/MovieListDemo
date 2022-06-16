@@ -8,17 +8,40 @@
 import UIKit
 
 
-class AppManager{
+class AppManager {
+    
     static let shared = AppManager()
-    static let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    static let appDelegate = UIApplication.shared.delegate as? AppDelegate
     var timer: Timer?
-    var reachability : Reachability?
+    var reachability: Reachability?
+    var genre: Genre?
     
     func prepareNavigation() {
-        AppManager.appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
-        AppManager.appDelegate.initialViewController = UIStoryboard.main.get(CustomTabarViewController.self)!
-        AppManager.appDelegate.customNavigationController = UINavigationController(rootViewController: AppManager.appDelegate.initialViewController)
-        AppManager.appDelegate.window?.rootViewController = AppManager.appDelegate.customNavigationController
-        AppManager.appDelegate.window?.makeKeyAndVisible()
+        guard let appDelegate = AppManager.appDelegate else {
+            return
+        }
+        guard let tabbar = UIStoryboard.main.get(CustomTabarViewController.self) else {
+            return
+        }
+        appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
+        appDelegate.initialViewController = tabbar
+        appDelegate.customNavigationController = UINavigationController(rootViewController: appDelegate.initialViewController)
+        appDelegate.window?.rootViewController = appDelegate.customNavigationController
+        appDelegate.window?.makeKeyAndVisible()
+    }
+    
+    func setupGenre(){
+        let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
+        DetailsController.shared.getGenreList(parameters: param) { [weak self] response in
+            guard let self = self else {
+                return
+            }
+            self.genre = response
+        } failureCompletion: { [weak self] failure, errorMessage in
+            guard let self = self else {
+                return
+            }
+            self.genre = nil
+        }
     }
 }

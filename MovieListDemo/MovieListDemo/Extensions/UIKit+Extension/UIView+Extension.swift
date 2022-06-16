@@ -105,12 +105,14 @@ extension UIView {
 
 
 //MARK: - UIView extension for toast message
-extension UIView{
-    enum ToastPosition{
+extension UIView {
+    
+    enum ToastPosition {
         case top
         case bottom
         case center
     }
+    
     func showToast(message: String, toastAt position: ToastPosition = .bottom, withDuration: Double = 0.2, withDelay: Double = 0.5) {
         let toastContainer = UIView(frame: CGRect())
         toastContainer.backgroundColor = UIColor.black.withAlphaComponent(0.6)
@@ -138,7 +140,7 @@ extension UIView{
         let a4 = NSLayoutConstraint(item: toastLabel, attribute: .top, relatedBy: .equal, toItem: toastContainer, attribute: .top, multiplier: 1, constant: 15)
         toastContainer.addConstraints([a1, a2, a3, a4])
         
-        switch position{
+        switch position {
         case.top:
             let c1 = NSLayoutConstraint(item: toastContainer, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 65)
             let c2 = NSLayoutConstraint(item: toastContainer, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -65)
@@ -155,6 +157,7 @@ extension UIView{
             let c3 = NSLayoutConstraint(item: toastContainer, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -75)
             self.addConstraints([c1, c2, c3])
         }
+        
         UIView.animate(withDuration: withDuration, delay: 0.0, options: .curveEaseIn, animations: {
             toastContainer.alpha = 1.0
         }, completion: { _ in

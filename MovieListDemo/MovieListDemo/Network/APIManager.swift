@@ -49,7 +49,7 @@ enum WebError: Error {
     case parseFail
     
     
-    static func getErrorByCode(_ statusCode: Int!, message : String) -> WebError {
+    static func getErrorByCode(_ statusCode: Int, message : String) -> WebError {
         return .custom(message)
     }
     
@@ -84,33 +84,39 @@ enum WebError: Error {
         case .unknown:
             //            return "Coundn't process request at the moment, please try again later."
             return "There is an error processing your request, Please try again later."
-        case .custom(let errorMessage) :
+        case .custom(let errorMessage):
             return errorMessage
         }
     }
 }
 
-final class APIManager: Session{
+final class APIManager: Session {
     
     static let API: APIManager = APIManager()
     
     func sendRequest<T: Codable>(_ route: Router, type: T.Type,  successCompletion: @escaping (_ response: T) -> Void, failureCompletion: @escaping ( _ failure: WebError, _ message: String) -> Void) {
-        guard let isReachable = Reachability()?.isReachable else{
+        
+        guard let isReachable = Reachability()?.isReachable else {
             failureCompletion(WebError.noInternet,  String.Title.noInternet)
             return
         }
-        if !isReachable{
+        
+        if !isReachable {
             failureCompletion(WebError.noInternet,  String.Title.noInternet)
         }
+        
         let path = route.path.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
-        guard let path = path else{
+        
+        guard let path = path else {
             failureCompletion(WebError.badRequest,  String.Title.invalidUrl)
             return
         }
-        guard let _ = URL(string: path) else{
+        
+        guard let _ = URL(string: path) else {
             failureCompletion(WebError.serviceUnavailable,  String.Title.invalidUrl)
             return
         }
+        
         var parameter = route.parameters
         if route.parameters == nil || route.parameters?.count == 0 {
             parameter = [:]
@@ -120,10 +126,10 @@ final class APIManager: Session{
             if let statusCode = response.response?.statusCode,
                statusCode != 200 {
                 failureCompletion(WebError.unauthorized,  response.error?.localizedDescription ?? String.Title.unknownError)
-            }else{
-                if let data = response.data, let resp = try? JSONDecoder().decode(type.self, from: data){
+            } else {
+                if let data = response.data, let resp = try? JSONDecoder().decode(type.self, from: data) {
                     successCompletion(resp)
-                }else{
+                } else {
                     failureCompletion(WebError.unauthorized,  response.error?.localizedDescription ?? String.Title.unknownError)
                 }
             }

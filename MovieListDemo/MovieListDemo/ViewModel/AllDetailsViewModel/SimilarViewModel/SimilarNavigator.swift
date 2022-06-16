@@ -18,7 +18,7 @@ final class SimilarNavigator {
     }
 }
 
-extension SimilarNavigator{
+extension SimilarNavigator {
     
     func moveToMovieDetailScreen(with Data: Results){
         guard let vc = UIStoryboard.details.get(DetailsViewController.self) else{

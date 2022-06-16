@@ -10,20 +10,20 @@ import UIKit
 class SimilarViewController: BaseViewController {
 
     @IBOutlet private weak var tableSimilar: UITableView!
+    
     private lazy var viewModel = SimilarViewModel()
     private lazy var navigator = SimilarNavigator(self)
     var arrayData = [Results]()
-    
     var name: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = name
         prepareView()
         // Do any additional setup after loading the view.
     }
-    
 
-    func prepareView(){
+    func prepareView() {
         tableSimilar.register(SimilarCell.self)
         self.startLoading()
         apiResponse { [weak self] in
@@ -31,29 +31,28 @@ class SimilarViewController: BaseViewController {
         }
     }
     
-    func apiResponse(completion: (() -> Void)?){
+    func apiResponse(completion: (() -> Void)?) {
         viewModel.callSimilarMovieApi { [weak self] results, isSuccess, errorMessage in
-            guard let self = self else{
+            guard let self = self else {
                 completion?()
                 return
             }
-            if isSuccess{
+            if isSuccess {
                 guard let results = results else {
                     self.showValidationMessage(withMessage: String.Title.dataNotFound)
                     return
                 }
                 
                 self.arrayData.append(contentsOf: results)
-                DispatchQueue.main.async { [weak self] in
-                    self?.tableSimilar.reloadData()
+                DispatchQueue.main.async {
+                    self.tableSimilar.reloadData()
                 }
-            }else{
+            } else {
                 self.showValidationMessage(withMessage: String.Title.dataNotFound)
             }
             completion?()
         }
     }
-
 }
 
 extension SimilarViewController: UITableViewDelegate, UITableViewDataSource{
@@ -81,7 +80,7 @@ extension SimilarViewController: UITableViewDelegate, UITableViewDataSource{
             spinner.startAnimating()
             spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
             self.tableSimilar.tableFooterView = spinner
-            if !viewModel.isAllMovieFetched{
+            if !viewModel.isAllMovieFetched {
                 apiResponse(completion: nil)
             }
             self.tableSimilar.tableFooterView?.isHidden = viewModel.isAllMovieFetched

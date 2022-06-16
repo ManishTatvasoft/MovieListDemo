@@ -20,12 +20,12 @@ final class VideoNavigator {
 
 extension VideoNavigator{
     
-    func playVideo(from data: VideoResults){
-        guard let url = URL(string: AppConstants.youtubeVideoUrl(data.key ?? "")) else{
+    func playVideo(from data: VideoResults) {
+        guard let url = URL(string: AppConstants.youtubeVideoUrl(data.key ?? "")) else {
             controller.showValidationMessage(withMessage: AppConstants.couldNotPlayVideo)
             return
         }
-        guard let vc = UIStoryboard.details.get(PlayerViewController.self) else{
+        guard let vc = UIStoryboard.details.get(PlayerViewController.self) else {
             return
         }
         vc.name = data.name

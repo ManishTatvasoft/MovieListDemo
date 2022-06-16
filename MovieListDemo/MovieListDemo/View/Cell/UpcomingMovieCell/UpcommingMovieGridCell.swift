@@ -10,12 +10,13 @@ import UIKit
 class UpcommingMovieGridCell: UICollectionViewCell {
 
     @IBOutlet private weak var posterImage: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
-    func setupData(_ url: String?){
+    func setupData(_ url: String?) {
         
         let posterPath = Environment.basePosterImageURL() + (url ?? "")
         if #available(iOS 13.0, *) {

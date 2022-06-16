@@ -7,9 +7,9 @@
 
 import UIKit
 
-extension UIImage{
+extension UIImage {
     
-    class func universalImage(_ name: String) -> UIImage?{
+    class func universalImage(_ name: String) -> UIImage? {
         if #available(iOS 13.0, *) {
             return UIImage(systemName: name)
         } else {

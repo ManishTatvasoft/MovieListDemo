@@ -20,7 +20,7 @@ class GenreCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    func setupData(_ data: Genres){
+    func setupData(_ data: Genres) {
         genreLabel.text = data.name
     }
     

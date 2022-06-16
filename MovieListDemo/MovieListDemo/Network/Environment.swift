@@ -10,11 +10,11 @@ import UIKit
 
 class Environment {
     
-    class func basePosterImageURL() -> String{
+    class func basePosterImageURL() -> String {
         return "https://image.tmdb.org/t/p/w200"
     }
     
-    class func baseCoverImageURL() -> String{
+    class func baseCoverImageURL() -> String {
         return "https://image.tmdb.org/t/p/w500"
     }
     

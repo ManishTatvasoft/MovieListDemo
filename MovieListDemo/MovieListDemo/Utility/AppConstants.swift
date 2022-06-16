@@ -11,10 +11,10 @@ import AVFoundation
 
 
 let ApplicationName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "Upcoming Movie App"
-let ApplicationVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String ?? ""
-let ApplicationBuildNumber = Bundle.main.infoDictionary!["CFBundleVersion"] as? String ?? ""
+let ApplicationVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+let ApplicationBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
 
-struct AppConstants{
+struct AppConstants {
     
     static let apiKey = "api_key"
     static let apiKeyValue = "0141e6d543b187f0b7e6bb3a1902209a"
@@ -36,26 +36,29 @@ struct AppConstants{
     
     
     //MARK: key for top rated and popular movie
-    
     static let titleKey = "title"
     static let subTitleKey = "subTitle"
     static let typeKey = "type"
     
-    static func getGenreString(_ data: Results, _ genreData: Genre) -> String{
+    //MARK: For collection header title
+    static let castHeader = "Cast"
+    static let crewHeader = "Crew"
+    
+    static func getGenreString(_ data: Results) -> String {
         var arrayGenre = [String]()
         data.genre_ids?.forEach({ id in
-            genreData.genres?.forEach({ Genre in
+            AppManager.shared.genre?.genres?.forEach({ Genre in
                 if id == Genre.id{
                     arrayGenre.append(Genre.name ?? "")
                 }
             })
         })
         
-        let genre = arrayGenre.joined(separator: ", ")
+        let genre = arrayGenre.count > 0 ? arrayGenre.joined(separator: ", ") : ""
         return genre
     }
 
-    static func share(_ image: UIImage?){
+    static func share(_ image: UIImage?) {
         let imageToShare = [image]
         let activityViewController = UIActivityViewController(activityItems: imageToShare as [Any], applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = AppConstants.topViewController()?.view
@@ -63,24 +66,19 @@ struct AppConstants{
         AppConstants.topViewController()?.present(activityViewController, animated: true, completion: nil)
     }
     
-    static func addDataToDb(_ result: Results){
+    static func addDataToDb(_ result: Results) {
         var movie = Movie()
         movie.movieName = result.title ?? ""
         movie.movieID = "\(result.id ?? 0)"
         movie.posterPath = result.poster_path ?? ""
         movie.time = "\(Date())"
+        movie.genre = AppConstants.getGenreString(result)
+        DatabaseManager.shared.checkAndInserData(movie)
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
-        DetailsController.shared.getGenreList(parameters: param) { response in
-            movie.genre = AppConstants.getGenreString(result, response)
-            DatabaseManager.shared.checkAndInserData(movie)
-        } failureCompletion: { failure, errorMessage in
-            movie.genre = ""
-            DatabaseManager.shared.checkAndInserData(movie)
-        }
         
     }
     
-    static func topViewController() -> UIViewController?{
+    static func topViewController() -> UIViewController? {
         let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
 
         if var topController = keyWindow?.rootViewController {
@@ -109,12 +107,12 @@ struct AppConstants{
         }
     }
     
-    static func videoUrl(_ endPoint: String) -> String{
+    static func videoUrl(_ endPoint: String) -> String {
         let fullUrl = "https://img.youtube.com/vi/\(endPoint)/hqdefault.jpg"
         return fullUrl
     }
     
-    static func youtubeVideoUrl(_ endPoint: String) -> String{
+    static func youtubeVideoUrl(_ endPoint: String) -> String {
         let fullUrl = "https://www.youtube.com/watch?v=\(endPoint)"
         return fullUrl
     }
