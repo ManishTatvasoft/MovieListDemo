@@ -10,11 +10,14 @@ import UIKit
 import AVFoundation
 
 
-let ApplicationName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "Upcoming Movie App"
-let ApplicationVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
-let ApplicationBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
+
 
 struct AppConstants {
+    
+    //MARK: App releted details
+    static let ApplicationName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "Upcoming Movie App"
+    static let ApplicationVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+    static let ApplicationBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
     
     static let apiKey = "api_key"
     static let apiKeyValue = "0141e6d543b187f0b7e6bb3a1902209a"

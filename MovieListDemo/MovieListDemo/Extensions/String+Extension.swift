@@ -10,7 +10,7 @@ import Foundation
 extension String {
     
     struct Title {
-        static let title = ApplicationName
+        static let title = AppConstants.ApplicationName
         static let noInternet = "You need an active data connection to use this application, please check your internet settings and try again"
         static let internalServerError = "Internal Server Error"
         static let invalidUrl = "Invalid Url"
