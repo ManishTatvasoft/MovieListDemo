@@ -20,13 +20,13 @@ extension DiscoverViewModel {
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue, AppConstants.withGenreKey: "\(genreId)", AppConstants.pageKey: "\(currentPage)"]
         
         DiscoverController.shared.getGenreMovieList(parameters: param) { [weak self] response in
-            guard let self = self else{
+            guard let self = self else {
                 completion([], false, String.Title.somthingWentWrong)
                 return
             }
-            if response.total_pages == self.currentPage{
+            if response.total_pages == self.currentPage {
                 self.isAllMovieFetched = true
-            }else{
+            } else {
                 self.currentPage += 1
             }
             completion(response.results, true, "")
@@ -39,13 +39,13 @@ extension DiscoverViewModel {
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue, AppConstants.pageKey: "\(currentPage)"]
         
         DiscoverController.shared.getPopularMovieList(parameters: param) { [weak self] response in
-            guard let self = self else{
+            guard let self = self else {
                 completion([], false, String.Title.somthingWentWrong)
                 return
             }
-            if response.total_pages == self.currentPage{
+            if response.total_pages == self.currentPage {
                 self.isAllMovieFetched = true
-            }else{
+            } else {
                 self.currentPage += 1
             }
             completion(response.results, true, "")

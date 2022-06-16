@@ -16,7 +16,7 @@ final class UpcommingMovieViewModel {
 }
 
 extension UpcommingMovieViewModel {
-    func callUpcomingMovieApi(_ completion: @escaping ((_ data:[Results]?,_ isSuccess: Bool,_ errorMessage: String) -> ())){
+    func callUpcomingMovieApi(_ completion: @escaping ((_ data:[Results]?,_ isSuccess: Bool,_ errorMessage: String) -> ())) {
         
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue, AppConstants.pageKey: "\(currentPage)"]
         

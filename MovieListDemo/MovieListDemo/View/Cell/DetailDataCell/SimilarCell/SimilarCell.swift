@@ -24,11 +24,9 @@ class SimilarCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
-    func setupData(_ data: Results){
+    func setupData(_ data: Results) {
         let posterPath = Environment.basePosterImageURL() + (data.poster_path ?? "")
         movieImage.setImageUsingUrl(posterPath, placeholder: UIImage.universalImage("photo"))
         titlelabel.text = data.title

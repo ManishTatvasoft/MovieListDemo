@@ -18,13 +18,13 @@ extension ReviewsViewModel{
         let param = [AppConstants.apiKey:AppConstants.apiKeyValue,AppConstants.pageKey: "\(currentPage)"]
         
         ReviewsController.shared.getReviewsList(parameters: param) { [weak self] response in
-            guard let self = self else{
+            guard let self = self else {
                 completion([], false, String.Title.somthingWentWrong)
                 return
             }
-            if response.total_pages == self.currentPage{
+            if response.total_pages == self.currentPage {
                 self.isAllReviewFetched = true
-            }else{
+            } else {
                 self.currentPage += 1
             }
             completion(response.results, true, "")
