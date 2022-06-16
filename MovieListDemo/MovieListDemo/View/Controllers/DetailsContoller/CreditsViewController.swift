@@ -7,13 +7,20 @@
 
 import UIKit
 
+enum CastAndCrewSection: Int {
+    case onlyCastOrCrew = 1
+    case castAndCrew
+}
+
 class CreditsViewController: BaseViewController {
 
     @IBOutlet private weak var collectionCredits: UICollectionView!
     
     var castCrewData: CastCrewManager?
     var name: String?
+    var castCrewSectionType = CastAndCrewSection.castAndCrew
     private lazy var viewModel = CreditsViewModel()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,12 +61,6 @@ class CreditsViewController: BaseViewController {
     @IBAction func buttonExpandCollepsAction(_ sender: UIButton) {
         if sender.tag == 0 {
             castCrewData?.cast.isOpened.toggle()
-//            if castCrewData?.cast.isOpened{
-//                (self.collectionCredits.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
-//            } else {
-//                (self.collectionCredits.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
-//            }
-            
         } else {
             castCrewData?.crew.isOpened.toggle()
         }
@@ -78,10 +79,7 @@ class CreditsViewController: BaseViewController {
 extension CreditsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        guard let castCrewData = castCrewData else {
-            return 0
-        }
-        return Mirror(reflecting: castCrewData).children.count
+        return castCrewSectionType.rawValue
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
