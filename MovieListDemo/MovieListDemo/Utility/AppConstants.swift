@@ -74,8 +74,6 @@ struct AppConstants {
         movie.time = "\(Date())"
         movie.genre = AppConstants.getGenreString(result)
         DatabaseManager.shared.checkAndInserData(movie)
-        let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
-        
     }
     
     static func topViewController() -> UIViewController? {
