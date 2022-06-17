@@ -8,35 +8,35 @@
 import Foundation
 import CoreData
 
-final class CoreDataManager{
+final class CoreDataManager {
     
     static let shared = CoreDataManager()
     let context = AppManager.appDelegate?.persistentContainer.viewContext
     
-    func getData() -> [Movies]{
+    func getData() -> [Movies] {
+        
         let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "time", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         fetchRequest.fetchLimit = 10
-        guard let context = context else {
+        if let context = context {
+            do {
+                let data = try context.fetch(fetchRequest)
+                return data
+            } catch let error {
+                print(error.localizedDescription)
+                return []
+            }
+        } else {
             return []
         }
-        do{
-            let data = try context.fetch(fetchRequest)
-            return data
-        }catch let error{
-            print(error.localizedDescription)
-        }
-        
-        return []
     }
     
-    func addDataToDb(_ result: Results){
+    func addDataToDb(_ result: Results) {
         checkAndSavedata(result.id ?? 0, result)
-        
     }
     
-    func checkAndSavedata(_ id: Int, _ data: Results?, completion: (() -> ())? = nil){
+    func checkAndSavedata(_ id: Int, _ data: Results?, completion: (() -> ())? = nil) {
         var success = false
         let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
         let pred = NSPredicate(format: "movieId CONTAINS %@", "\(id)")
@@ -50,25 +50,23 @@ final class CoreDataManager{
             if getId.count >= 1{
                 success = true
             }
-        }catch let error{
+        } catch let error {
             print(error.localizedDescription)
         }
-        if !success{
+        if !success {
             saveData(data) {
                 completion?()
             }
-        }else{
+        } else {
             deleteData(data) {
                 self.saveData(data) {
                     completion?()
                 }
             }
-
-            
         }
     }
     
-    func saveData(_ data: Results?, completion: (() -> ())? = nil){
+    func saveData(_ data: Results?, completion: (() -> ())? = nil) {
         guard let data = data else {
             completion?()
             return
@@ -83,15 +81,15 @@ final class CoreDataManager{
         movies.posterPath = data.poster_path ?? ""
         movies.time = Date()
         movies.genre = AppConstants.getGenreString(data)
-        do{
+        do {
             _ = try context.save()
             completion?()
-        }catch let error{
+        } catch let error {
             print(error.localizedDescription)
         }
     }
     
-    func deleteData(_ movie: Results?, completion: (() -> ())? = nil){
+    func deleteData(_ movie: Results?, completion: (() -> ())? = nil) {
         let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "movieId CONTAINS %@", "\(movie?.id ?? 0)")
         guard let context = context else {
@@ -106,7 +104,7 @@ final class CoreDataManager{
                 }
                 completion?()
             }
-        }catch let error{
+        } catch let error {
             print(error.localizedDescription)
             completion?()
         }
