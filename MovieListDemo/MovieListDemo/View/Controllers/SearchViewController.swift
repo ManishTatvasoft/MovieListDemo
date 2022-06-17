@@ -24,8 +24,10 @@ class SearchViewController: BaseViewController {
     var arrayData = [Genres]()
     var arraySearch = [Results]()
     var arrayTopRatedAndPopular = [TopRatedAndPopular]()
-    var arrayMovies = [Movie]()
+//    var arrayMovies = [Movie]()
     var sectionCount = SectionCount.withOutRecentlyVisited
+    var arrayMovies = [Movies]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +35,7 @@ class SearchViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        arrayMovies = DatabaseManager.shared.getData()
+        arrayMovies = CoreDataManager.shared.getData()
         arrayTopRatedAndPopular = TopRatedAndPopular.getData()
         if viewModel.isSearchingMode{
             sectionCount = .search
@@ -192,7 +194,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 if indexPath.section == 0 {
                     let cell: RecentlyVisitedCell = tableView.dequeueReusableCell(for: indexPath)
                     cell.delegate = self
-                    cell.setupData(arrayMovies.reversed())
+                    cell.setupData(arrayMovies)
                     return cell
                 } else if indexPath.section == 1 {
                     let data = arrayTopRatedAndPopular[indexPath.row]
@@ -227,12 +229,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         if viewModel.isSearchingMode {
             let result = arraySearch[indexPath.row]
-            var movie = Movie()
-            movie.movieName = result.title ?? ""
-            movie.movieID = "\(result.id ?? 0)"
-            movie.posterPath = result.poster_path ?? ""
-            movie.time = "\(Date())"
-            DatabaseManager.shared.checkAndInserData(movie)
+            CoreDataManager.shared.checkAndSavedata(result.id ?? 0, result, completion: nil)
             navigator.moveToMovieDetailScreen(with: result)
         } else {
             if arrayMovies.count > 0 {
@@ -368,11 +365,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 extension SearchViewController: RecentlyVisitedCellDelegate {
     func getMovieResult(with movieID: String, _ genre: String) {
         AppConstants.movieID = movieID
+        startLoading()
         viewModel.getResultFromMovieID(movieID: movieID) { data in
-            DispatchQueue.main.async { [weak self] in
-                self?.navigator.moveToMovieDetailScreen(with: data, isDBData: true, genre: genre)
+            CoreDataManager.shared.checkAndSavedata(data?.id ?? 0, data) {
+                DispatchQueue.main.async { [weak self] in
+                    self?.stopLoading()
+                    self?.navigator.moveToMovieDetailScreen(with: data, isDBData: true, genre: genre)
+                }
             }
-            
         }
     }
 }

@@ -84,16 +84,6 @@ struct AppConstants {
         AppConstants.topViewController()?.present(activityViewController, animated: true, completion: nil)
     }
     
-    static func addDataToDb(_ result: Results) {
-        var movie = Movie()
-        movie.movieName = result.title ?? ""
-        movie.movieID = "\(result.id ?? 0)"
-        movie.posterPath = result.poster_path ?? ""
-        movie.time = "\(Date())"
-        movie.genre = AppConstants.getGenreString(result)
-        DatabaseManager.shared.checkAndInserData(movie)
-    }
-    
     static func topViewController() -> UIViewController? {
         let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
 

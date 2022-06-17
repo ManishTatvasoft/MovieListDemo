@@ -119,7 +119,7 @@ extension UpcomingViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let result = arrData[indexPath.item]
-        AppConstants.addDataToDb(result)
+        CoreDataManager.shared.addDataToDb(result)
         navigator.moveToCharecterListScreen(with: result)
     }
     

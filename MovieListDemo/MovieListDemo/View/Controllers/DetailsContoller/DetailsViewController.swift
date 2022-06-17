@@ -50,7 +50,7 @@ class DetailsViewController: BaseViewController {
     
     func prepareView() {
         guard let data = data else {
-            showValidationMessage(withMessage: String.Title.dataNotFound)
+            
             coverImage.image = nil
             posterImage.image = nil
             titleLabel.text = nil
@@ -59,6 +59,9 @@ class DetailsViewController: BaseViewController {
             progressView.value = 0.0
             progressValue.text = nil
             genreLabel.text = nil
+            showValidationMessage(withMessage: String.Title.dataNotFound) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
             return
         }
         let posterPath = Environment.basePosterImageURL() + (data.poster_path ?? "")

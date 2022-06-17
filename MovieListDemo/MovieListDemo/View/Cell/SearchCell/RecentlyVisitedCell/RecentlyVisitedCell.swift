@@ -15,7 +15,7 @@ class RecentlyVisitedCell: UITableViewCell {
 
     @IBOutlet private weak var collectionVisited: UICollectionView!
     
-    private var arrayMovies = [Movie]()
+    private var arrayMovies = [Movies]()
     var delegate: RecentlyVisitedCellDelegate?
     
     override func awakeFromNib() {
@@ -27,7 +27,7 @@ class RecentlyVisitedCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func setupData(_ data: [Movie]) {
+    func setupData(_ data: [Movies]) {
         arrayMovies = data
         DispatchQueue.main.async { [weak self] in
             self?.collectionVisited.reloadData()
@@ -49,14 +49,10 @@ extension RecentlyVisitedCell: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let result = arrayMovies[indexPath.row]
-        var movie = Movie()
-        movie.movieName = result.movieName
-        movie.movieID = result.movieID
-        movie.posterPath = result.posterPath
-        movie.genre = result.genre
-        movie.time = "\(Date())"
-        DatabaseManager.shared.checkAndInserData(movie)
-        delegate?.getMovieResult(with: result.movieID, result.genre)
+        if let movieID = result.movieId, let genre = result.genre{
+            delegate?.getMovieResult(with: movieID, genre)
+        }
+       
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

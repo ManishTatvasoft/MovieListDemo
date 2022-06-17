@@ -98,7 +98,7 @@ extension SimilarViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let result = arrayData[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
-        AppConstants.addDataToDb(result)
+        CoreDataManager.shared.addDataToDb(result)
         navigator.moveToMovieDetailScreen(with: result)
     }
 }

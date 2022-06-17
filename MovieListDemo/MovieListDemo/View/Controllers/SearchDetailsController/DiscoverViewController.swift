@@ -31,26 +31,22 @@ class DiscoverViewController: BaseViewController {
     func prepareView() {
         tableDiscover.register(DiscoverCell.self)
         startLoading()
-        callApiAccordingToType { [weak self] errorMessage in
+        callApiAccordingToType { [weak self] in
             self?.stopLoading()
-            self?.showValidationMessage(withMessage: errorMessage)
         }
     }
     
-    func apiResponce(_ results: [Results]?, _ isSuccess : Bool, _ errorMessage: String, _ completion: (() -> ())?) {
+    func apiResponce(_ results: [Results]?, _ isSuccess : Bool, _ errorMessage: String) {
         if isSuccess {
             guard let results = results else {
-                completion?()
                 showValidationMessage(withMessage: errorMessage)
                 return
             }
             self.arrayData.append(contentsOf: results)
-            completion?()
             DispatchQueue.main.async { [weak self] in
                 self?.tableDiscover.reloadData()
             }
         } else {
-            completion?()
             emptyDataSetSetup()
             DispatchQueue.main.async { [weak self] in
                 self?.showValidationMessage(withMessage: errorMessage)
@@ -58,41 +54,38 @@ class DiscoverViewController: BaseViewController {
         }
     }
     
-    func callApiAccordingToType(completion: ((String) -> ())?) {
+    func callApiAccordingToType(completion: (() -> ())?) {
         switch discoverType {
         case .genre:
             viewModel.genreId = genre?.id ?? 28
             title = genre?.name
             viewModel.callGenreMovieApi { [weak self] results, isSuccess, errorMessage in
                 guard let self = self else{
-                    completion?(errorMessage)
+                    completion?()
                     return
                 }
-                self.apiResponce(results,isSuccess, errorMessage) {
-                    completion?(errorMessage)
-                }
+                completion?()
+                self.apiResponce(results,isSuccess, errorMessage)
             }
         case .topRated:
             title = AppConstants.topRatedMovieTitle
             viewModel.callTopRatedMovieApi { [weak self] results, isSuccess, errorMessage in
                 guard let self = self else{
-                    completion?(errorMessage)
+                    completion?()
                     return
                 }
-                self.apiResponce(results,isSuccess, errorMessage) {
-                    completion?(errorMessage)
-                }
+                completion?()
+                self.apiResponce(results,isSuccess, errorMessage)
             }
         case .popular:
             title = AppConstants.popularMovieTitle
             viewModel.callPopularMovieApi { [weak self] results, isSuccess, errorMessage in
                 guard let self = self else{
-                    completion?(errorMessage)
+                    completion?()
                     return
                 }
-                self.apiResponce(results,isSuccess, errorMessage) {
-                    completion?(errorMessage)
-                }
+                completion?()
+                self.apiResponce(results,isSuccess, errorMessage)
             }
         case .none:
             showValidationMessage(withMessage: String.Title.noDataFound, preferredStyle: .alert) { [weak self] in
@@ -140,7 +133,7 @@ extension DiscoverViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let result = arrayData[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
-        AppConstants.addDataToDb(result)
+        CoreDataManager.shared.addDataToDb(result)
         navigator.moveToMovieDetailScreen(with: result)
     }
 }
