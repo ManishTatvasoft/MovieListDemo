@@ -36,11 +36,9 @@ class DetailsViewController: BaseViewController {
         prepareView()
     }
     
-    override func viewWillLayoutSubviews() {
-        croppedImage()
-    }
-    
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        view.layoutIfNeeded()
         croppedImage()
     }
     

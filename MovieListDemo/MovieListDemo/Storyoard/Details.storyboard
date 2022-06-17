@@ -38,11 +38,6 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="WYh-2g-dnt" secondAttribute="height" multiplier="1:1.5" id="l4T-1O-8xX"/>
                                                 </constraints>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="MovieImage"/>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabledForSubviews" value="YES"/>
-                                                </userDefinedRuntimeAttributes>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="myH-GZ-bSh">
                                                 <rect key="frame" x="0.0" y="205" width="414" height="60"/>
