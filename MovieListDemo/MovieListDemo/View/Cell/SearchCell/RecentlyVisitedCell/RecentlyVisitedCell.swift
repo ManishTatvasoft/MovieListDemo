@@ -63,8 +63,8 @@ extension RecentlyVisitedCell: UICollectionViewDelegate, UICollectionViewDataSou
         let cellValue: CGFloat = 4
         let collectionWidth = collectionView.bounds.width
         let specing = (cellValue * ((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumLineSpacing ?? 0.0))
-        let leftRightInset = (((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset.left ?? 0.0))
-        let width = (collectionWidth - specing - leftRightInset) / cellValue
+        let leftInset = (((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset.left ?? 0.0))
+        let width = (collectionWidth - specing - leftInset) / cellValue
         let height = width * 1.6 - (((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumLineSpacing ?? 0.0))
         return CGSize(width: width, height: height)
     }
