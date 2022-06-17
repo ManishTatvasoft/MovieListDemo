@@ -13,7 +13,7 @@ extension UIImageView: URLSessionDelegate {
     
     func setImageUsingUrl(_ url: String?, placeholder image: UIImage?) {
         let source = URL(string: url ?? "")
-        self.kf.setImage(with: source, placeholder: image, options: nil, completionHandler: nil)
+        kf.setImage(with: source, placeholder: image, options: nil, completionHandler: nil)
     }
     
     

@@ -511,6 +511,7 @@ and whom he can ultimatelv trust.</string>
                         <outlet property="progressValue" destination="58j-8e-Art" id="QHd-kv-DWE"/>
                         <outlet property="progressView" destination="mkK-BB-mHt" id="AM4-We-uNw"/>
                         <outlet property="releaseDateLabel" destination="pE6-L9-xSt" id="4VY-NZ-oeG"/>
+                        <outlet property="scrollView" destination="XBR-LG-gLa" id="XmD-Qa-qHt"/>
                         <outlet property="titleLabel" destination="ovc-Ol-PqA" id="gU0-Zh-4e4"/>
                     </connections>
                 </viewController>

@@ -24,15 +24,21 @@ class CreditsViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = name ?? "Credits"
+        title = name ?? "Credits"
         prepareView()
         // Do any additional setup after loading the view.
+    }
+    
+    func emptyDataSetSetup(){
+        AppConstants.setUpEmptyDataset(collectionCredits) { [weak self] in
+            self?.prepareView()
+        }
     }
     
     func prepareView() {
         collectionCredits.register(CastAndCrewCell.self)
         collectionCredits.register(HeaderView.self, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader)
-        self.startLoading()
+        startLoading()
         viewModel.callCreditsApi { [weak self] credits, isSuccess, errorMessage in
             guard let self = self else{
                 self?.stopLoading()
@@ -52,6 +58,7 @@ class CreditsViewController: BaseViewController {
                 }
             } else {
                 DispatchQueue.main.async {
+                    self.emptyDataSetSetup()
                     self.showValidationMessage(withMessage: errorMessage)
                 }
             }
@@ -64,10 +71,10 @@ class CreditsViewController: BaseViewController {
         } else {
             castCrewData?.crew.isOpened.toggle()
         }
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut) {
-            self.collectionCredits.reloadSections(IndexSet(integer: sender.tag))
-            self.collectionCredits.layoutIfNeeded()
-            self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut) { [weak self] in
+            self?.collectionCredits.reloadSections(IndexSet(integer: sender.tag))
+            self?.collectionCredits.layoutIfNeeded()
+            self?.view.layoutIfNeeded()
         } completion: { isSuccess in
             print(isSuccess)
         }
@@ -152,7 +159,7 @@ extension CreditsViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: self.view.bounds.width, height: 40)
+        return CGSize(width: view.bounds.width, height: 40)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

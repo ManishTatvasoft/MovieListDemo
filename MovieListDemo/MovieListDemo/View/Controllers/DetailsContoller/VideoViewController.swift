@@ -19,9 +19,14 @@ class VideoViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = name ?? "Videos"
+        title = name ?? "Videos"
         prepareView()
         // Do any additional setup after loading the view.
+    }
+    func emptyDataSetSetup(){
+        AppConstants.setUpEmptyDataset(tableVideo) { [weak self] in
+            self?.prepareView()
+        }
     }
     
     func prepareView() {
@@ -49,6 +54,7 @@ class VideoViewController: BaseViewController {
                     self.tableVideo.reloadData()
                 }
             } else {
+                self.emptyDataSetSetup()
                 DispatchQueue.main.async {
                     self.showValidationMessage(withMessage: errorMessage)
                 }
@@ -89,8 +95,8 @@ extension VideoViewController {
             previewProvider: nil) { _ in
                 let watchAction = UIAction(
                     title: String.Title.watchVideo,
-                    image: UIImage(systemName: "eye")) { _ in
-                        self.navigator.playVideo(from: data)
+                    image: UIImage(systemName: "eye")) { [weak self] _ in
+                        self?.navigator.playVideo(from: data)
                     }
                 return UIMenu(title: "", image: nil, children: [watchAction])
             }

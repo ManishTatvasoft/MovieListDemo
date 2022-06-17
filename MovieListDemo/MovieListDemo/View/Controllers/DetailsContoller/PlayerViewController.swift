@@ -15,27 +15,27 @@ class PlayerViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = name
+        title = name
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let url = url else {
-            self.showValidationMessage(withMessage: AppConstants.couldNotPlayVideo)
+            showValidationMessage(withMessage: AppConstants.couldNotPlayVideo)
             return
         }
         let youtubeRequest = URLRequest(url: url)
         if #available(iOS 11.0, *) {
             let videoPlayerView = WKWebView()
             videoPlayerView.translatesAutoresizingMaskIntoConstraints = false
-            self.view.addSubview(videoPlayerView)
+            view.addSubview(videoPlayerView)
             setupView(videoPlayerView)
             videoPlayerView.configuration.allowsInlineMediaPlayback = true
             videoPlayerView.load(youtubeRequest)
         } else {
             let videoPlayerView = UIWebView()
             videoPlayerView.translatesAutoresizingMaskIntoConstraints = false
-            self.view.addSubview(videoPlayerView)
+            view.addSubview(videoPlayerView)
             setupView(videoPlayerView)
             videoPlayerView.allowsInlineMediaPlayback = true
             videoPlayerView.loadRequest(youtubeRequest)

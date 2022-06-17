@@ -26,7 +26,7 @@ class ReviewCell: UITableViewCell {
     func setupData(_ data: ReviewResults) {
         if let authorDetails = data.author_details {
             if let path = authorDetails.avatar_path {
-                if path.contains("/https://www.gravatar.com/") {
+                if path.contains(AppConstants.reviewContainedUrl) {
                     let str = authorDetails.avatar_path?.dropFirst()
                     profileImage.setImageUsingUrl(String(str ?? ""), placeholder: UIImage.universalImage("person.circle"))
                 } else {

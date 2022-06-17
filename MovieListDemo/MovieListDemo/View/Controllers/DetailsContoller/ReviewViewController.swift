@@ -17,14 +17,20 @@ class ReviewViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = name ?? "Review"
+        title = name ?? "Review"
         prepareView()
         // Do any additional setup after loading the view.
     }
     
+    func emptyDataSetSetup(){
+        AppConstants.setUpEmptyDataset(tableReview) { [weak self] in
+            self?.prepareView()
+        }
+    }
+    
     func prepareView(){
         tableReview.register(ReviewCell.self, reuseIdentifier: "ReviewCell")
-        self.startLoading()
+        startLoading()
         apiResponse { [weak self] in
             self?.stopLoading()
         }
@@ -54,6 +60,7 @@ class ReviewViewController: BaseViewController {
                     self.tableReview.reloadData()
                 }
             }else{
+                self.emptyDataSetSetup()
                 self.showValidationMessage(withMessage: errorMessage)
             }
             
@@ -86,11 +93,11 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource{
             }
             spinner.startAnimating()
             spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
-            self.tableReview.tableFooterView = spinner
+            tableReview.tableFooterView = spinner
             if !viewModel.isAllReviewFetched{
                 apiResponse(completion: nil)
             }
-            self.tableReview.tableFooterView?.isHidden = viewModel.isAllReviewFetched
+            tableReview.tableFooterView?.isHidden = viewModel.isAllReviewFetched
         }
     }
 }

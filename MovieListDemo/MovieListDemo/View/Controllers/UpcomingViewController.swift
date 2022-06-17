@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import EmptyDataSet_Swift
 
 class UpcomingViewController: BaseViewController {
 
@@ -22,21 +23,31 @@ class UpcomingViewController: BaseViewController {
         gridListBarButton = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(gridListToggleAction(_:)))
         gridListBarButton.setBackgroundImage(UIImage.universalImage(viewModel.isListView ? "list.bullet" : "rectangle.grid.3x2"), for: .normal, barMetrics: .default)
         prepareView()
-        self.navigationItem.leftBarButtonItem = gridListBarButton
+        navigationItem.leftBarButtonItem = gridListBarButton
         // Do any additional setup after loading the view.
+    }
+    
+    func emptyDataSetSetup(){
+        AppConstants.setUpEmptyDataset(collectionMovies) { [weak self] in
+            self?.prepareView()
+        }
     }
     
     @objc func gridListToggleAction(_ sender: UIBarButtonItem) {
         viewModel.isListView.toggle()
         sender.setBackgroundImage(UIImage.universalImage(viewModel.isListView ? "list.bullet" : "rectangle.grid.3x2"), for: .normal, barMetrics: .default)
-        self.collectionMovies?.scrollToItem(at: IndexPath(row: 0, section: 0),at: .top,animated: false)
+        if arrData.count > 0{
+            collectionMovies.setContentOffset(.zero, animated: false)
+        }else{
+            prepareView()
+        }
         DispatchQueue.main.async { [weak self] in
             self?.collectionMovies.reloadData()
         }
     }
 
     func prepareView() {
-        self.startLoading()
+        startLoading()
         apiResponse { [weak self] in
             self?.stopLoading()
         }
@@ -61,6 +72,7 @@ class UpcomingViewController: BaseViewController {
                     self.collectionMovies.reloadData()
                 }
             } else {
+                self.emptyDataSetSetup()
                 DispatchQueue.main.async {
                     self.showValidationMessage(withMessage: errorMessage)
                 }
@@ -92,13 +104,14 @@ extension UpcomingViewController: UICollectionViewDelegate, UICollectionViewData
         let cellValue: CGFloat = viewModel.isListView ? 1 : 3
         let collectioViewWidth = collectionView.bounds.width
         let specing = ( cellValue * ((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumInteritemSpacing ?? 0.0))
-        let leftAndRightInset = (((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset.left ?? 0.0))
+        let leftSectionInset = (((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset.left ?? 0.0))
+        let rightSectionInset = (((collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset.right ?? 0.0))
         if !viewModel.isListView {
-            let width = (collectioViewWidth - specing - leftAndRightInset) / cellValue
+            let width = (collectioViewWidth - specing - leftSectionInset) / cellValue
             let height = width * 1.6
             return CGSize(width: width, height: height)
         } else {
-            let width = (collectioViewWidth - leftAndRightInset) * 0.95
+            let width = (collectioViewWidth - leftSectionInset - rightSectionInset)
             let height = width * 0.55
             return CGSize(width: width, height: height)
         }
@@ -114,11 +127,9 @@ extension UpcomingViewController: UICollectionViewDelegate, UICollectionViewData
         let lastSectionIndex = collectionView.numberOfSections - 1
         let lastRowIndex = collectionView.numberOfItems(inSection: lastSectionIndex) - 1
         if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
-            
             if !viewModel.isAllMovieFetched {
                 apiResponse(completion: nil)
             }
-            self.collectionMovies.refreshControl?.isHidden = viewModel.isAllMovieFetched
         }
     }
 }

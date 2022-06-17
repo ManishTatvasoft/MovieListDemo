@@ -7,11 +7,6 @@
 
 import UIKit
 
-enum DiscoverType {
-    case genre
-    case topRated
-    case popular
-}
 
 enum SectionCount: Int {
     case search = 1
@@ -28,21 +23,18 @@ class SearchViewController: BaseViewController {
     
     var arrayData = [Genres]()
     var arraySearch = [Results]()
-    var arrayTopRatedAndPopular = [
-        [AppConstants.titleKey: "Popular movies", AppConstants.subTitleKey: "The hottest movies on the internet", AppConstants.typeKey: DiscoverType.popular],
-        [AppConstants.titleKey: "Top rated movies", AppConstants.subTitleKey: "The top rated movies on the internet", AppConstants.typeKey : DiscoverType.topRated]
-    ]
+    var arrayTopRatedAndPopular = [TopRatedAndPopular]()
     var arrayMovies = [Movie]()
     var sectionCount = SectionCount.withOutRecentlyVisited
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSearchBar()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         arrayMovies = DatabaseManager.shared.getData()
+        arrayTopRatedAndPopular = TopRatedAndPopular.getData()
         if viewModel.isSearchingMode{
             sectionCount = .search
         }else if arrayMovies.count > 0{
@@ -51,7 +43,12 @@ class SearchViewController: BaseViewController {
             sectionCount = .withOutRecentlyVisited
         }
         prepareView()
-        
+    }
+    
+    func emptyDataSetSetup(){
+        AppConstants.setUpEmptyDataset(tableSearch) { [weak self] in
+            self?.prepareView()
+        }
     }
     
     func prepareView(){
@@ -59,7 +56,7 @@ class SearchViewController: BaseViewController {
         tableSearch.register(DiscoverCell.self)
         tableSearch.register(PopularAndTopRatedCell.self)
         tableSearch.register(RecentlyVisitedCell.self)
-        self.startLoading()
+        startLoading()
         viewModel.callGenreListApi { [weak self] results, isSuccess, errorMessage in
             
             guard let self = self else {
@@ -79,6 +76,7 @@ class SearchViewController: BaseViewController {
                     self.tableSearch.reloadData()
                 }
             } else {
+                self.emptyDataSetSetup()
                 self.showValidationMessage(withMessage: errorMessage)
             }
         }
@@ -89,9 +87,9 @@ class SearchViewController: BaseViewController {
         search.delegate = self
         search.searchBar.delegate = self
         if #available(iOS 11.0, *) {
-            self.navigationItem.searchController = search
+            navigationItem.searchController = search
         } else {
-            self.navigationItem.titleView = search.view
+            navigationItem.titleView = search.view
         }
         DispatchQueue.main.async { [weak self] in
             self?.navigationController?.navigationBar.sizeToFit()
@@ -148,6 +146,7 @@ extension SearchViewController: UISearchBarDelegate, UISearchControllerDelegate 
                     self.tableSearch.reloadData()
                 }
             } else {
+                self.emptyDataSetSetup()
                 self.view.showToast(message: errorMessage)
             }
         }
@@ -241,7 +240,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                         print("")
                 } else if indexPath.section == 1 {
                     let data = arrayTopRatedAndPopular[indexPath.row]
-                    navigator.moveToDiscover(withDiscover: ((data[AppConstants.typeKey] as? DiscoverType) ?? DiscoverType.popular))
+                    navigator.moveToDiscover(withDiscover: data.type)
                 } else {
                     let data = arrayData[indexPath.row]
                     navigator.moveToDiscover(with: data, withDiscover: .genre)
@@ -249,7 +248,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             } else {
                 if indexPath.section == 0 {
                     let data = arrayTopRatedAndPopular[indexPath.row]
-                    navigator.moveToDiscover(withDiscover: ((data[AppConstants.typeKey] as? DiscoverType) ?? DiscoverType.popular))
+                    navigator.moveToDiscover(withDiscover: data.type)
                 } else {
                     let data = arrayData[indexPath.row]
                     navigator.moveToDiscover(with: data, withDiscover: .genre)
@@ -264,7 +263,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             if arrayMovies.count > 0 {
                 if indexPath.section == 0{
-                    let width = (self.view.bounds.width - 20) / 4
+                    let width = (view.bounds.width) / 4
                     let height = width * 1.5
                     return height
                 } else {
@@ -277,7 +276,23 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 60
+        if viewModel.isSearchingMode {
+            return 60
+        }else{
+            if arrayMovies.count > 0{
+                if section == 1 {
+                    return 40
+                } else {
+                    return 60
+                }
+            }else{
+                if section == 0 {
+                    return 40
+                } else {
+                    return 60
+                }
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -343,6 +358,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
     }
 }
  

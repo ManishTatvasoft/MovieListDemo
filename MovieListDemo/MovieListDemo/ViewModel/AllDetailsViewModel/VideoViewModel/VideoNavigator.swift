@@ -30,7 +30,7 @@ extension VideoNavigator{
         }
         vc.name = data.name
         vc.url = url
-        self.controller.navigationController?.pushViewController(vc, animated: true)
+        controller.navigationController?.pushViewController(vc, animated: true)
     }
 }
     

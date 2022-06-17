@@ -27,7 +27,7 @@ extension UIViewController {
         alert.addAction(UIAlertAction(title: String.Title.cancel, style: .cancel, handler: { (_) in
             failAction?()
         }))
-        self.navigationController?.present(alert, animated: true, completion: nil)
+       navigationController?.present(alert, animated: true, completion: nil)
     }
     
     func showValidationMessage(withMessage message: String?, preferredStyle: UIAlertController.Style = .alert, withActions actions: (()->Void)? = nil) {
@@ -35,7 +35,7 @@ extension UIViewController {
         alert.addAction(UIAlertAction(title: String.Title.ok, style: .default, handler: { (_) in
             actions?()
         }))
-        self.navigationController?.present(alert, animated: true, completion: nil)
+        navigationController?.present(alert, animated: true, completion: nil)
     }
 
 }

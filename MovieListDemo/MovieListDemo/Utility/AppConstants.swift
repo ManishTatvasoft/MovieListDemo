@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import EmptyDataSet_Swift
 
 
 
@@ -43,9 +44,23 @@ struct AppConstants {
     static let subTitleKey = "subTitle"
     static let typeKey = "type"
     
+    //MARK: top rated and popular movie strings
+    static let strPopularMovieTitle = "Popular movies"
+    static let strPopularMovieSubTitle = "The hottest movies on the internet"
+    static let strTopRatedMovieTitle = "Top rated movies"
+    static let strTopRatedMovieSubTitle = "The top rated movies on the internet"
+    
+    //MARK: No internet connection
+    static let nointernetStringCheck = "Please check internet connection."
+    static let strNoInternetImage = "noInternet"
+    static let strRefreshData = "Refresh"
+    static let strReloadImage = "reload"
+    
     //MARK: For collection header title
     static let castHeader = "Cast"
     static let crewHeader = "Crew"
+    
+    static let reviewContainedUrl = "/https://www.gravatar.com/"
     
     static func getGenreString(_ data: Results) -> String {
         var arrayGenre = [String]()
@@ -116,5 +131,19 @@ struct AppConstants {
     static func youtubeVideoUrl(_ endPoint: String) -> String {
         let fullUrl = "https://www.youtube.com/watch?v=\(endPoint)"
         return fullUrl
+    }
+    
+    static func setUpEmptyDataset(_ scrollView: UIScrollView,imageNoInternetName: String = strNoInternetImage, strReload: String = strRefreshData, imageReloadName: String = strReloadImage,_ completion: (() -> ())? = nil){
+        scrollView.emptyDataSetView { view in
+            let attributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
+            let attributeString = NSAttributedString(string: AppConstants.nointernetStringCheck, attributes: attributes)
+            view.titleLabelString(attributeString)
+                .buttonTitle(NSAttributedString(string: "  \(strReload)"), for: .normal)
+                .buttonImage(UIImage(named: imageReloadName), for: .normal)
+                .image(UIImage(named: imageNoInternetName))
+                .didTapDataButton {
+                    completion?()
+                }
+        }
     }
 }

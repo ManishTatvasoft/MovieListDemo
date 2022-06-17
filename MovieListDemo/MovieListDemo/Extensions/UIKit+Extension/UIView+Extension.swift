@@ -129,7 +129,7 @@ extension UIView {
         toastLabel.numberOfLines = 0
 
         toastContainer.addSubview(toastLabel)
-        self.addSubview(toastContainer)
+        addSubview(toastContainer)
 
         toastLabel.translatesAutoresizingMaskIntoConstraints = false
         toastContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -145,17 +145,17 @@ extension UIView {
             let c1 = NSLayoutConstraint(item: toastContainer, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 65)
             let c2 = NSLayoutConstraint(item: toastContainer, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -65)
             let c3 = NSLayoutConstraint(item: toastContainer, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 75)
-            self.addConstraints([c1, c2, c3])
+            addConstraints([c1, c2, c3])
         case.center:
             let c1 = NSLayoutConstraint(item: toastContainer, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 65)
             let c2 = NSLayoutConstraint(item: toastContainer, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -65)
             let c3 = NSLayoutConstraint(item: toastContainer, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0)
-            self.addConstraints([c1, c2, c3])
+            addConstraints([c1, c2, c3])
         default:
             let c1 = NSLayoutConstraint(item: toastContainer, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 65)
             let c2 = NSLayoutConstraint(item: toastContainer, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -65)
             let c3 = NSLayoutConstraint(item: toastContainer, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -75)
-            self.addConstraints([c1, c2, c3])
+            addConstraints([c1, c2, c3])
         }
         
         UIView.animate(withDuration: withDuration, delay: 0.0, options: .curveEaseIn, animations: {

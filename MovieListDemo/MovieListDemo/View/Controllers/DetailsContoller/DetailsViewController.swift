@@ -18,6 +18,7 @@ class DetailsViewController: BaseViewController {
     @IBOutlet private weak var releaseDateLabel: UILabel!
     @IBOutlet private weak var descriptionLabel: UILabel!
     @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var scrollView: UIScrollView!
     
     var data: Results?
     var isDBData = false
@@ -28,6 +29,7 @@ class DetailsViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        emptyDataSetSetup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,12 +37,30 @@ class DetailsViewController: BaseViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        self.croppedImage()
+        croppedImage()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        croppedImage()
+    }
+    
+    func emptyDataSetSetup(){
+        AppConstants.setUpEmptyDataset(scrollView) { [weak self] in
+            self?.prepareView()
+        }
     }
     
     func prepareView() {
         guard let data = data else {
-            self.showValidationMessage(withMessage: String.Title.dataNotFound)
+            showValidationMessage(withMessage: String.Title.dataNotFound)
+            coverImage.image = nil
+            posterImage.image = nil
+            titleLabel.text = nil
+            releaseDateLabel.text = nil
+            descriptionLabel.text = nil
+            progressView.value = 0.0
+            progressValue.text = nil
+            genreLabel.text = nil
             return
         }
         let posterPath = Environment.basePosterImageURL() + (data.poster_path ?? "")
@@ -49,23 +69,19 @@ class DetailsViewController: BaseViewController {
         posterImage.setImageUsingUrl(posterPath, placeholder: UIImage.universalImage("photo"))
         titleLabel.text = data.title
         AppConstants.movieID = "\(data.id ?? 0)"
-        guard let data = self.data else {
-            self.view.showToast(message: String.Title.dataNotFound)
-            return
-        }
         releaseDateLabel.text = data.release_date
         descriptionLabel.text = data.overview
         progressView.value = CGFloat(data.vote_average ?? 0.0)
         progressValue.text = "\((round(10 * (data.vote_average ?? 0.0)) / 10))"
         if isDBData {
-            genreLabel.text = self.genre
+            genreLabel.text = genre
         } else {
             apiCall(data)
         }
     }
     
     func apiCall(_ data: Results) {
-        self.genreLabel.text = AppConstants.getGenreString(data)
+        genreLabel.text = AppConstants.getGenreString(data)
     }
     
     func croppedImage() {
@@ -98,7 +114,7 @@ class DetailsViewController: BaseViewController {
     }
     
     @IBAction func moreButtonAction(_ sender: UIBarButtonItem) {
-        self.showAlertAndSheet(with: nil, withMessage: data?.title ?? String.Title.movieDefaultTitle, preferredStyle: .actionSheet) { [weak self] in
+        showAlertAndSheet(with: nil, withMessage: data?.title ?? String.Title.movieDefaultTitle, preferredStyle: .actionSheet) { [weak self] in
             AppConstants.share(self?.posterImage.image)
         } failure: {
             print("")

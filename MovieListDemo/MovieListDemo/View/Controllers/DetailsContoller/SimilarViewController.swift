@@ -18,14 +18,21 @@ class SimilarViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = name
+        title = name
         prepareView()
+        emptyDataSetSetup()
         // Do any additional setup after loading the view.
+    }
+    
+    func emptyDataSetSetup(){
+        AppConstants.setUpEmptyDataset(tableSimilar) { [weak self] in
+            self?.prepareView()
+        }
     }
 
     func prepareView() {
         tableSimilar.register(SimilarCell.self)
-        self.startLoading()
+        startLoading()
         apiResponse { [weak self] in
             self?.stopLoading()
         }
@@ -48,6 +55,7 @@ class SimilarViewController: BaseViewController {
                     self.tableSimilar.reloadData()
                 }
             } else {
+                self.emptyDataSetSetup()
                 self.showValidationMessage(withMessage: String.Title.dataNotFound)
             }
             completion?()
@@ -79,11 +87,11 @@ extension SimilarViewController: UITableViewDelegate, UITableViewDataSource{
             }
             spinner.startAnimating()
             spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
-            self.tableSimilar.tableFooterView = spinner
+            tableSimilar.tableFooterView = spinner
             if !viewModel.isAllMovieFetched {
                 apiResponse(completion: nil)
             }
-            self.tableSimilar.tableFooterView?.isHidden = viewModel.isAllMovieFetched
+            tableSimilar.tableFooterView?.isHidden = viewModel.isAllMovieFetched
         }
     }
     

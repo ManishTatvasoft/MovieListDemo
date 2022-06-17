@@ -18,15 +18,22 @@ class DiscoverViewController: BaseViewController {
     var data: Results?
     override func viewDidLoad() {
         super.viewDidLoad()
-        preparView()
-        // Do any additional setup after loading the view.
+        prepareView()
+        
     }
     
-    func preparView() {
+    func emptyDataSetSetup(){
+        AppConstants.setUpEmptyDataset(tableDiscover) { [weak self] in
+            self?.prepareView()
+        }
+    }
+    
+    func prepareView() {
         tableDiscover.register(DiscoverCell.self)
-        self.startLoading()
-        callApiAccordingToType {
-            self.stopLoading()
+        startLoading()
+        callApiAccordingToType { [weak self] errorMessage in
+            self?.stopLoading()
+            self?.showValidationMessage(withMessage: errorMessage)
         }
     }
     
@@ -34,7 +41,7 @@ class DiscoverViewController: BaseViewController {
         if isSuccess {
             guard let results = results else {
                 completion?()
-                self.showValidationMessage(withMessage: String.Title.genereNotFound)
+                showValidationMessage(withMessage: errorMessage)
                 return
             }
             self.arrayData.append(contentsOf: results)
@@ -44,50 +51,51 @@ class DiscoverViewController: BaseViewController {
             }
         } else {
             completion?()
+            emptyDataSetSetup()
             DispatchQueue.main.async { [weak self] in
                 self?.showValidationMessage(withMessage: errorMessage)
             }
         }
     }
     
-    func callApiAccordingToType(completion: (() -> ())?) {
+    func callApiAccordingToType(completion: ((String) -> ())?) {
         switch discoverType {
         case .genre:
             viewModel.genreId = genre?.id ?? 28
-            self.title = genre?.name
+            title = genre?.name
             viewModel.callGenreMovieApi { [weak self] results, isSuccess, errorMessage in
                 guard let self = self else{
-                    completion?()
+                    completion?(errorMessage)
                     return
                 }
                 self.apiResponce(results,isSuccess, errorMessage) {
-                    completion?()
+                    completion?(errorMessage)
                 }
             }
         case .topRated:
-            self.title = AppConstants.topRatedMovieTitle
+            title = AppConstants.topRatedMovieTitle
             viewModel.callTopRatedMovieApi { [weak self] results, isSuccess, errorMessage in
                 guard let self = self else{
-                    completion?()
+                    completion?(errorMessage)
                     return
                 }
                 self.apiResponce(results,isSuccess, errorMessage) {
-                    completion?()
+                    completion?(errorMessage)
                 }
             }
         case .popular:
-            self.title = AppConstants.popularMovieTitle
+            title = AppConstants.popularMovieTitle
             viewModel.callPopularMovieApi { [weak self] results, isSuccess, errorMessage in
                 guard let self = self else{
-                    completion?()
+                    completion?(errorMessage)
                     return
                 }
                 self.apiResponce(results,isSuccess, errorMessage) {
-                    completion?()
+                    completion?(errorMessage)
                 }
             }
         case .none:
-            self.showValidationMessage(withMessage: String.Title.noDataFound, preferredStyle: .alert) { [weak self] in
+            showValidationMessage(withMessage: String.Title.noDataFound, preferredStyle: .alert) { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
             }
         }
@@ -121,7 +129,7 @@ extension DiscoverViewController: UITableViewDelegate, UITableViewDataSource {
             }
             spinner.startAnimating()
             spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
-            self.tableDiscover.tableFooterView = spinner
+            tableDiscover.tableFooterView = spinner
             if !viewModel.isAllMovieFetched{
                 callApiAccordingToType(completion: nil)
             }

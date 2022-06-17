@@ -25,7 +25,7 @@ extension DetailsNavigator {
             return
         }
         vc.name = name
-        self.controller.navigationController?.pushViewController(vc, animated: true)
+        controller.navigationController?.pushViewController(vc, animated: true)
     }
     
     func moveToCredits(_ name: String?) {
@@ -33,7 +33,7 @@ extension DetailsNavigator {
             return
         }
         vc.name = name
-        self.controller.navigationController?.pushViewController(vc, animated: true)
+        controller.navigationController?.pushViewController(vc, animated: true)
     }
     
     func moveToSimilar(_ name: String?) {
@@ -41,7 +41,7 @@ extension DetailsNavigator {
             return
         }
         vc.name = name
-        self.controller.navigationController?.pushViewController(vc, animated: true)
+        controller.navigationController?.pushViewController(vc, animated: true)
     }
     
     func moveToVideo(_ name: String?) {
@@ -49,7 +49,7 @@ extension DetailsNavigator {
             return
         }
         vc.name = name
-        self.controller.navigationController?.pushViewController(vc, animated: true)
+        controller.navigationController?.pushViewController(vc, animated: true)
     }
 }
     

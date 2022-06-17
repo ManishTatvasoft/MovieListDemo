@@ -25,7 +25,7 @@ extension SimilarNavigator {
             return
         }
         vc.data = Data
-        self.controller.navigationController?.pushViewController(vc, animated: true)
+        controller.navigationController?.pushViewController(vc, animated: true)
     }
     
 }

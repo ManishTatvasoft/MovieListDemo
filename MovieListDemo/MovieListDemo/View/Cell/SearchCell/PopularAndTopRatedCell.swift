@@ -23,9 +23,9 @@ class PopularAndTopRatedCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setupData(_ data: [String: Any]) {
-        titleLabel.text = data[AppConstants.titleKey] as? String
-        subTitleLabel.text = data[AppConstants.subTitleKey] as? String
+    func setupData(_ data: TopRatedAndPopular) {
+        titleLabel.text = data.title
+        subTitleLabel.text = data.subTitle
     }
     
 }

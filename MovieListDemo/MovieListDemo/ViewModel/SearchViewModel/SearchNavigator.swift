@@ -24,7 +24,7 @@ extension SearchNavigator {
         }
         vc.genre = genre
         vc.discoverType = .genre
-        self.controller.navigationController?.pushViewController(vc, animated: true)
+        controller.navigationController?.pushViewController(vc, animated: true)
     }
     
     func moveToDiscover(withDiscover type: DiscoverType) {
@@ -32,7 +32,7 @@ extension SearchNavigator {
             return
         }
         vc.discoverType = type
-        self.controller.navigationController?.pushViewController(vc, animated: true)
+        controller.navigationController?.pushViewController(vc, animated: true)
     }
     
     func moveToMovieDetailScreen(with Data: Results?, isDBData: Bool = false, genre: String = "") {
@@ -42,6 +42,6 @@ extension SearchNavigator {
         vc.data = Data
         vc.isDBData = isDBData
         vc.genre = genre
-        self.controller.navigationController?.pushViewController(vc, animated: true)
+        controller.navigationController?.pushViewController(vc, animated: true)
     }
 }

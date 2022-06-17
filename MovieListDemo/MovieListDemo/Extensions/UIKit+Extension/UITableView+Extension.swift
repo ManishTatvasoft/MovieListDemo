@@ -31,12 +31,12 @@ extension UITableView {
         if #available(iOS 15.0, *) {
             UITableView.appearance().sectionHeaderTopPadding = .zero
         }
-        self.register(Cell.nib, forCellReuseIdentifier: Cell.reuseIdentifier)
+        register(Cell.nib, forCellReuseIdentifier: Cell.reuseIdentifier)
     }
     
     /// Dequeues a `UITableViewCell` and casts it to the expected type at the call site.
     func dequeueReusableCell<Cell: UITableViewCell>(for indexPath: IndexPath) -> Cell {
-        guard let cell = self.dequeueReusableCell(withIdentifier: Cell.reuseIdentifier, for: indexPath) as? Cell else {
+        guard let cell = dequeueReusableCell(withIdentifier: Cell.reuseIdentifier, for: indexPath) as? Cell else {
             fatalError("Unable to dequeue a \(String(describing: Cell.self)) cell.")
         }
         return cell

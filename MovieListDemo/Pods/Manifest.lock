@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.4.1)
+  - EmptyDataSet-Swift (5.0.0)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -9,6 +10,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (= 5.4.1)
+  - EmptyDataSet-Swift (~> 5.0.0)
   - FMDB
   - Kingfisher
   - MTCircularSlider
@@ -17,6 +19,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - EmptyDataSet-Swift
     - FMDB
     - Kingfisher
     - MTCircularSlider
@@ -24,11 +27,12 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  EmptyDataSet-Swift: eb382c0c87a2d9c678077385a595cec52da38171
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   Kingfisher: 016c8b653a35add51dd34a3aba36b580041acc74
   MTCircularSlider: ce0b277515dbc1b7b9163352103c368f53739c9e
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: f547ae005be2f6af1186a0ae5acd71fdf4f6fcb5
+PODFILE CHECKSUM: 6b9c3d2cedc691077fc28de1b4a6e0bfa0f75353
 
 COCOAPODS: 1.11.3

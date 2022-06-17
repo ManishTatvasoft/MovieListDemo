@@ -13,9 +13,9 @@ class BaseViewController: UIViewController {
         super.viewDidLoad()
         if #available(iOS 11.0, *) {
             if #available(iOS 14.0, *) {
-                self.navigationController?.navigationBar.topItem?.backButtonDisplayMode = .minimal
+                navigationController?.navigationBar.topItem?.backButtonDisplayMode = .minimal
             } else {
-                self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
+                navigationController?.navigationBar.topItem?.backButtonTitle = ""
             }
         }
     }

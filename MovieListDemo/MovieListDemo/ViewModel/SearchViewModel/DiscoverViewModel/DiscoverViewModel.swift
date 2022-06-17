@@ -31,7 +31,7 @@ extension DiscoverViewModel {
             }
             completion(response.results, true, "")
         } failureCompletion: { failure, errorMessage in
-            completion([], false, "")
+            completion([], false, errorMessage)
         }
     }
     
@@ -50,7 +50,7 @@ extension DiscoverViewModel {
             }
             completion(response.results, true, "")
         } failureCompletion: { failure, errorMessage in
-            completion([], false, "")
+            completion([], false, errorMessage)
         }
     }
     
@@ -69,7 +69,7 @@ extension DiscoverViewModel {
             }
             completion(response.results, true, "")
         } failureCompletion: { failure, errorMessage in
-            completion([], false, "")
+            completion([], false, errorMessage)
         }
     }
 }

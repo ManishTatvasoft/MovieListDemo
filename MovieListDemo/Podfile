@@ -11,6 +11,7 @@ target 'MovieListDemo' do
   pod 'FMDB'
   pod "MTCircularSlider"
   pod 'Kingfisher'
+  pod 'EmptyDataSet-Swift', '~> 5.0.0'
 
   target 'MovieListDemoTests' do
     inherit! :search_paths

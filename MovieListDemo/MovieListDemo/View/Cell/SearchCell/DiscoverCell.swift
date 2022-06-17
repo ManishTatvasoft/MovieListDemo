@@ -38,7 +38,7 @@ class DiscoverCell: UITableViewCell {
         ratingsView.value = CGFloat(data.vote_average ?? 0.0)
         progressValue.text = "\((round(10 * (data.vote_average ?? 0.0)) / 10))"
         dateLabel.text = data.release_date
-        self.genreLabel.text = AppConstants.getGenreString(data)
+        genreLabel.text = AppConstants.getGenreString(data)
     }
     
 }

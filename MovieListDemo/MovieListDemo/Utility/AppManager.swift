@@ -16,6 +16,17 @@ class AppManager {
     var reachability: Reachability?
     var genre: Genre?
     
+    init() {
+        reachability = Reachability()
+        do {
+                try reachability?.startNotifier()
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(setupGenre), name: ReachabilityChangedNotification, object: nil)
+    }
+    
     func prepareNavigation() {
         guard let appDelegate = AppManager.appDelegate else {
             return
@@ -30,7 +41,7 @@ class AppManager {
         appDelegate.window?.makeKeyAndVisible()
     }
     
-    func setupGenre(){
+    @objc func setupGenre(){
         let param = [AppConstants.apiKey: AppConstants.apiKeyValue]
         DetailsController.shared.getGenreList(parameters: param) { [weak self] response in
             guard let self = self else {
