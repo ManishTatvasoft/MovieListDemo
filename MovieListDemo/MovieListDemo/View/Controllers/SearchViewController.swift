@@ -44,6 +44,9 @@ class SearchViewController: BaseViewController {
         }else{
             sectionCount = .withOutRecentlyVisited
         }
+        DispatchQueue.main.async { [weak self] in
+            self?.tableSearch.reloadData()
+        }
         prepareView()
     }
     
@@ -197,7 +200,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.setupData(arrayMovies)
                     return cell
                 } else if indexPath.section == 1 {
-                    let data = arrayTopRatedAndPopular[indexPath.row]
+                    let data = arrayTopRatedAndPopular[safe: indexPath.row]
                     let cell: PopularAndTopRatedCell = tableView.dequeueReusableCell(for: indexPath)
                     cell.setupData(data)
                     return cell
@@ -209,7 +212,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             } else {
                 if indexPath.section == 0 {
-                    let data = arrayTopRatedAndPopular[indexPath.row]
+                    let data = arrayTopRatedAndPopular[safe: indexPath.row]
                     let cell: PopularAndTopRatedCell = tableView.dequeueReusableCell(for: indexPath)
                     cell.setupData(data)
                     return cell

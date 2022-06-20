@@ -25,6 +25,7 @@ class RecentlyVisitedCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        collectionVisited.setContentOffset(.zero, animated: false)
     }
     
     func setupData(_ data: [Movies]) {
