@@ -203,6 +203,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                     let data = arrayTopRatedAndPopular[safe: indexPath.row]
                     let cell: PopularAndTopRatedCell = tableView.dequeueReusableCell(for: indexPath)
                     cell.setupData(data)
+                    print("changes")
                     return cell
                 } else {
                     let data = arrayData[indexPath.row]
